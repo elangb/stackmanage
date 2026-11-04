@@ -47,7 +47,7 @@ check('catalog has rows', rows.length > 0);
 
 // 3. Production dependencies stay permissive; copyleft must be explicitly reviewed later.
 const production = read(PRODUCTION).trim().split('\n').slice(1).filter(Boolean).map(line => line.split('\t'));
-const permissive = new Set(['MIT', 'ISC', 'BSD-2-Clause', 'BSD-3-Clause', 'Apache-2.0', '0BSD']);
+const permissive = new Set(['MIT', 'ISC', 'BSD-2-Clause', 'BSD-3-Clause', 'Apache-2.0', '0BSD', 'BlueOak-1.0.0']);
 for (const [name, version, licence] of production) {
   check(`production ${name}@${version} permissive`, permissive.has(licence), licence);
 }

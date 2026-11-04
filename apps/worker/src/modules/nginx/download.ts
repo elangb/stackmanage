@@ -13,6 +13,7 @@ import { dirname } from 'node:path';
 import type { Readable } from 'node:stream';
 import { OperationAbortedError, OperationFailure, throwIfAborted } from '../../shared/operation';
 import type { NginxLimits } from './manifest';
+import { nativeFetch } from './native-fetch';
 
 export interface NginxDownloadOptions {
   url: string;
@@ -54,7 +55,7 @@ async function openStream(
   offset: number
 ): Promise<{ response: Response; url: string }> {
   const { limits, signal } = options;
-  const doFetch = options.fetchImpl ?? fetch;
+  const doFetch = options.fetchImpl ?? nativeFetch;
   let current = assertAllowedUrl(options.url).toString();
   for (let hop = 0; hop <= limits.maxRedirects; hop += 1) {
     throwIfAborted(signal);
@@ -62,7 +63,7 @@ async function openStream(
     if (offset > 0) headers['range'] = `bytes=${offset}-`;
     let response: Response;
     try {
-      response = await doFetch(current, { method: 'GET', redirect: 'manual', headers, signal });
+      response = await doFetch(current, options.fetchImpl === undefined ? { method: 'GET', headers, signal } : { method: 'GET', redirect: 'manual', headers, signal });
     } catch (error) {
       if (signal.aborted) throw new OperationAbortedError();
       throw new OperationFailure('IO_ERROR', 'nginx.downloadFailed', true, error instanceof Error ? error.message : 'fetch failed');

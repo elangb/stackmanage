@@ -106,9 +106,9 @@ GNU Make 4.4.1, OpenSSL 3.5.5, gpg 2.4.8.
 | `pnpm check` | Lulus: typecheck 9/9, lint 0 warning, **29 berkas tes, 240 lulus, 5 dilewati**, legal 548 checks, build 9/9 |
 | `pnpm legal:verify` | `LEGAL_VERIFY_OK: 548 checks, 31 production packages, 71 vendor rows, 244 SBOM components` |
 | `xvfb-run -a pnpm test:desktop` | `DESKTOP_SMOKE_OK: renderer → sandbox preload → main → fork worker; typed narrow bridge; runtime and Nginx reads; Node globals absent` |
-| `STACKMANAGE_INTEGRATION=1 pnpm exec vitest run apps/worker/test/nginx.integration.test.ts` | Lulus di worktree agen: unduh sumber resmi, SHA-256 + `.asc`, build, `nginx -v`, `nginx -t`, HTTP 200, reload, stop, uninstall |
+| `STACKMANAGE_INTEGRATION=1 pnpm exec vitest run apps/worker/test/nginx.integration.test.ts` | **Lulus di branch integrasi:** unduh sumber resmi melalui proxy, SHA-256, signature GPG `D6786CE3…C0A` verified, build source, `nginx -v`, `nginx -t`, HTTP 200, reload, stop, uninstall |
 
-**Catatan verifikasi ulang di branch integrasi:** lingkungan ini memakai proxy HTTP. Node `fetch` mengabaikan proxy dan gagal/timeout. Worker sekarang meneruskan opsi resmi Node `--use-env-proxy`, tetapi rerun integrasi Nginx di lingkungan proxy masih berhenti pada idle saat mengunduh isi arsip. Build/service belum diverifikasi ulang di sini; jalankan integrasi di runner tanpa proxy atau dengan dukungan proxy yang terbukti sebelum menerima Nginx sebagai selesai.
+Unduhan memakai klien HTTPS native + `https-proxy-agent` karena `fetch` bawaan Node mengabaikan `HTTP(S)_PROXY` di lingkungan ini. Allowlist host, redirect, resume, batas ukuran, dan checksum tetap berlaku.
 | `gpg --verify nginx-1.30.6.tar.gz.asc nginx-1.30.6.tar.gz` | `Good signature`, fingerprint `D6786CE303D9A9022998DC6CC8464D549AF75C0A` |
 | `gpg --verify nginx-1.30.6.zip.asc nginx-1.30.6.zip` | `Good signature`, fingerprint yang sama |
 

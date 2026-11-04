@@ -22,7 +22,7 @@ FlyEnv was used only as a behavioural/feature reference during requirements rese
 
 ## B. npm production dependencies (Phase 0)
 
-Generated from `pnpm-lock.yaml` with `pnpm licenses list --json --prod`. All 31 production packages use permissive licences: MIT (27), BSD-2-Clause (`entities`), BSD-3-Clause (`source-map-js`), ISC (`picocolors`), Apache-2.0 (`typescript`). The complete licence texts must be included in installer artifacts once packaging exists. Development-only tooling is listed in the SBOM and is not shipped.
+Generated from `pnpm-lock.yaml` with `pnpm licenses list --json --prod`. All 55 production packages use permissive licences: MIT (43), ISC (4), BlueOak-1.0.0 (4), BSD-2-Clause (2), BSD-3-Clause (1), Apache-2.0 (1). Proxy downloads use `https-proxy-agent` 9.1.0 (MIT) with its MIT transitive dependencies. The complete licence texts must be included in installer artifacts once packaging exists. Development-only tooling is listed in the SBOM and is not shipped.
 
 Notable runtime distributions that require their own bundled notices at packaging time:
 

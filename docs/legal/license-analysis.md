@@ -37,13 +37,14 @@ Dihasilkan dari lockfile yang dipasang dengan `pnpm install --frozen-lockfile`. 
 
 | Lisensi | Jumlah paket | Paket |
 |---|---:|---|
-| MIT | 27 | Babel helper/parser/types, Vue compiler/runtime, `@intlify/*`, `csstype`, `estree-walker`, `magic-string`, `nanoid`, `postcss`, `vue`, `vue-i18n`, `zod`, dll. |
-| BSD-2-Clause | 1 | `entities` |
+| MIT | 43 | Babel helper/parser/types, Vue compiler/runtime, `@intlify/*`, `csstype`, `estree-walker`, `magic-string`, `nanoid`, `postcss`, `vue`, `vue-i18n`, `zod`, dll. |
+| BSD-2-Clause | 2 | `entities` |
 | BSD-3-Clause | 1 | `source-map-js` |
-| ISC | 1 | `picocolors` |
+| ISC | 4 | `picocolors` |
 | Apache-2.0 | 1 | `typescript` |
+| BlueOak-1.0.0 | 4 | transitive permissive packages |
 
-Total 31 paket produksi. Tidak ada dependensi produksi dengan lisensi copyleft kuat, SSPL, atau lisensi proprietary. Ini hanya observasi inventaris, bukan jaminan kepatuhan; notice setiap paket harus ikut dalam paket distribusi saat `electron-builder` diimplementasikan. Dependensi pengembangan (`eslint`, `vitest`, `turbo`, `electron`, `vite`, dsb.) tidak dikirim ke pengguna, tetapi tetap dicatat di SBOM.
+Total 55 paket produksi setelah penambahan klien proxy: MIT 43, ISC 4, BlueOak-1.0.0 4, BSD-2 2, BSD-3 1, Apache-2.0 1. Tidak ada dependensi produksi dengan lisensi copyleft kuat, SSPL, atau lisensi proprietary. Ini hanya observasi inventaris, bukan jaminan kepatuhan; notice setiap paket harus ikut dalam paket distribusi saat `electron-builder` diimplementasikan. Dependensi pengembangan (`eslint`, `vitest`, `turbo`, `electron`, `vite`, dsb.) tidak dikirim ke pengguna, tetapi tetap dicatat di SBOM.
 
 **Electron** memiliki lisensi MIT untuk framework, namun distribusi binary Electron membawa komponen pihak ketiga (Chromium, Node.js, ffmpeg, dsb.) dengan notice sendiri. Saat packaging, seluruh `LICENSES.chromium.html`/notice Electron wajib disertakan. Ini belum dilakukan pada Fase 0 karena belum ada installer.
 

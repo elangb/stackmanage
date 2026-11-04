@@ -26,7 +26,7 @@ LEGAL-LICENSE, branch `agent/legal-license`. Baseline `d196a79` (menyatukan ARCH
 |---|---|
 | `node scripts/verify-legal.mjs` | `LEGAL_VERIFY_OK: 548 checks, 31 production packages, 71 vendor rows, 244 SBOM components` |
 | `sha256sum LICENSE` vs `git show v4.20.2:LICENSE` | identik `01d77fe9ffb39b0a9507ca8d1cae189f56efd625078c3b13b59ce7aae42a4f7d` |
-| `pnpm licenses list --json --prod` | 31 paket: MIT 27, BSD-2 1, BSD-3 1, ISC 1, Apache-2.0 1 |
+| `pnpm licenses list --json --prod` | 55 paket setelah dependensi proxy: MIT 43, ISC 4, BlueOak 4, BSD-2 2, BSD-3 1, Apache-2.0 1 |
 
 ## RISIKO/BUG
 
