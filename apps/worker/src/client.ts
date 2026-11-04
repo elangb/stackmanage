@@ -98,6 +98,13 @@ export function timeoutFor(method: WorkerManagementMethod): number {
   }
 }
 
+/** Node fetch ignores HTTP(S)_PROXY unless this flag is present at process start. */
+function withEnvProxy(existing: string | undefined): string {
+  const flag = '--use-env-proxy';
+  if (existing?.split(/\s+/).includes(flag) === true) return existing;
+  return existing === undefined || existing.trim() === '' ? flag : `${existing} ${flag}`;
+}
+
 export interface WorkerClientOptions {
   readonly entry: string;
   readonly forkImpl?: typeof fork;
@@ -118,7 +125,7 @@ export class WorkerClient {
     const forkImpl = options.forkImpl ?? fork;
     this.requestTimeoutMs = options.requestTimeoutMs ?? DEFAULT_LIMITS.requestTimeoutMs * 120;
     this.child = forkImpl(options.entry, [...(options.execArgv ?? [])], {
-      env: { ...process.env, ...options.env, ELECTRON_RUN_AS_NODE: '1' },
+      env: { ...process.env, ...options.env, ELECTRON_RUN_AS_NODE: '1', NODE_OPTIONS: withEnvProxy(process.env['NODE_OPTIONS']) },
       stdio: ['ignore', 'ignore', 'inherit', 'ipc'],
       serialization: 'json'
     });
