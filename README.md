@@ -50,4 +50,4 @@ STACKMANAGE_INTEGRATION=1 pnpm exec vitest run apps/worker/test/node.integration
 | `packages/i18n`, `packages/ui` | Five locales and original design tokens |
 | `docs`, `ci` | ADRs, evidence matrix, legal inventory, workflow templates |
 
-Read [ADR 0001](docs/adr/0001-foundation.md), [ADR 0002](docs/adr/0002-phase1-vertical-slice.md), [ADR 0003](docs/adr/0003-hosts-tls-trust.md), [contracts](docs/contracts-v1.md), [feature matrix](docs/feature-matrix.md), [legal analysis](docs/legal/license-analysis.md), [third-party notices](THIRD_PARTY_NOTICES.md), and the [Phase 1](docs/reports/phase1-core.md) / [hosts+TLS](docs/reports/phase2-hosts-tls.md) reports.
+Packaging: see [Linux deb packaging](docs/packaging.md). Read [ADR 0001](docs/adr/0001-foundation.md), [ADR 0002](docs/adr/0002-phase1-vertical-slice.md), [ADR 0003](docs/adr/0003-hosts-tls-trust.md), [contracts](docs/contracts-v1.md), [feature matrix](docs/feature-matrix.md), [legal analysis](docs/legal/license-analysis.md), [third-party notices](THIRD_PARTY_NOTICES.md), and the [Phase 1](docs/reports/phase1-core.md) / [hosts+TLS](docs/reports/phase2-hosts-tls.md) reports.

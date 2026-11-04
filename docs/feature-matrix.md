@@ -29,7 +29,7 @@ Evidence sources consulted 2026-11-04:
 | Plugin platform | discovery/catalog; manifests; install/update/remove; enable/disable; permissions; isolated execution; user modules | plugin SDK + host; signature/checksum, path traversal, isolation, version compatibility and capability tests | U each |
 | Product limits | unlimited licensing; no license activation gate; no artificial service/site/project/version quotas; telemetry disabled | core policy + all feature owners; policy exists in Phase 0, actual feature behavior remains unverified | U for feature-wide acceptance |
 | Platform behavior | Windows native; Linux native; paths with spaces/Unicode; offline shell; process identity; privilege requests; per-user data; uninstall cleanup; accessibility; five-language parity | platform + QA; actual OS runs and failure scenarios | U each beyond recorded bootstrap evidence |
-| Distribution | six requested release artifacts, checksums, signatures/provenance, install/upgrade/uninstall | release agent + real Windows/Linux machines | U each |
+| Distribution | six requested release artifacts, checksums, signatures/provenance, install/upgrade/uninstall | release agent + real Windows/Linux machines | **Partial:** Linux `.deb` x64 and arm64 built; x64 packaged-app smoke passed; RPM and Windows blocked by toolchain; signing/upgrade/uninstall U |
 
 ## Six-artifact planning assumption
 
