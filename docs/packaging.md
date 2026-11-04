@@ -25,3 +25,12 @@ Artifacts are written to `release/` (ignored by git). The x64 package was extrac
 - `THIRD_PARTY_NOTICES.md` is included under `resources/`; full Electron/Chromium notices still need to be bundled at release.
 - The project license and a real homepage are not decided yet, so package metadata currently uses placeholders.
 - Linux icon is original (`build/icon.png`); Windows `.ico` and macOS assets are not prepared.
+
+## CI release matrix
+
+`.github/workflows/stackmanage-release.yml` defines two jobs that produce the six requested artifacts:
+
+- Linux: `.deb` and `.rpm` for x64 and arm64 (installs `rpm` tooling on the runner).
+- Windows: NSIS installer and portable `.exe` for x64.
+
+Each job generates `CHECKSUMS.txt` and uploads artifacts. The workflow has not been executed in this environment; it is configuration plus a reproducible command set, not evidence of six green artifacts.

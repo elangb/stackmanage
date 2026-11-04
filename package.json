@@ -19,7 +19,9 @@
     "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm legal:verify && pnpm build",
     "dist:linux:deb:x64": "pnpm build && electron-builder --linux deb --x64 --config electron-builder.yml",
     "dist:linux:deb:arm64": "pnpm build && electron-builder --linux deb --arm64 --config electron-builder.yml",
-    "dist:linux:rpm": "pnpm build && electron-builder --linux rpm --x64 --arm64 --config electron-builder.yml"
+    "dist:linux:rpm": "pnpm build && electron-builder --linux rpm --x64 --arm64 --config electron-builder.yml",
+    "dist:win:x64": "pnpm build && electron-builder --win nsis portable --x64 --config electron-builder.yml",
+    "dist:linux:all": "pnpm build && electron-builder --linux deb rpm --x64 --arm64 --config electron-builder.yml"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
