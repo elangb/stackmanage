@@ -34,11 +34,12 @@ Mesin: Linux x86_64, Node `v24.21.0`, pnpm `10.32.1`.
 |---|---|
 | `pnpm typecheck` | Lulus 9/9 paket |
 | `pnpm lint` | Lulus, 0 warning |
-| `pnpm test` | **9 file, 51 lulus, 1 dilewati** (integrasi opt-in) |
+| `pnpm test` | **20 berkas, 190 lulus, 1 dilewati** (integrasi opt-in; termasuk PLATFORM yang diintegrasikan) |
 | `TURBO_FORCE=1 pnpm build` | Lulus 9/9 paket |
 | `pnpm test:desktop` | `DESKTOP_SMOKE_OK: renderer → sandbox preload → main → fork worker; typed narrow bridge; Node globals absent` |
 | `STACKMANAGE_INTEGRATION=1 pnpm exec vitest run apps/worker/test/caddy.integration.test.ts` | Lulus: unduh resmi, checksum, `caddy version` v2.11.8, HTTP 200 (`body=stackmanage`), simulasi kematian worker, PID yatim direkonsiliasi |
 | `pnpm legal:verify` | `LEGAL_VERIFY_OK` 545 pemeriksaan |
+| Electron UI nyata melalui CDP | Klik **Pasang Caddy** → unduhan resmi + verifikasi checksum + instalasi selesai; klik **Mulai** → status Berjalan, PID 117240; `curl http://localhost:18080/` → **HTTP 200** dengan body situs default; klik **Hentikan** → status Berhenti dan port 18080 tertutup |
 
 Catatan integrasi: tes mengunduh sekitar 18 MB dari GitHub dan berjalan dalam ~5 detik; tes default tidak membutuhkan jaringan.
 

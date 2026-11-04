@@ -90,8 +90,8 @@ onMounted(async () => {
           <dd>{{ t('unlimited') }}</dd>
           <dt>{{ t('telemetry') }}</dt>
           <dd>{{ t('off') }}</dd>
-          <dt>{{ t('managedSitesRoot') }}</dt>
-          <dd class="mono" style="font-size: 0.72rem">{{ snapshot?.sitesRoot ?? '—' }}</dd>
+          <dt>{{ t('caddyVersion') }}</dt>
+          <dd class="mono">2.11.8</dd>
         </dl>
       </div>
     </section>

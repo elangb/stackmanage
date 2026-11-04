@@ -289,7 +289,7 @@ onBeforeUnmount(() => {
           </ul>
 
           <div class="divider" />
-          <form v-if="installed" class="grid grid-3" @submit.prevent="addSite">
+          <form v-if="installed" class="site-form" @submit.prevent="addSite">
             <div class="field" style="margin: 0">
               <label for="site-hostname">{{ t('sitesHostname') }}</label>
               <input id="site-hostname" v-model="siteForm.hostname" class="input mono" required pattern="[a-zA-Z0-9.-]+" />
@@ -299,8 +299,8 @@ onBeforeUnmount(() => {
               <input id="site-port" v-model.number="siteForm.port" class="input mono" type="number" min="1024" max="65535" required />
             </div>
             <div class="field" style="margin: 0">
-              <span class="help">&nbsp;</span>
-              <button type="submit" class="btn" :disabled="busy || newSiteRoot === ''">{{ t('sitesAdd') }}</button>
+              <label class="sr-only" for="add-site">&nbsp;</label>
+              <button id="add-site" type="submit" class="btn" :disabled="busy || newSiteRoot === ''">{{ t('sitesAdd') }}</button>
             </div>
           </form>
           <p v-if="installed" class="help" style="margin-top: 12px">{{ t('sitesValidation') }} <span class="mono">{{ newSiteRoot }}</span></p>
@@ -327,21 +327,27 @@ onBeforeUnmount(() => {
           <p class="help" style="margin-top: 18px">{{ t('evidenceNote') }}</p>
         </div>
       </section>
-
-      <section class="panel" aria-labelledby="logs-title">
-        <div class="panel-head">
-          <div>
-            <h2 id="logs-title" class="panel-title">{{ t('logsTitle') }}</h2>
-            <p class="panel-desc">{{ t('logsDesc') }}</p>
-          </div>
-          <button type="button" class="btn btn-sm btn-ghost" @click="refresh">{{ t('logsRefresh') }}</button>
-        </div>
-        <div class="panel-body">
-          <p v-if="logTruncated" class="help" style="margin-top: 0">{{ t('logsTruncated') }}</p>
-          <pre v-if="logText" class="log" aria-live="polite">{{ logText }}</pre>
-          <p v-else class="empty">{{ t('logsEmpty') }}</p>
-        </div>
-      </section>
     </div>
   </div>
+  <section class="panel" aria-labelledby="logs-title" style="margin-top: 18px">
+    <div class="panel-head">
+      <div>
+        <h2 id="logs-title" class="panel-title">{{ t('logsTitle') }}</h2>
+        <p class="panel-desc">{{ t('logsDesc') }}</p>
+      </div>
+      <button type="button" class="btn btn-sm btn-ghost" @click="refresh">{{ t('logsRefresh') }}</button>
+    </div>
+    <div class="panel-body">
+      <p v-if="logTruncated" class="help" style="margin-top: 0">{{ t('logsTruncated') }}</p>
+      <pre v-if="logText" class="log" aria-live="polite">{{ logText }}</pre>
+      <p v-else class="empty">{{ t('logsEmpty') }}</p>
+    </div>
+  </section>
 </template>
+
+<style scoped>
+.site-form { display: grid; grid-template-columns: minmax(0, 1fr) 130px; gap: 14px; align-items: end; }
+.site-form > :last-child { grid-column: 1 / -1; }
+.site-form > :last-child .btn { width: 100%; }
+@media (max-width: 560px) { .site-form { grid-template-columns: 1fr; } }
+</style>

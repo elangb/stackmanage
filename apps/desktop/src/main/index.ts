@@ -119,8 +119,9 @@ async function handleCall(method: DesktopMethodName, event: Electron.IpcMainInvo
   }
   if (!worker) return bridgeError('UNAVAILABLE', 'worker.unavailable', true);
   const operationId = params !== null && typeof params === 'object' && typeof (params as { operationId?: unknown }).operationId === 'string' ? (params as { operationId: string }).operationId : undefined;
+  const noParams = method === 'listServices' || method === 'listInstallations' || method === 'sitesList';
   try {
-    const terminal = await worker.call(METHOD_MAP[method], params, operationId !== undefined ? forwardProgress(operationId) : undefined);
+    const terminal = await worker.call(METHOD_MAP[method], noParams ? undefined : params, operationId !== undefined ? forwardProgress(operationId) : undefined);
     if (!terminal.ok) return BridgeResponseSchema.parse({ ok: false, error: terminal.error });
     return BridgeResponseSchema.parse({ ok: true, data: terminal.result });
   } catch (error) {
@@ -145,7 +146,7 @@ function registerHandlers(): void {
           apiVersion: API_VERSION,
           appVersion: app.getVersion(),
           worker: 'ready',
-          implementedFeatures: ['bootstrap', 'services.install', 'services.lifecycle', 'sites', 'logs', 'config'],
+          implementedFeatures: ['bootstrap', 'services.install', 'services.lifecycle', 'sites', 'logs'],
           limits: DEFAULT_LIMITS,
           platform: process.platform === 'win32' || process.platform === 'linux' || process.platform === 'darwin' ? process.platform : undefined,
           architecture: process.arch === 'x64' || process.arch === 'arm64' ? process.arch : undefined,

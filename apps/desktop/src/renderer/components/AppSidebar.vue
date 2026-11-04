@@ -29,8 +29,8 @@ const { t } = useI18n();
           @click="emit('select', item.key)"
         >
           <span class="nav-icon" aria-hidden="true">{{ item.icon }}</span>
-          <span>{{ t(item.labelKey) }}</span>
-          <span v-if="!item.implemented" class="nav-badge">{{ t('unavailable') }}</span>
+          <span class="nav-text">{{ t(item.labelKey) }}</span>
+          <span v-if="!item.implemented" class="nav-soon" :title="t('unavailable')" :aria-label="t('unavailable')" aria-hidden="true">○</span>
         </button>
       </div>
     </nav>

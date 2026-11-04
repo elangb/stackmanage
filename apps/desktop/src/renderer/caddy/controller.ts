@@ -78,7 +78,22 @@ export class CaddyController {
   /** Subscribe at most once; a second call is a no-op so remounts cannot leak listeners. */
   attach(): void {
     if (this.subscription !== undefined) return;
-    this.subscription = this.bridge().onOperationEvent(payload => this.onEvent(payload));
+    const bridge = this.tryBridge();
+    if (bridge === undefined) return;
+    this.subscription = bridge.onOperationEvent(payload => this.onEvent(payload));
+  }
+
+  /** A missing preload bridge (for example a plain browser preview) is unavailable, not fatal. */
+  private tryBridge(): DesktopBridgeV1 | undefined {
+    try {
+      return this.bridge();
+    } catch {
+      return undefined;
+    }
+  }
+
+  private unavailable(): BridgeResponse {
+    return { ok: false, error: { code: 'UNAVAILABLE', messageKey: 'worker.unavailable', retryable: true } };
   }
 
   detach(): void {
@@ -146,48 +161,48 @@ export class CaddyController {
   }
 
   install(request: InstallRequest): Promise<BridgeResponse> {
-    return this.run('install', request.operationId, () => this.bridge().install(request));
+    return this.run('install', request.operationId, () => this.tryBridge()?.install(request) ?? Promise.resolve(this.unavailable()));
   }
 
   start(request: ServiceRequest): Promise<BridgeResponse> {
-    return this.run('start', request.operationId, () => this.bridge().start(request));
+    return this.run('start', request.operationId, () => this.tryBridge()?.start(request) ?? Promise.resolve(this.unavailable()));
   }
 
   stop(request: ServiceRequest): Promise<BridgeResponse> {
-    return this.run('stop', request.operationId, () => this.bridge().stop(request));
+    return this.run('stop', request.operationId, () => this.tryBridge()?.stop(request) ?? Promise.resolve(this.unavailable()));
   }
 
   restart(request: ServiceRequest): Promise<BridgeResponse> {
-    return this.run('restart', request.operationId, () => this.bridge().restart(request));
+    return this.run('restart', request.operationId, () => this.tryBridge()?.restart(request) ?? Promise.resolve(this.unavailable()));
   }
 
   sitesApply(request: SitesApplyRequest): Promise<BridgeResponse> {
-    return this.run('sitesApply', request.operationId, () => this.bridge().sitesApply(request));
+    return this.run('sitesApply', request.operationId, () => this.tryBridge()?.sitesApply(request) ?? Promise.resolve(this.unavailable()));
   }
 
   sitesList(): Promise<BridgeResponse> {
-    return this.bridge().sitesList({});
+    return this.tryBridge()?.sitesList({}) ?? Promise.resolve(this.unavailable());
   }
 
   sitesRemove(request: SiteRemoveRequest): Promise<BridgeResponse> {
-    return this.run('sitesRemove', request.operationId, () => this.bridge().sitesRemove(request));
+    return this.run('sitesRemove', request.operationId, () => this.tryBridge()?.sitesRemove(request) ?? Promise.resolve(this.unavailable()));
   }
 
   /** Reads are not tracked as operations; they never touch the operation state. */
   status(request: InstanceRequest): Promise<BridgeResponse> {
-    return this.bridge().status(request);
+    return this.tryBridge()?.status(request) ?? Promise.resolve(this.unavailable());
   }
 
   listServices(): Promise<BridgeResponse> {
-    return this.bridge().listServices({});
+    return this.tryBridge()?.listServices({}) ?? Promise.resolve(this.unavailable());
   }
 
   listInstallations(): Promise<BridgeResponse> {
-    return this.bridge().listInstallations({});
+    return this.tryBridge()?.listInstallations({}) ?? Promise.resolve(this.unavailable());
   }
 
   logsTail(request: LogTailRequest): Promise<BridgeResponse> {
-    return this.bridge().logsTail(request);
+    return this.tryBridge()?.logsTail(request) ?? Promise.resolve(this.unavailable());
   }
 
   clearNotice(): void {
