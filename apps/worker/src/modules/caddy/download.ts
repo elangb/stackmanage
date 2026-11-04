@@ -15,6 +15,7 @@ import { mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import type { Readable } from 'node:stream';
 import { OperationAbortedError, OperationFailure, throwIfAborted, type OperationalLimits } from './manifest';
+import { nativeFetch } from '../../shared/native-fetch';
 
 export type DigestAlgorithm = 'sha256' | 'sha512';
 
@@ -53,13 +54,13 @@ function assertAllowedUrl(raw: string): URL {
 /** Follow redirects manually, bounded by `maxRedirects`, HTTPS-only at every hop. */
 async function openStream(options: DownloadOptions, offset: number): Promise<{ response: Response; url: string }> {
   const { limits, signal } = options;
-  const doFetch = options.fetchImpl ?? fetch;
+  const doFetch = options.fetchImpl ?? nativeFetch;
   let current = assertAllowedUrl(options.url).toString();
   for (let hop = 0; hop <= limits.maxRedirects; hop += 1) {
     throwIfAborted(signal);
     const headers: Record<string, string> = { 'user-agent': 'StackManage/1' };
     if (offset > 0) headers['range'] = `bytes=${offset}-`;
-    const response = await doFetch(current, { method: 'GET', redirect: 'manual', headers, signal });
+    const response = await doFetch(current, options.fetchImpl === undefined ? { method: 'GET', headers, signal } : { method: 'GET', redirect: 'manual', headers, signal });
     if (response.status >= 300 && response.status < 400) {
       const location = response.headers.get('location');
       await response.body?.cancel().catch(() => undefined);

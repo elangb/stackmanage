@@ -13,7 +13,7 @@ import { dirname } from 'node:path';
 import type { Readable } from 'node:stream';
 import { OperationAbortedError, OperationFailure, throwIfAborted } from '../../shared/operation';
 import type { NginxLimits } from './manifest';
-import { nativeFetch } from './native-fetch';
+import { nativeFetch } from '../../shared/native-fetch';
 
 export interface NginxDownloadOptions {
   url: string;
