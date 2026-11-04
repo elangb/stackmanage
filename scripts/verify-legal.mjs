@@ -62,6 +62,10 @@ check('SBOM dependency graph', Object.keys(sbom.dependencies ?? {}).length > 0);
 const serialised = JSON.stringify(sbom);
 check('SBOM has no local absolute path', !/\/(?:home|tmp|Users)\//.test(serialised));
 check('SBOM has no legacy project path', !/FlyEnv/i.test(serialised));
+for (const file of ['pnpm-tree.raw.json', 'pnpm-licenses.raw.json', 'production-dependencies.tsv']) {
+  const content = read(`docs/legal/${file}`);
+  check(`${file} has no local absolute path`, !/\/(?:home|tmp|Users)\//.test(content));
+}
 
 // 5. Shipped application code contains no FlyEnv branding or byte-identical assets.
 const assetPattern = /\.(png|jpe?g|webp|gif|ico|icns|svg)$/i;
