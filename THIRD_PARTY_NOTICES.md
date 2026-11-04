@@ -20,14 +20,22 @@ The upstream project was used only as a behavioural/feature reference during req
 >
 > THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-## B. npm production dependencies (Phase 0)
+## B. npm production dependencies (Phase 7)
 
-Generated from `pnpm-lock.yaml` with `pnpm licenses list --json --prod`. All 55 production packages use permissive licences: MIT (43), ISC (4), BlueOak-1.0.0 (4), BSD-2-Clause (2), BSD-3-Clause (1), Apache-2.0 (1). Proxy downloads use `https-proxy-agent` 9.1.0 (MIT) with its MIT transitive dependencies. The complete licence texts must be included in installer artifacts once packaging exists. Development-only tooling is listed in the SBOM and is not shipped.
+Generated from `pnpm-lock.yaml` with `pnpm licenses list --json --prod` after adding the
+read-only MCP server. All 143 production packages use permissive licences: MIT (123),
+ISC (9), BlueOak-1.0.0 (4), BSD-2-Clause (3), BSD-3-Clause (3), Apache-2.0 (1). Proxy
+downloads use `https-proxy-agent` 9.1.0 (MIT) with its MIT transitive dependencies.
+`@modelcontextprotocol/sdk` 1.32.2 is MIT and is not currently included in the Electron
+packaging file set; it is a dependency of the standalone MCP server. The complete licence
+texts must be included in installer artifacts once packaging exists. Development-only
+tooling is listed in the SBOM and is not shipped.
 
 Notable runtime distributions that require their own bundled notices at packaging time:
 
 - **Electron** (MIT) — bundles Chromium, Node.js, ffmpeg and other components; `LICENSES.chromium.html` and Electron's third-party notices must ship with the app.
 - **Vue / vue-i18n / Zod / PostCSS** — MIT; preserve licence comments in bundled output where required.
+- **@modelcontextprotocol/sdk and its transitive HTTP/validation packages** — MIT; the MCP server bundle keeps them external, so package or bundle their notices if it is shipped standalone.
 
 ## C. Vendor runtimes and services (download-on-demand, not bundled in Phase 0)
 

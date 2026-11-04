@@ -39,14 +39,14 @@ Dihasilkan dari lockfile yang dipasang dengan `pnpm install --frozen-lockfile`. 
 
 | Lisensi | Jumlah paket | Paket |
 |---|---:|---|
-| MIT | 43 | Babel helper/parser/types, Vue compiler/runtime, `@intlify/*`, `csstype`, `estree-walker`, `magic-string`, `nanoid`, `postcss`, `vue`, `vue-i18n`, `zod`, dll. |
-| BSD-2-Clause | 2 | `entities` |
-| BSD-3-Clause | 1 | `source-map-js` |
-| ISC | 4 | `picocolors` |
+| MIT | 123 | Babel helper/parser/types, Vue compiler/runtime, `@intlify/*`, `@modelcontextprotocol/sdk` dan dependensi HTTP/validasinya, `csstype`, `estree-walker`, `magic-string`, `nanoid`, `postcss`, `vue`, `vue-i18n`, `zod`, dll. |
+| BSD-2-Clause | 3 | `entities`, ekstraksi arsip |
+| BSD-3-Clause | 3 | `source-map-js` dan paket transitif |
+| ISC | 9 | `picocolors` dan paket transitif |
 | Apache-2.0 | 1 | `typescript` |
-| BlueOak-1.0.0 | 4 | transitive permissive packages |
+| BlueOak-1.0.0 | 4 | paket transitif permisif |
 
-Total 55 paket produksi setelah penambahan klien proxy: MIT 43, ISC 4, BlueOak-1.0.0 4, BSD-2 2, BSD-3 1, Apache-2.0 1. Tidak ada dependensi produksi dengan lisensi copyleft kuat, SSPL, atau lisensi proprietary. Ini hanya observasi inventaris, bukan jaminan kepatuhan; notice setiap paket harus ikut dalam paket distribusi saat `electron-builder` diimplementasikan. Dependensi pengembangan (`eslint`, `vitest`, `turbo`, `electron`, `vite`, dsb.) tidak dikirim ke pengguna, tetapi tetap dicatat di SBOM.
+Total 143 paket produksi setelah penambahan server MCP read-only: MIT 123, ISC 9, BlueOak-1.0.0 4, BSD-2 3, BSD-3 3, Apache-2.0 1. Tidak ada dependensi produksi dengan lisensi copyleft kuat, SSPL, atau lisensi proprietary. Ini hanya observasi inventaris, bukan jaminan kepatuhan; notice setiap paket harus ikut dalam paket distribusi saat `electron-builder` diimplementasikan. Dependensi pengembangan (`eslint`, `vitest`, `turbo`, `electron`, `vite`, `tsx`, dsb.) tidak dikirim ke pengguna, tetapi tetap dicatat di SBOM. Server MCP belum masuk daftar `files` Electron, jadi paket desktop saat ini tidak mengirimkannya; bila nanti didistribusikan, notice SDK dan dependensi transitifnya wajib disertakan.
 
 **Electron** memiliki lisensi MIT untuk framework, namun distribusi binary Electron membawa komponen pihak ketiga (Chromium, Node.js, ffmpeg, dsb.) dengan notice sendiri. Saat packaging, seluruh `LICENSES.chromium.html`/notice Electron wajib disertakan. Ini belum dilakukan pada Fase 0 karena belum ada installer.
 
@@ -78,6 +78,12 @@ Aturan unduhan: hanya dari domain resmi vendor, HTTPS, checksum SHA-256 resmi bi
 SBOM ini mencakup dependensi build, **bukan** binary vendor runtime yang belum diunduh. SBOM rilis final harus dibuat dari artefak terpasang dan memuat komponen vendor.
 
 Catatan Redis 7.2.7 (Fase 6): Redis bukan komponen npm dan tidak muncul sebagai entri tersendiri di `sbom.cdx.json` karena modul mengunduh sumber resmi saat pengguna meminta instalasi. Provenance yang harus dibawa ke SBOM rilis final adalah sumber `https://download.redis.io/releases/redis-7.2.7.tar.gz`, SHA-256 `72c081e3b8cfae7144273d26d76736f08319000af46c01515cad5d29765cead5`, lisensi BSD-3-Clause, dan bukti `https://github.com/redis/redis/blob/7.2.7/COPYING`. Binary hasil build per pengguna tidak boleh diklaim sebagai komponen yang didistribusikan sebelum packaging menyertakan notice.
+
+Catatan Phase 7: `sbom.cdx.json` masih snapshot 244 komponen dari Phase 0 dan **belum
+diregenerasi** setelah penambahan `@modelcontextprotocol/sdk` beserta dependensi
+transitifnya. `production-dependencies.tsv` sudah diperbarui (143 paket), tetapi SBOM
+harus dibuat ulang dengan cdxgen sebelum artefak rilis yang memuat server MCP
+didistribusikan. Ini celah inventaris yang tercatat, bukan klaim kelengkapan.
 
 ## 5. Checklist kepatuhan Fase 0
 

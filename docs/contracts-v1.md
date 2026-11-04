@@ -125,3 +125,25 @@ Redis process identity uses the recorded executable and OS start token on Linux.
 The instance is never daemonized: the worker owns the child, and stop/reconcile
 verify identity before signalling. Authentication/ACL, replication, cluster mode,
 TLS and persistence tuning are not part of this contract.
+
+## Phase 7 additions (read-only MCP)
+
+The standalone `@stackmanage/mcp-server` package exposes a stdio-only, deny-by-default
+read-only surface. It binds no network port, starts no shell, writes no state and exposes
+no mutation tool.
+
+| Surface | Contract |
+|---|---|
+| Transport | MCP over stdin/stdout only. No HTTP/SSE listener, no generic RPC channel |
+| Tools | `system.info`, `modules.list`, `installations.list`, `services.status`, `sites.list`, `logs.tail`, `config.read` |
+| Inputs | Strict Zod objects; no caller-supplied path, URL, command, digest or data root. Optional `moduleId`/`maxBytes` only |
+| Data root | `STACKMANAGE_DATA_HOME` (absolute) or the per-OS Electron `userData/caddy` default. Sibling Nginx/Node roots derive from the parent and must stay inside it |
+| Reads | Persisted Caddy/Nginx/Node state, known log/config locations, PID liveness/identity, loopback readiness |
+| Bounds | 1 MiB log tail, 240,000-byte config, 512 KiB state record, 10 service records, 100 sites |
+| Redaction | Authorization/cookies, password/token/api-key assignments, URL credentials, bearer tokens, JWTs and PEM private keys |
+| Failures | Missing state is `absent`/`empty`; corrupt, oversized, symlinked or unreadable state is `unknown` with a reason. No stack traces or raw OS errors |
+| Mutations | Not exposed. Future mutations require a locally authenticated bridge with explicit approval |
+
+Tool names in this phase differ from the planned inventory above (`services.inspect`,
+`logs.read`, `configs.read`). The v1 schema and all existing worker/bridge channels are
+unchanged; reconciling the names requires a later additive version, not a silent rename.

@@ -1,1 +1,30 @@
-{ "name": "@stackmanage/mcp-server", "version": "0.1.0", "private": true, "type": "module", "exports": { ".": "./src/index.ts" }, "scripts": { "build": "tsc -p tsconfig.json", "typecheck": "tsc -p tsconfig.json --noEmit" }, "dependencies": { "@stackmanage/core": "workspace:*" } }
+{
+  "name": "@stackmanage/mcp-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "StackManage read-only MCP server over stdio (no network listener, no mutations).",
+  "bin": {
+    "stackmanage-mcp": "./dist/index.js"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node24 --format=esm --external:@modelcontextprotocol/sdk --external:zod --outfile=dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "@stackmanage/core": "workspace:*",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "tsx": "4.20.3"
+  }
+}
