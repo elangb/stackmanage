@@ -24,7 +24,7 @@ it('round-trips concurrent requests through a real fork and confirms shutdown', 
   } finally { await client.close(); }
 });
 it('times out malformed/uncorrelated responses and settles pending requests on close', async () => {
-  await writeFile(join(directory, 'silent.cjs'), `process.on('message', () => { process.send({apiVersion:1,id:'unsolicited',status:'ready',pid:123}); process.send({apiVersion:1,id:'bad',status:'ready',pid:-1}); }); process.on('disconnect', () => process.exit(0));`);
+  await writeFile(join(directory, 'silent.cjs'), `const send = message => { if (!process.connected) return; try { process.send(message, () => undefined); } catch { /* host already gone */ } }; process.on('message', () => { send({apiVersion:1,id:'unsolicited',status:'ready',pid:123}); send({apiVersion:1,id:'bad',status:'ready',pid:-1}); }); process.on('disconnect', () => process.exit(0));`);
   const client = new WorkerClient({ entry: join(directory, 'silent.cjs'), requestTimeoutMs: 300 });
   try {
     await expect(client.health()).rejects.toThrow('TIMEOUT');

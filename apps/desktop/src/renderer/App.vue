@@ -66,20 +66,12 @@ onBeforeUnmount(() => caddyController.detach());
       </header>
 
       <main id="main-content" class="content" tabindex="-1">
-        <Transition name="fade" mode="out-in">
-          <HomeView v-if="page === 'home'" key="home" :snapshot="snapshot" :worker-status="workerStatus" @navigate="navigate" />
-          <CaddyView v-else-if="page === 'web'" key="web" :snapshot="snapshot" />
-          <SettingsView v-else-if="page === 'settings'" key="settings" v-model:theme="theme" v-model:locale="localeModel" :snapshot="snapshot" :worker-status="workerStatus" />
-          <UnavailableView v-else :key="page" :page="page" />
-        </Transition>
+        <HomeView v-if="page === 'home'" key="home" :snapshot="snapshot" :worker-status="workerStatus" @navigate="navigate" />
+        <CaddyView v-else-if="page === 'web'" key="web" :snapshot="snapshot" />
+        <SettingsView v-else-if="page === 'settings'" key="settings" v-model:theme="theme" v-model:locale="localeModel" :snapshot="snapshot" :worker-status="workerStatus" />
+        <UnavailableView v-else :key="page" :page="page" />
         <footer class="faint" style="margin-top: 36px; font-size: 0.75rem">{{ t('footer') }}</footer>
       </main>
     </div>
   </div>
 </template>
-
-<style scoped>
-.fade-enter-active, .fade-leave-active { transition: opacity 140ms ease, transform 140ms ease; }
-.fade-enter-from { opacity: 0; transform: translateY(4px); }
-.fade-leave-to { opacity: 0; transform: translateY(-2px); }
-</style>
