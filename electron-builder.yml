@@ -1,0 +1,35 @@
+appId: com.stackmanage.app
+electronVersion: 45.2.2
+productName: StackManage
+copyright: Copyright © 2026 StackManage contributors
+directories:
+  app: apps/desktop
+  output: release
+  buildResources: build
+asar: false
+files:
+  - dist/**/*
+  - package.json
+extraResources:
+  - from: THIRD_PARTY_NOTICES.md
+    to: THIRD_PARTY_NOTICES.md
+artifactName: StackManage-${version}-${arch}.${ext}
+linux:
+  target:
+    - deb
+  category: Development
+  icon: ../../build/icon.png
+  maintainer: StackManage contributors <maintainers@stackmanage.invalid>
+  synopsis: Native local development workspace
+  description: StackManage manages native local runtimes, services and local sites without containers.
+deb:
+  depends:
+    - libgtk-3-0
+    - libnotify4
+    - libnss3
+    - libxss1
+    - libxtst6
+    - xdg-utils
+    - libatspi2.0-0
+    - libuuid1
+    - libsecret-1-0

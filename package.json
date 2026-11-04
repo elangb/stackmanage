@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.32.1",
-  "engines": { "node": ">=24.0.0 <25" },
+  "engines": {
+    "node": ">=24.0.0 <25"
+  },
   "scripts": {
     "dev": "pnpm --filter @stackmanage/desktop dev",
     "build": "node ci/turbo.mjs build",
@@ -14,7 +16,10 @@
     "test:desktop": "pnpm --filter @stackmanage/desktop smoke",
     "test:browser:linux": "STACKMANAGE_BROWSER_E2E=1 vitest run apps/worker/test/caddy-browser.integration.test.ts",
     "legal:verify": "node scripts/verify-legal.mjs",
-    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm legal:verify && pnpm build"
+    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm legal:verify && pnpm build",
+    "dist:linux:deb:x64": "pnpm build && electron-builder --linux deb --x64 --config electron-builder.yml",
+    "dist:linux:deb:arm64": "pnpm build && electron-builder --linux deb --arm64 --config electron-builder.yml",
+    "dist:linux:rpm": "pnpm build && electron-builder --linux rpm --x64 --arm64 --config electron-builder.yml"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
@@ -25,6 +30,7 @@
     "turbo": "2.11.10",
     "typescript": "5.9.3",
     "typescript-eslint": "8.72.1",
-    "vitest": "5.1.0"
+    "vitest": "5.1.0",
+    "electron-builder": "26.18.0"
   }
 }

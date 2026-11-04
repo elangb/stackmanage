@@ -25,5 +25,12 @@
     "electron": "45.2.2",
     "vite": "8.3.5",
     "vue-tsc": "3.3.14"
-  }
+  },
+  "description": "Native local development workspace for runtimes, services and local sites.",
+  "author": {
+    "name": "StackManage contributors",
+    "email": "maintainers@stackmanage.invalid"
+  },
+  "homepage": "https://stackmanage.invalid",
+  "desktopName": "StackManage.desktop"
 }
