@@ -6,7 +6,7 @@ import {
   parseBounded
 } from '@stackmanage/core';
 import type { ErrorCode, OperationEvent, WorkerManagementResponse, WorkerMethodResult, WorkerResponse } from '@stackmanage/core';
-import { caddyModule } from './registry';
+import { caddyModule, nodeModule } from './registry';
 
 /**
  * Forked worker entry.
@@ -25,6 +25,7 @@ import { caddyModule } from './registry';
  */
 
 const { module } = caddyModule();
+const { module: runtime } = nodeModule();
 
 const logger = {
   info(event: string, fields: Record<string, unknown> = {}): void {
@@ -144,7 +145,7 @@ async function dispatch(id: string, input: unknown): Promise<void> {
 
   const job = (async (): Promise<WorkerMethodResult> => {
     await reconcile;
-    return module.handle(request, emit);
+    return request.method.startsWith('runtime.') ? runtime.handle(request, emit) : module.handle(request, emit);
   })();
   inflight.set(key, job);
   try {

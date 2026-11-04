@@ -26,3 +26,25 @@ Checklist: no Pinia; no `config.setup`; future module persistence uses module-sc
 6. Future hosts write is required, DNS refresh supplementary: preserve the write outcome, attach a warning and never replay the write. Invalid process candidates are skipped independently with reasons. Startup groups collect per-item outcomes and preserve ordering; required dependency failure skips dependents only.
 
 Review before commit: examine every throw/reject/early return against these boundaries. There are no service writes, install side effects, privilege escalation or batch execution in this phase. Unknown vendor/platform availability remains unknown.
+
+## Phase 3 runtime operation contract (Node.js)
+
+Authorization: user authorized a Node.js runtime module, a separate `agent/node-runtime`
+branch and Phase 3 tests/report. No exception to the default module constraints is needed:
+there is no Pinia store, no `config.setup`, module persistence is `StorageGetAsync`/
+`StorageSetAsync`, and all Node-only types/helpers live under
+`apps/worker/src/modules/node` plus the renderer-local `runtime` controller.
+
+| Operation/state | Owner / lifetime | Start / intermediate / terminal | Duplicate / cleanup / service interaction | Verification |
+|---|---|---|---|---|
+| Runtime versions/status/list | worker Node module; worker lifetime | read / none / typed view or typed error | short-lived read; never mutates controller operation state; a corrupt/missing record is treated as absent | schema, unsupported-platform and path-guard tests |
+| Runtime install | renderer `runtimeController` singleton plus worker Node installer | `runtime.preflight` / download, extract, validate, commit progress / one `OperationResult` | same operation ID attaches through the worker inflight map and controller in-flight promise; a different overlapping install returns `CONFLICT`; idempotent when a valid pinned binary exists; staging removed in `finally`; previous install restored if commit fails | unit, idempotency, conflict, checksum, traversal and real-network tests |
+| Runtime uninstall | renderer `runtimeController` singleton plus worker Node installer | `runtime.uninstall` progress / one `OperationResult` | only a recorded installation is addressed; directory and binary must resolve inside the managed installations root; file removal is required, record cleanup failure is a warning; no process to stop | managed-root guard, cleanup and missing-record tests |
+| Runtime progress | controller handler | subscribe once / validated operation ID + monotonic sequence / listener detached on page teardown | foreign, replayed and stale frames are dropped; no text beyond a bounded stage key and fraction crosses the bridge | controller dedupe/progress/cleanup tests |
+
+Failure boundaries: the official archive SHA-256 is a required dependency. The
+supplementary SHASUMS256.txt read is not: an unavailable list becomes a warning, while a
+list entry that contradicts the pinned digest stops the install. Extraction rejects
+traversal, outside-top-level entries and special files and never creates symlinks; a
+linked `bin/node` fails the required binary check. The real binary `--version` must equal
+`v24.22.2` before commit. No Windows/arm64 execution is claimed.

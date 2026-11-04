@@ -33,3 +33,25 @@ it('times out malformed/uncorrelated responses and settles pending requests on c
     await pending;
   } finally { await client.close(); }
 });
+
+it('dispatches typed runtime reads through the real fork worker', async () => {
+  const client = new WorkerClient({ entry: join(directory, 'worker.cjs') });
+  try {
+    const versions = await client.runtimeVersions({ moduleId: 'node' });
+    expect(versions.ok).toBe(true);
+    if (!versions.ok) throw new Error('runtime versions failed');
+    expect(versions.result.method).toBe('runtime.versions');
+    if (versions.result.method !== 'runtime.versions') throw new Error('unexpected result');
+    expect(versions.result.data.pinnedVersion).toBe('24.22.2');
+    expect(versions.result.data.versions).toHaveLength(4);
+    const status = await client.runtimeStatus({ moduleId: 'node' });
+    expect(status.ok).toBe(true);
+    if (!status.ok || status.result.method !== 'runtime.status') throw new Error('runtime status failed');
+    expect(status.result.data.installed).toBe(false);
+    const rejected = await client.runtimeUninstall({ operationId: 'missing', installationId: 'node-missing' });
+    expect(rejected.ok).toBe(true);
+    if (rejected.ok && rejected.result.method === 'runtime.uninstall') expect(rejected.result.data.status).toBe('failed');
+  } finally {
+    await client.close();
+  }
+}, 30000);

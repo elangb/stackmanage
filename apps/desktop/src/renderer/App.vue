@@ -7,6 +7,7 @@ import { caddyController } from './caddy/controller';
 import AppSidebar from './components/AppSidebar.vue';
 import HomeView from './views/HomeView.vue';
 import CaddyView from './views/CaddyView.vue';
+import RuntimesView from './views/RuntimesView.vue';
 import SettingsView from './views/SettingsView.vue';
 import UnavailableView from './views/UnavailableView.vue';
 import { PAGE_TITLE_KEYS, type PageKey } from './pages';
@@ -68,6 +69,7 @@ onBeforeUnmount(() => caddyController.detach());
       <main id="main-content" class="content" tabindex="-1">
         <HomeView v-if="page === 'home'" key="home" :snapshot="snapshot" :worker-status="workerStatus" @navigate="navigate" />
         <CaddyView v-else-if="page === 'web'" key="web" :snapshot="snapshot" />
+        <RuntimesView v-else-if="page === 'runtimes'" key="runtimes" :snapshot="snapshot" />
         <SettingsView v-else-if="page === 'settings'" key="settings" v-model:theme="theme" v-model:locale="localeModel" :snapshot="snapshot" :worker-status="workerStatus" />
         <UnavailableView v-else :key="page" :page="page" />
         <footer class="faint" style="margin-top: 36px; font-size: 0.75rem">{{ t('footer') }}</footer>

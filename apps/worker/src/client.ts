@@ -16,6 +16,9 @@ import type {
   LogTailRequest,
   OperationError,
   OperationEvent,
+  RuntimeInstallRequest,
+  RuntimeModuleRequest,
+  RuntimeUninstallRequest,
   ServiceRequest,
   SiteRemoveRequest,
   SitesApplyRequest,
@@ -68,6 +71,8 @@ export function timeoutFor(method: WorkerManagementMethod): number {
   switch (method) {
     case 'install':
       return OPERATION_TIMEOUTS.install + OPERATION_TIMEOUTS.read;
+    case 'runtime.install':
+      return OPERATION_TIMEOUTS.runtimeInstall + OPERATION_TIMEOUTS.read;
     case 'service.start':
     case 'service.stop':
     case 'service.restart':
@@ -247,6 +252,26 @@ export class WorkerClient {
 
   removeSite(request: SiteRemoveRequest, onProgress?: ProgressSink): Promise<Terminal> {
     return this.call('sites.remove', request, onProgress);
+  }
+
+  runtimeVersions(request: RuntimeModuleRequest): Promise<Terminal> {
+    return this.call('runtime.versions', request);
+  }
+
+  runtimeInstall(request: RuntimeInstallRequest, onProgress?: ProgressSink): Promise<Terminal> {
+    return this.call('runtime.install', request, onProgress);
+  }
+
+  runtimeStatus(request: RuntimeModuleRequest): Promise<Terminal> {
+    return this.call('runtime.status', request);
+  }
+
+  runtimeList(request: RuntimeModuleRequest): Promise<Terminal> {
+    return this.call('runtime.list', request);
+  }
+
+  runtimeUninstall(request: RuntimeUninstallRequest, onProgress?: ProgressSink): Promise<Terminal> {
+    return this.call('runtime.uninstall', request, onProgress);
   }
 
   /* ------------------------------- lifecycle ------------------------------- */

@@ -63,3 +63,18 @@ Data ownership: worker module owns installs, process handles, PID/port state and
 All planned tools are enumerated in `McpToolSchema`: modules.list; versions.list; installations.list/install/remove; services.list/inspect/start/stop/restart; sites.list/apply/remove; hosts.apply; certificates.list/issue/trust; projects.list/resolve/save; groups.list/run; schedules.list/save/remove; configs.read/write; logs.read; operations.get/cancel; plugins.list/install/remove; terminal.open; shortcuts.run; system.info; screenshots.capture.
 
 No tools are exposed in Phase 0. Tool-specific argument/result schemas, redaction, transport authentication, approval UX and integration tests must precede exposure. This is the complete planned v1 inventory, not a claim of exact parity with every current/future upstream MCP tool.
+
+## Phase 3 additions (Node.js runtime)
+
+| Surface | Contract |
+|---|---|
+| Runtime reads | `runtime.versions`, `runtime.status`, `runtime.list` take `{moduleId}` and return strict typed views. They never accept a URL, digest, path or shell command |
+| Runtime install | `runtime.install` shares the module-agnostic `InstallRequest` shape but has its own fixed channel. The worker Node module accepts only module `node`, version `24.22.2`, and its own platform/architecture |
+| Runtime uninstall | `runtime.uninstall` takes `{operationId, installationId}`. The worker resolves the ID through its persisted records and refuses any path outside the managed installations root |
+| Runtime views | `RuntimeVersionView` includes pinned source/SHA-256/archive and `tested` (execution evidence, not availability); `RuntimeInstallationView` exposes the binary path and a PATH-prepend plan but no shell mutation |
+| Bridge names | `runtimeVersions`, `runtimeInstall`, `runtimeStatus`, `runtimeList`, `runtimeUninstall` with fixed channels. No generic invoke/exec/shell channel is added |
+| Progress | Runtime install/uninstall stream the same bounded progress frames; exactly one terminal `OperationResult` settles each accepted operation |
+
+The Node module is additive: Caddy channel names, pins and lifecycle semantics are
+unchanged. Windows x64/arm64 and Linux arm64 artifacts are pinned by official SHA-256
+values but remain `unverified`; only Linux x64 has execution evidence.

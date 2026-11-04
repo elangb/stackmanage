@@ -25,7 +25,7 @@ export const NAV_GROUPS: ReadonlyArray<{ labelKey: string; items: ReadonlyArray<
   {
     labelKey: 'navGroupPlatform',
     items: [
-      { key: 'runtimes', labelKey: 'navRuntimes', icon: '⌘', implemented: false },
+      { key: 'runtimes', labelKey: 'navRuntimes', icon: '⌘', implemented: true },
       { key: 'web', labelKey: 'navWeb', icon: '◍', implemented: true },
       { key: 'databases', labelKey: 'navDatabases', icon: '▤', implemented: false },
       { key: 'cache', labelKey: 'navCache', icon: '⇄', implemented: false },

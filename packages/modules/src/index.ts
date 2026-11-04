@@ -24,5 +24,25 @@ export const caddyModuleDefinition: ModuleDefinition = {
   ]
 };
 
+export const nodeModuleDefinition: ModuleDefinition = {
+  apiVersion: 1,
+  id: 'node',
+  nameKey: 'modules.node',
+  category: 'runtime',
+  capabilities: ['versions', 'install'],
+  dependencies: [],
+  availability: [
+    {
+      platform: 'linux',
+      architecture: 'x64',
+      status: 'unverified',
+      reason: 'Artifact is pinned; the Phase 3 Linux x64 execution evidence is recorded in the worker integration test, not in this declaration.'
+    },
+    { platform: 'linux', architecture: 'arm64', status: 'unverified', reason: 'Artifact is pinned and hashed, no arm64 machine ran it.' },
+    { platform: 'win32', architecture: 'x64', status: 'unverified', reason: 'Artifact is pinned and hashed, no Windows machine ran it.' },
+    { platform: 'win32', architecture: 'arm64', status: 'unverified', reason: 'Artifact is pinned and hashed, no Windows arm64 machine ran it.' }
+  ]
+};
+
 /** Registered adapters. */
-export const implementedModules: readonly ModuleDefinition[] = Object.freeze([caddyModuleDefinition]);
+export const implementedModules: readonly ModuleDefinition[] = Object.freeze([caddyModuleDefinition, nodeModuleDefinition]);

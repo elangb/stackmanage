@@ -5,6 +5,9 @@ import {
   InstallRequestSchema,
   InstanceRequestSchema,
   LogTailRequestSchema,
+  RuntimeInstallRequestSchema,
+  RuntimeModuleRequestSchema,
+  RuntimeUninstallRequestSchema,
   ServiceRequestSchema,
   SiteRemoveRequestSchema,
   SitesApplyRequestSchema,
@@ -33,12 +36,18 @@ export const DESKTOP_METHODS = Object.freeze({
   sitesList: 'stackmanage:v1:sites-list',
   sitesRemove: 'stackmanage:v1:sites-remove',
   certificateStatus: 'stackmanage:v1:certificate-status',
-  trustCertificate: 'stackmanage:v1:certificate-trust'
+  trustCertificate: 'stackmanage:v1:certificate-trust',
+  runtimeVersions: 'stackmanage:v1:runtime-versions',
+  runtimeInstall: 'stackmanage:v1:runtime-install',
+  runtimeStatus: 'stackmanage:v1:runtime-status',
+  runtimeList: 'stackmanage:v1:runtime-list',
+  runtimeUninstall: 'stackmanage:v1:runtime-uninstall'
 } as const);
 
 export type DesktopMethodName = keyof typeof DESKTOP_METHODS;
 export const DesktopMethodNameSchema = z.enum([
-  'install', 'start', 'stop', 'restart', 'status', 'listServices', 'listInstallations', 'logsTail', 'sitesApply', 'sitesList', 'sitesRemove', 'certificateStatus', 'trustCertificate'
+  'install', 'start', 'stop', 'restart', 'status', 'listServices', 'listInstallations', 'logsTail', 'sitesApply', 'sitesList', 'sitesRemove', 'certificateStatus', 'trustCertificate',
+  'runtimeVersions', 'runtimeInstall', 'runtimeStatus', 'runtimeList', 'runtimeUninstall'
 ]);
 
 export const BridgeOkResponseSchema = z.object({ ok: z.literal(true), data: WorkerResultResponseSchema.shape.result }).strict();
@@ -63,7 +72,12 @@ export const BRIDGE_REQUEST_SCHEMAS = Object.freeze({
   sitesList: z.object({}).strict(),
   sitesRemove: SiteRemoveRequestSchema,
   certificateStatus: z.object({}).strict(),
-  trustCertificate: TrustRequestSchema
+  trustCertificate: TrustRequestSchema,
+  runtimeVersions: RuntimeModuleRequestSchema,
+  runtimeInstall: RuntimeInstallRequestSchema,
+  runtimeStatus: RuntimeModuleRequestSchema,
+  runtimeList: RuntimeModuleRequestSchema,
+  runtimeUninstall: RuntimeUninstallRequestSchema
 });
 export type BridgeRequestFor<M extends DesktopMethodName> = z.infer<(typeof BRIDGE_REQUEST_SCHEMAS)[M]>;
 export type BridgeResultData = z.infer<typeof WorkerResultResponseSchema>['result'];
@@ -111,6 +125,11 @@ export interface DesktopBridgeV1 {
   sitesRemove(request: BridgeRequestFor<'sitesRemove'>): Promise<BridgeResponse>;
   certificateStatus(request: BridgeRequestFor<'certificateStatus'>): Promise<BridgeResponse>;
   trustCertificate(request: BridgeRequestFor<'trustCertificate'>): Promise<BridgeResponse>;
+  runtimeVersions(request: BridgeRequestFor<'runtimeVersions'>): Promise<BridgeResponse>;
+  runtimeInstall(request: BridgeRequestFor<'runtimeInstall'>): Promise<BridgeResponse>;
+  runtimeStatus(request: BridgeRequestFor<'runtimeStatus'>): Promise<BridgeResponse>;
+  runtimeList(request: BridgeRequestFor<'runtimeList'>): Promise<BridgeResponse>;
+  runtimeUninstall(request: BridgeRequestFor<'runtimeUninstall'>): Promise<BridgeResponse>;
   /** Progress for one operation; the caller filters stale sequences and mismatched operation IDs. */
   onOperationEvent(listener: (payload: BridgeEventPayload) => void): EventSubscriptionHandle;
 }
