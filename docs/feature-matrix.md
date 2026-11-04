@@ -14,7 +14,7 @@ Evidence sources consulted 2026-11-04:
 |---|---|---|---|
 | Runtimes | PHP (versions, extensions, FPM); Node.js (versions/project selection); Python (versions/environments); Java (JDK); Go; Erlang; Ruby; Rust; .NET; Zig; Bun; Deno; Flutter SDK; Gradle | modules + worker; real install/version-switch/run/uninstall per supported OS/arch | U each |
 | Web servers | Nginx; Apache; Caddy; FrankenPHP; Tomcat; static HTTP server | modules + worker; config validation, start/health/reload/stop and port conflicts | Caddy: **partial** on Linux x64 only (real pinned install + HTTP 200 + lifecycle/reconcile evidence in `reports/phase1-core.md`); Nginx/Apache/FrankenPHP/Tomcat/static: U; Caddy Windows/arm64: U |
-| Sites/HTTPS | local domains; aliases; document roots; per-site runtime; reverse proxy; HTTPS; mkcert; hosts editing; certificate issue/renew/remove/trust | sites + platform; actual local requests, trust-store and hosts write/rollback tests | U each |
+| Sites/HTTPS | local domains; aliases; document roots; per-site runtime; reverse proxy; HTTPS; mkcert; hosts editing; certificate issue/renew/remove/trust | sites + platform; actual local requests, trust-store and hosts write/rollback tests | **Partial Linux x64:** managed hosts block, `.test` aliases, internal TLS, isolated NSS trust, HTTPS 200 with CA (see `reports/phase2-hosts-tls.md`); browser/Windows/system trust still U |
 | Databases | MySQL; PostgreSQL; MariaDB; MongoDB; Qdrant; ClickHouse; Neo4j | modules + worker; versioned install, initialization, connection, clean shutdown | U each |
 | Database panels | phpMyAdmin; pgAdmin; DBGate; Redis Commander | module-local controller + worker; panel readiness, parent/companion shutdown, credentials handling | U each |
 | Cache/messaging/search/mail | Redis; Memcached; RabbitMQ; Elasticsearch; Meilisearch; Typesense; ZincSearch; Mailpit | modules + worker; real protocol probes, logs and shutdown | U each |
@@ -55,6 +55,7 @@ Every later feature row must add: adapter path, upstream artifact URL/version/di
 | Caddy 2.11.8 install | `apps/worker/src/modules/caddy/{download,extract,installer}.ts` | Official GitHub release; SHA-512 from vendor checksums plus locally computed SHA-256; real download and `caddy version` in `STACKMANAGE_INTEGRATION=1` test | Verified Linux x64 only |
 | Caddy start/stop/status/reconcile | `apps/worker/src/modules/caddy/{service,process}.ts` | Real process, HTTP 200 from a generated site, stale PID reconciled after simulated worker death | Verified Linux x64 only |
 | Caddy local sites | `apps/worker/src/modules/caddy/{sites,caddyfile}.ts` | Caddyfile rendered for managed roots, validated with `caddy validate`, restart warning when running | Verified by unit/integration tests, not browser acceptance |
+| Hosts + internal TLS | `packages/platform/src/hosts-*.ts`, `apps/worker/src/modules/caddy/{sites,certificates}.ts` | Temporary hosts/NSS integration: `.test`+alias, HTTPS 200 with CA, NSS trust, hosts cleanup | Verified Linux x64 only; browser/system trust unverified |
 | Desktop shell | `apps/desktop/src/renderer`, `packages/i18n`, `packages/ui` | Sandboxed Electron smoke, five-locale key parity, controller tests | Shell/UI only; not platform acceptance |
 | Nginx / HTTPS / hosts | — | Not implemented | U |
 

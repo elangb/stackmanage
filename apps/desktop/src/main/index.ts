@@ -43,7 +43,9 @@ const METHOD_MAP = Object.freeze({
   logsTail: 'logs.tail',
   sitesApply: 'sites.apply',
   sitesList: 'sites.list',
-  sitesRemove: 'sites.remove'
+  sitesRemove: 'sites.remove',
+  certificateStatus: 'certificates.status',
+  trustCertificate: 'certificates.trust'
 } as const satisfies Record<DesktopMethodName, string>);
 
 class IpcFailure extends Error {
@@ -119,7 +121,7 @@ async function handleCall(method: DesktopMethodName, event: Electron.IpcMainInvo
   }
   if (!worker) return bridgeError('UNAVAILABLE', 'worker.unavailable', true);
   const operationId = params !== null && typeof params === 'object' && typeof (params as { operationId?: unknown }).operationId === 'string' ? (params as { operationId: string }).operationId : undefined;
-  const noParams = method === 'listServices' || method === 'listInstallations' || method === 'sitesList';
+  const noParams = method === 'listServices' || method === 'listInstallations' || method === 'sitesList' || method === 'certificateStatus';
   try {
     const terminal = await worker.call(METHOD_MAP[method], noParams ? undefined : params, operationId !== undefined ? forwardProgress(operationId) : undefined);
     if (!terminal.ok) return BridgeResponseSchema.parse({ ok: false, error: terminal.error });
@@ -229,7 +231,7 @@ async function runSmoke(): Promise<void> {
     const parsed = SnapshotResponseSchema.parse(result);
     if (!parsed.ok) throw new Error('Bridge health failed');
     const isolated: unknown = await window.webContents.executeJavaScript(
-      `typeof require === 'undefined' && typeof process === 'undefined' && Object.keys(window.stackmanage).sort().join(',') === 'install,listInstallations,listServices,logsTail,onOperationEvent,restart,sitesApply,sitesList,sitesRemove,snapshot,start,status,stop'`
+      `typeof require === 'undefined' && typeof process === 'undefined' && Object.keys(window.stackmanage).sort().join(',') === 'certificateStatus,install,listInstallations,listServices,logsTail,onOperationEvent,restart,sitesApply,sitesList,sitesRemove,snapshot,start,status,stop,trustCertificate'`
     );
     if (isolated !== true) throw new Error('Renderer isolation/bridge surface failed');
     const status = await window.webContents.executeJavaScript(`window.stackmanage.status({instanceId:'caddy-18080'})`);

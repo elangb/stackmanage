@@ -78,6 +78,9 @@ importers:
       '@stackmanage/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@stackmanage/platform':
+        specifier: workspace:*
+        version: link:../../packages/platform
       extract-zip:
         specifier: 2.0.1
         version: 2.0.1

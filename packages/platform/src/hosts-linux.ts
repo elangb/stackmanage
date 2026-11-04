@@ -89,7 +89,16 @@ export class LinuxHostsManager {
 
   /** Writes entries into the managed block. Expected failures are returned, not thrown. */
   async write(entries: readonly unknown[]): Promise<HostsWriteOutcome> {
-    if (entries.length === 0) return { status: 'invalid', reason: 'at least one entry is required' };
+    return this.writeEntries(entries, false);
+  }
+
+  /** Removes the managed block without touching unrelated hosts entries. */
+  async clear(): Promise<HostsWriteOutcome> {
+    return this.writeEntries([], true);
+  }
+
+  private async writeEntries(entries: readonly unknown[], allowEmpty: boolean): Promise<HostsWriteOutcome> {
+    if (entries.length === 0 && !allowEmpty) return { status: 'invalid', reason: 'at least one entry is required' };
     const validation = validateEntries(entries);
     if (!validation.ok) return { status: 'invalid', reason: validation.rejected.map(r => `${r.id}: ${r.message}`).join('; ') };
 
@@ -106,9 +115,10 @@ export class LinuxHostsManager {
     const merged = mergeManagedBlock(existing, validation.entries);
     if (Buffer.byteLength(merged.block, 'utf8') > HOSTS_BLOCK_MAX_BYTES) return { status: 'invalid', reason: 'managed block exceeds size limit' };
 
+    if (!merged.changed) return { status: 'unchanged' };
+
     const direct = await this.options.fs.canWrite(this.hostsPath);
     if (direct) {
-      if (!merged.changed) return { status: 'unchanged' };
       // Required dependency: the replace itself. The backup is supplementary and
       // only reported; it never converts a successful replace into a failure.
       const backedUp = await this.backupFile(existing);

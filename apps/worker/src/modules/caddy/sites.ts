@@ -1,4 +1,5 @@
 import { mkdir, rename, rm } from 'node:fs/promises';
+import type { HostsWriteOutcome } from '@stackmanage/platform';
 import { join } from 'node:path';
 import type { ModuleStorage, OperationContext, OperationResult, ServiceState, Site, SitesApplyRequest } from '@stackmanage/core';
 import { OperationResultSchema, SiteSchema } from '@stackmanage/core';
@@ -9,11 +10,18 @@ import { assertRenderableSite, renderCaddyfile } from './caddyfile';
 import { childEnvironment, runCaddy } from './installer';
 import type { CaddyServiceManager } from './service';
 
+export interface HostsSync {
+  write(entries: readonly { hostname: string; address: string }[]): Promise<HostsWriteOutcome>;
+  clear(): Promise<HostsWriteOutcome>;
+  inspect(): Promise<{ status: 'absent' | 'valid' | 'malformed' | 'unreadable'; entries?: readonly { hostname: string; address: string }[] }>;
+}
+
 export interface SiteManagerDeps {
   storage: ModuleStorage;
   paths: Paths;
   installer: { installed(): Promise<CaddyInstallationRecord | undefined> };
   service: Pick<CaddyServiceManager, 'status'>;
+  hosts?: HostsSync;
   platform?: NodeJS.Platform | string;
 }
 
@@ -84,11 +92,13 @@ export class CaddySiteManager {
       for (const site of record.sites) await mkdir(site.root, { recursive: true });
 
       const warnings: OperationResult['warnings'] = [];
+      const hostsWarning = await this.syncHosts(record.sites);
+      if (hostsWarning !== undefined) warnings.push(hostsWarning);
       const state: ServiceState = await this.deps.service.status({ instanceId: DEFAULT_INSTANCE_ID });
       if (state.state === 'running') warnings.push({ code: 'UNAVAILABLE', messageKey: 'caddy.restartRequired', retryable: true });
       const done = OperationResultSchema.parse({
         operationId: context.operationId,
-        status: 'completed',
+        status: hostsWarning === undefined ? 'completed' : 'partial',
         items: record.sites.map(site => ({ id: site.id, status: 'completed' })),
         warnings
       });
@@ -123,11 +133,13 @@ export class CaddySiteManager {
       const next: CaddySiteRecord = { sites: current.filter(site => site.id !== request.siteId) };
       await this.validateAndWrite(installation, next, context.signal);
       const warnings: OperationResult['warnings'] = [];
+      const hostsWarning = await this.syncHosts(next.sites);
+      if (hostsWarning !== undefined) warnings.push(hostsWarning);
       const state: ServiceState = await this.deps.service.status({ instanceId: DEFAULT_INSTANCE_ID });
       if (state.state === 'running') warnings.push({ code: 'UNAVAILABLE', messageKey: 'caddy.restartRequired', retryable: true });
       const done = OperationResultSchema.parse({
         operationId: context.operationId,
-        status: 'completed',
+        status: hostsWarning === undefined ? 'completed' : 'partial',
         items: [{ id: request.siteId, status: 'completed' }],
         warnings
       });
@@ -139,6 +151,27 @@ export class CaddySiteManager {
       progress.terminal(failed);
       return failed;
     }
+  }
+
+  /** Keep only non-loopback hostnames in the managed hosts block; never manage unrelated lines. */
+  private async syncHosts(sites: readonly Site[]): Promise<OperationResult['warnings'][number] | undefined> {
+    if (this.deps.hosts === undefined) return undefined;
+    const entries = sites.flatMap(site => [site.hostname, ...site.aliases])
+      .map(hostname => hostname.toLowerCase())
+      .filter(hostname => hostname !== 'localhost' && !hostname.endsWith('.localhost') && hostname !== '127.0.0.1' && hostname !== '::1')
+      .map(hostname => ({ hostname, address: '127.0.0.1' }));
+    let outcome: HostsWriteOutcome;
+    if (entries.length === 0) {
+      const current = await this.deps.hosts.inspect();
+      if (current.status === 'absent' || (current.status === 'valid' && (current.entries?.length ?? 0) === 0)) return undefined;
+      outcome = await this.deps.hosts.clear();
+    } else {
+      outcome = await this.deps.hosts.write(entries);
+    }
+    if (outcome.status === 'written' || outcome.status === 'unchanged') return undefined;
+    if (outcome.status === 'invalid') return { code: 'INVALID_REQUEST', messageKey: 'hosts.invalidEntries', retryable: false };
+    if (outcome.status === 'unavailable') return { code: 'UNAVAILABLE', messageKey: 'hosts.privilegeUnavailable', retryable: true };
+    return { code: 'IO_ERROR', messageKey: 'hosts.writeFailed', retryable: true };
   }
 
   /** Validate the rendered config with the pinned binary, then replace it atomically and persist the set. */

@@ -18,6 +18,8 @@ import { DEFAULT_INSTANCE_ID } from './manifest';
 import { CaddyInstaller } from './installer';
 import { CaddyServiceManager } from './service';
 import { CaddySiteManager } from './sites';
+import { CaddyCertificates } from './certificates';
+import { LinuxHostsManager, createLinuxRunner, createNodeFileSystem } from '@stackmanage/platform';
 import { caddyPaths, type Paths } from './paths';
 import type { CaddyServiceRecord } from './state';
 
@@ -27,6 +29,9 @@ export interface CaddyModuleOptions {
   platform?: NodeJS.Platform | string;
   architecture?: string;
   fetchImpl?: typeof fetch;
+  hostsPath?: string;
+  nssDbPath?: string;
+  userHome?: string;
   logger?: { info(event: string, fields?: Record<string, unknown>): void };
 }
 
@@ -39,6 +44,7 @@ export class CaddyModule {
   readonly installer: CaddyInstaller;
   readonly service: CaddyServiceManager;
   readonly sites: CaddySiteManager;
+  readonly certificates: CaddyCertificates;
   private readonly paths: Paths;
 
   constructor(private readonly options: CaddyModuleOptions) {
@@ -58,12 +64,27 @@ export class CaddyModule {
       ...(options.platform !== undefined ? { platform: options.platform } : {}),
       ...(options.logger !== undefined ? { logger: options.logger } : {})
     });
+    const platform = options.platform ?? process.platform;
+    const hosts = platform === 'linux'
+      ? new LinuxHostsManager({
+          fs: createNodeFileSystem(),
+          runner: createLinuxRunner(process.env),
+          ...(options.hostsPath !== undefined ? { hostsPath: options.hostsPath } : {})
+        })
+      : undefined;
     this.sites = new CaddySiteManager({
       storage: options.storage,
       paths: this.paths,
       installer: this.installer,
       service: this.service,
+      ...(hosts !== undefined ? { hosts } : {}),
       ...(options.platform !== undefined ? { platform: options.platform } : {})
+    });
+    this.certificates = new CaddyCertificates({
+      home: this.paths.home,
+      ...(options.nssDbPath !== undefined ? { nssDbPath: options.nssDbPath } : {}),
+      ...(options.userHome !== undefined ? { userHome: options.userHome } : {}),
+      ...(platform !== undefined ? { platform } : {})
     });
   }
 
@@ -111,6 +132,10 @@ export class CaddyModule {
         const params = request.params as LogTailRequest;
         return { method: 'logs.tail', data: await withDeadline(this.service.logsTail(params), READ_DEADLINE_MS) };
       }
+      case 'certificates.status':
+        return { method: 'certificates.status', data: await withDeadline(this.certificates.status(), READ_DEADLINE_MS) };
+      case 'certificates.trust':
+        return { method: 'certificates.trust', data: await this.certificates.trust(this.context(request, emit)) };
       case 'sites.apply':
         return { method: 'sites.apply', data: await this.sites.apply(request.params as SitesApplyRequest, this.context(request, emit)) };
       case 'sites.list':

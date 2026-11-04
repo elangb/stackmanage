@@ -4,7 +4,7 @@ An original, independent desktop workspace for local development. Product policy
 
 ## What works now
 
-On **Linux x64 only**, StackManage can install Caddy 2.11.8 from the official upstream release, verify its checksums, start/stop/restart it, serve a managed HTTP site on loopback, show bounded logs, and reconcile a stale process after an ungraceful worker restart. Windows and Linux arm64 artifacts are pinned but **not executed**. Nginx, HTTPS trust, databases, runtimes, MCP transport, plugins and installers are not implemented yet.
+On **Linux x64 only**, StackManage can install Caddy 2.11.8 from the official upstream release, verify its checksums, start/stop/restart it, serve managed HTTP/HTTPS sites on loopback, update a marked hosts block for `.test` domains, trust its local CA in user NSS stores, show bounded logs, and reconcile a stale process after an ungraceful worker restart. Browser-level certificate acceptance, system trust, Windows and Linux arm64 execution are **not yet verified**. Nginx, databases, general runtimes, MCP transport, plugins and installers are not implemented yet.
 
 The UI labels unimplemented areas as unavailable; no feature is simulated.
 
@@ -49,4 +49,4 @@ STACKMANAGE_INTEGRATION=1 pnpm exec vitest run apps/worker/test/caddy.integratio
 | `packages/i18n`, `packages/ui` | Five locales and original design tokens |
 | `docs`, `ci` | ADRs, evidence matrix, legal inventory, workflow templates |
 
-Read [ADR 0001](docs/adr/0001-foundation.md), [ADR 0002](docs/adr/0002-phase1-vertical-slice.md), [contracts](docs/contracts-v1.md), [feature matrix](docs/feature-matrix.md), [legal analysis](docs/legal/license-analysis.md), [third-party notices](THIRD_PARTY_NOTICES.md), and the [Phase 1 report](docs/reports/phase1-core.md).
+Read [ADR 0001](docs/adr/0001-foundation.md), [ADR 0002](docs/adr/0002-phase1-vertical-slice.md), [ADR 0003](docs/adr/0003-hosts-tls-trust.md), [contracts](docs/contracts-v1.md), [feature matrix](docs/feature-matrix.md), [legal analysis](docs/legal/license-analysis.md), [third-party notices](THIRD_PARTY_NOTICES.md), and the [Phase 1](docs/reports/phase1-core.md) / [hosts+TLS](docs/reports/phase2-hosts-tls.md) reports.

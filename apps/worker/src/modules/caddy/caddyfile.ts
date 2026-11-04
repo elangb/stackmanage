@@ -2,7 +2,7 @@
  * Deterministic Caddyfile rendering for local static sites.
  *
  * - `admin off`: no admin API socket is exposed.
- * - `auto_https off`: no ACME/public CA traffic for local hostnames.
+ * - `auto_https disable_redirects`: internal TLS only, no privileged port-80 redirect and no ACME traffic.
  * - Each site binds an explicit loopback address; nothing is published on a
  *   wildcard interface.
  * - Inputs are validated before rendering so no caller string can inject a
@@ -28,7 +28,6 @@ export function assertRenderableSite(site: Site, siteRootsBase: string): void {
   for (const hostname of [site.hostname, ...site.aliases]) {
     if (!/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*$/.test(hostname)) throw new Error('invalid hostname');
   }
-  if (site.tls) throw new Error('tls is not implemented in phase 1');
   if (site.proxyTarget !== undefined) {
     const target = new URL(site.proxyTarget);
     if (!['http:', 'https:'].includes(target.protocol)) throw new Error('invalid proxy protocol');
@@ -45,15 +44,16 @@ export function renderCaddyfile(sites: Site[], siteRootsBase: string): RenderedC
     if (seen.has(site.port)) throw new Error('duplicate port');
     seen.add(site.port);
   }
-  const blocks: string[] = ['{', '\tadmin off', '\tauto_https off', '}', ''];
+  const blocks: string[] = ['{', '\tadmin off', '\tpersist_config off', '\tauto_https disable_redirects', '}', ''];
   for (const site of ordered) {
     // The scheme is explicit: a bare hostname would infer HTTPS from the site address
-    // name alone and ignore the global `auto_https off`.
+    // name alone and ignore the controlled automatic-HTTPS policy.
     const scheme = site.tls ? 'https' : 'http';
     const addresses = [site.hostname, ...site.aliases].map(hostname => `${scheme}://${hostname}:${site.port}`).join(', ');
     blocks.push(`# site: ${site.id}`);
     blocks.push(`${addresses} {`);
     blocks.push(`\tbind ${LOOPBACK_ADDRESS}`);
+    if (site.tls) blocks.push('\ttls internal');
     if (site.proxyTarget !== undefined) {
       blocks.push(`\treverse_proxy ${site.proxyTarget}`);
     } else {

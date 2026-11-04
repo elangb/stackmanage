@@ -320,10 +320,18 @@ describe('caddyfile', () => {
     const sitesRoot = join(root, 'cf-sites');
     const rendered = renderCaddyfile([siteFor(sitesRoot, 18080)], sitesRoot);
     expect(rendered.content).toContain('admin off');
-    expect(rendered.content).toContain('auto_https off');
+    expect(rendered.content).toContain('auto_https disable_redirects');
     expect(rendered.content).toContain('http://localhost:18080');
     expect(rendered.content).toContain('bind 127.0.0.1');
     expect(() => renderCaddyfile([site(18081, { root: '/etc' })], sitesRoot)).toThrow();
+  });
+
+  it('renders internal TLS for a custom domain and its aliases', () => {
+    const sitesRoot = join(root, 'cf-tls-sites');
+    const rendered = renderCaddyfile([site(18443, { id: 'shop', hostname: 'shop.test', aliases: ['www.shop.test'], tls: true, root: join(sitesRoot, 'shop') })], sitesRoot);
+    expect(rendered.content).toContain('https://shop.test:18443, https://www.shop.test:18443');
+    expect(rendered.content).toContain('tls internal');
+    expect(rendered.content).not.toContain('auto_https off');
   });
 });
 

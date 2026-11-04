@@ -68,6 +68,8 @@ export const IPC_CHANNELS = Object.freeze({
   sitesList: 'stackmanage:v1:sites.list',
   sitesApply: 'stackmanage:v1:sites.apply',
   sitesRemove: 'stackmanage:v1:sites.remove',
+  certificateStatus: 'stackmanage:v1:certificates.status',
+  trustCertificate: 'stackmanage:v1:certificates.trust',
   logsTail: 'stackmanage:v1:logs.tail',
   /** Main → renderer only. */
   operationEvent: 'stackmanage:v1:operation.event'

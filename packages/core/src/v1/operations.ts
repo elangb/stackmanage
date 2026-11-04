@@ -127,6 +127,21 @@ export const InstallationListViewSchema = z
     versionCheck: z.object({ version: z.string().min(1).max(100), valid: z.boolean(), output: z.string().max(500) }).strict().optional()
   })
   .strict();
+
+/** Local CA status for the managed web server. Never exposes a private key. */
+export const CertificateStatusViewSchema = z
+  .object({
+    authorityPath: z.string().min(1).max(4096),
+    exists: z.boolean(),
+    browserTrust: z.enum(['trusted', 'untrusted', 'unsupported', 'unknown']),
+    systemTrust: z.enum(['not-modified', 'trusted', 'untrusted', 'unsupported']),
+    detail: z.string().max(300).optional()
+  })
+  .strict();
+export type CertificateStatusView = z.infer<typeof CertificateStatusViewSchema>;
+
+export const TrustRequestSchema = z.object({ operationId: OperationRequestIdSchema }).strict();
+export type TrustRequest = z.infer<typeof TrustRequestSchema>;
 export type InstallationListView = z.infer<typeof InstallationListViewSchema>;
 
 export const ServiceListViewSchema = z.object({ services: z.array(ServiceStateSchema).max(10) }).strict();
@@ -142,6 +157,8 @@ export const WorkerMethodResultSchema = z.union([
   z.object({ method: z.literal('installations.list'), data: InstallationListViewSchema }).strict(),
   z.object({ method: z.literal('logs.tail'), data: LogTailViewSchema }).strict(),
   z.object({ method: z.literal('config.read'), data: ConfigReadViewSchema }).strict(),
+  z.object({ method: z.literal('certificates.status'), data: CertificateStatusViewSchema }).strict(),
+  z.object({ method: z.literal('certificates.trust'), data: OperationResultSchema }).strict(),
   z.object({ method: z.literal('sites.apply'), data: OperationResultSchema }).strict(),
   z.object({ method: z.literal('sites.list'), data: SiteListViewSchema }).strict(),
   z.object({ method: z.literal('sites.remove'), data: OperationResultSchema }).strict()
@@ -163,6 +180,8 @@ export const WORKER_METHODS = [
   'installations.list',
   'logs.tail',
   'config.read',
+  'certificates.status',
+  'certificates.trust',
   'sites.apply',
   'sites.list',
   'sites.remove'
@@ -180,6 +199,8 @@ export const WorkerServicesListRequestSchema = z.object({ ...EnvelopeBase, metho
 export const WorkerInstallationsListRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('installations.list') }).strict();
 export const WorkerLogsTailRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('logs.tail'), params: LogTailRequestSchema }).strict();
 export const WorkerConfigReadRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('config.read'), params: ConfigReadRequestSchema }).strict();
+export const WorkerCertificateStatusRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('certificates.status') }).strict();
+export const WorkerCertificateTrustRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('certificates.trust'), params: TrustRequestSchema }).strict();
 export const WorkerSitesApplyRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('sites.apply'), params: SitesApplyRequestSchema }).strict();
 export const WorkerSitesListRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('sites.list') }).strict();
 export const WorkerSitesRemoveRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('sites.remove'), params: SiteRemoveRequestSchema }).strict();
@@ -194,6 +215,8 @@ export const WorkerManagementRequestSchema = z.discriminatedUnion('method', [
   WorkerInstallationsListRequestSchema,
   WorkerLogsTailRequestSchema,
   WorkerConfigReadRequestSchema,
+  WorkerCertificateStatusRequestSchema,
+  WorkerCertificateTrustRequestSchema,
   WorkerSitesApplyRequestSchema,
   WorkerSitesListRequestSchema,
   WorkerSitesRemoveRequestSchema

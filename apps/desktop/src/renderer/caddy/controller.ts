@@ -18,7 +18,7 @@ import type {
   SiteRemoveRequest
 } from '@stackmanage/core';
 
-export type OperationName = 'install' | 'start' | 'stop' | 'restart' | 'sitesApply' | 'sitesRemove';
+export type OperationName = 'install' | 'start' | 'stop' | 'restart' | 'sitesApply' | 'sitesRemove' | 'trustCertificate';
 export type NoticeLevel = 'info' | 'success' | 'error';
 
 export interface Notice {
@@ -42,7 +42,13 @@ const NOTICE_FOR: Record<string, string> = {
   'service.identityMismatch': 'caddy.service.identityMismatch',
   'service.startFailed': 'caddy.service.startFailed',
   'caddy.notInstalled': 'caddy.notInstalled',
-  'caddy.restartRequired': 'caddy.restartRequired'
+  'caddy.restartRequired': 'caddy.restartRequired',
+  'hosts.privilegeUnavailable': 'caddyHostsPrivilege',
+  'hosts.writeFailed': 'caddyHostsFailed',
+  'hosts.invalidEntries': 'sitesValidation',
+  'certificate.notGenerated': 'certificateNotGenerated',
+  'certificate.certutilMissing': 'certificateCertutilMissing',
+  'certificate.trustFailed': 'certificateTrustFailed'
 };
 
 /** Map a wire error to a stable message key; never surface raw text. */
@@ -65,6 +71,11 @@ function extractOperationResult(data: unknown): OperationResult | undefined {
   const nested = (data as { data?: unknown }).data;
   if (typeof nested !== 'object' || nested === null) return undefined;
   return 'items' in nested && 'status' in nested ? (nested as OperationResult) : undefined;
+}
+
+/** contextBridge structured-clones arguments, so Vue proxies must become plain JSON first. */
+function wireInput<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
 }
 
 export class CaddyController {
@@ -161,23 +172,23 @@ export class CaddyController {
   }
 
   install(request: InstallRequest): Promise<BridgeResponse> {
-    return this.run('install', request.operationId, () => this.tryBridge()?.install(request) ?? Promise.resolve(this.unavailable()));
+    return this.run('install', request.operationId, () => this.tryBridge()?.install(wireInput(request)) ?? Promise.resolve(this.unavailable()));
   }
 
   start(request: ServiceRequest): Promise<BridgeResponse> {
-    return this.run('start', request.operationId, () => this.tryBridge()?.start(request) ?? Promise.resolve(this.unavailable()));
+    return this.run('start', request.operationId, () => this.tryBridge()?.start(wireInput(request)) ?? Promise.resolve(this.unavailable()));
   }
 
   stop(request: ServiceRequest): Promise<BridgeResponse> {
-    return this.run('stop', request.operationId, () => this.tryBridge()?.stop(request) ?? Promise.resolve(this.unavailable()));
+    return this.run('stop', request.operationId, () => this.tryBridge()?.stop(wireInput(request)) ?? Promise.resolve(this.unavailable()));
   }
 
   restart(request: ServiceRequest): Promise<BridgeResponse> {
-    return this.run('restart', request.operationId, () => this.tryBridge()?.restart(request) ?? Promise.resolve(this.unavailable()));
+    return this.run('restart', request.operationId, () => this.tryBridge()?.restart(wireInput(request)) ?? Promise.resolve(this.unavailable()));
   }
 
   sitesApply(request: SitesApplyRequest): Promise<BridgeResponse> {
-    return this.run('sitesApply', request.operationId, () => this.tryBridge()?.sitesApply(request) ?? Promise.resolve(this.unavailable()));
+    return this.run('sitesApply', request.operationId, () => this.tryBridge()?.sitesApply(wireInput(request)) ?? Promise.resolve(this.unavailable()));
   }
 
   sitesList(): Promise<BridgeResponse> {
@@ -185,12 +196,20 @@ export class CaddyController {
   }
 
   sitesRemove(request: SiteRemoveRequest): Promise<BridgeResponse> {
-    return this.run('sitesRemove', request.operationId, () => this.tryBridge()?.sitesRemove(request) ?? Promise.resolve(this.unavailable()));
+    return this.run('sitesRemove', request.operationId, () => this.tryBridge()?.sitesRemove(wireInput(request)) ?? Promise.resolve(this.unavailable()));
+  }
+
+  certificateStatus(): Promise<BridgeResponse> {
+    return this.tryBridge()?.certificateStatus({}) ?? Promise.resolve(this.unavailable());
+  }
+
+  trustCertificate(operationId: string): Promise<BridgeResponse> {
+    return this.run('trustCertificate', operationId, () => this.tryBridge()?.trustCertificate(wireInput({ operationId })) ?? Promise.resolve(this.unavailable()));
   }
 
   /** Reads are not tracked as operations; they never touch the operation state. */
   status(request: InstanceRequest): Promise<BridgeResponse> {
-    return this.tryBridge()?.status(request) ?? Promise.resolve(this.unavailable());
+    return this.tryBridge()?.status(wireInput(request)) ?? Promise.resolve(this.unavailable());
   }
 
   listServices(): Promise<BridgeResponse> {
@@ -202,7 +221,7 @@ export class CaddyController {
   }
 
   logsTail(request: LogTailRequest): Promise<BridgeResponse> {
-    return this.tryBridge()?.logsTail(request) ?? Promise.resolve(this.unavailable());
+    return this.tryBridge()?.logsTail(wireInput(request)) ?? Promise.resolve(this.unavailable());
   }
 
   clearNotice(): void {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { BridgeResponse, Installation, ServiceState, Site, Snapshot } from '@stackmanage/core';
+import type { BridgeResponse, CertificateStatusView, Installation, ServiceState, Site, Snapshot } from '@stackmanage/core';
 import { caddyController } from '../caddy/controller';
 import StatusBadge from '../components/StatusBadge.vue';
 
@@ -21,7 +21,8 @@ const logTruncated = ref(false);
 const loading = ref(true);
 const loadErrorKey = ref<string | undefined>();
 const copied = ref(false);
-const siteForm = reactive({ hostname: 'app.localhost', port: 18081 });
+const siteForm = reactive({ hostname: 'app.localhost', port: 18081, tls: false });
+const certificate = ref<CertificateStatusView | undefined>();
 
 const supported = computed(() => {
   const platform = props.snapshot?.platform;
@@ -81,11 +82,12 @@ function resultError(response: BridgeResponse): string | undefined {
 
 async function refresh(): Promise<void> {
   loadErrorKey.value = undefined;
-  const [installationResponse, serviceResponse, siteResponse, logResponse] = await Promise.all([
+  const [installationResponse, serviceResponse, siteResponse, logResponse, certificateResponse] = await Promise.all([
     caddyController.listInstallations(),
     caddyController.status({ instanceId: INSTANCE_ID }),
     caddyController.sitesList(),
-    caddyController.logsTail({ instanceId: INSTANCE_ID, maxBytes: 65536 })
+    caddyController.logsTail({ instanceId: INSTANCE_ID, maxBytes: 65536 }),
+    caddyController.certificateStatus()
   ]);
   if (installationResponse.ok && installationResponse.data.method === 'installations.list') installations.value = installationResponse.data.data.installations;
   else loadErrorKey.value = resultError(installationResponse) ?? 'errorGeneric';
@@ -98,6 +100,7 @@ async function refresh(): Promise<void> {
     logText.value = logResponse.data.data.text;
     logTruncated.value = logResponse.data.data.truncated;
   }
+  if (certificateResponse.ok && certificateResponse.data.method === 'certificates.status') certificate.value = certificateResponse.data.data;
   loading.value = false;
 }
 
@@ -146,7 +149,7 @@ async function addSite(): Promise<void> {
     server: REF,
     root: newSiteRoot.value,
     port: siteForm.port,
-    tls: false
+    tls: siteForm.tls
   };
   await run(() => caddyController.sitesApply({ operationId: operationId(), sites: [...sites.value, site] }));
 }
@@ -154,6 +157,18 @@ async function addSite(): Promise<void> {
 async function removeSite(id: string): Promise<void> {
   await run(() => caddyController.sitesRemove({ operationId: operationId(), siteId: id }));
 }
+
+async function trustCertificate(): Promise<void> {
+  await run(() => caddyController.trustCertificate(operationId()));
+}
+
+const certificateLabel = computed(() => {
+  if (certificate.value === undefined) return t('certificateUnknown');
+  if (!certificate.value.exists) return t('certificateNotGenerated');
+  if (certificate.value.browserTrust === 'trusted') return t('certificateTrusted');
+  if (certificate.value.browserTrust === 'unsupported') return t('certificateUnsupported');
+  return t('certificateUntrusted');
+});
 
 async function copyText(value: string): Promise<void> {
   try {
@@ -298,6 +313,10 @@ onBeforeUnmount(() => {
               <label for="site-port">{{ t('sitesPort') }}</label>
               <input id="site-port" v-model.number="siteForm.port" class="input mono" type="number" min="1024" max="65535" required />
             </div>
+            <label class="row" style="gap: 8px; align-items: center; font-size: 0.82rem">
+              <input v-model="siteForm.tls" type="checkbox" />
+              <span>{{ t('sitesTls') }}</span>
+            </label>
             <div class="field" style="margin: 0">
               <label class="sr-only" for="add-site">&nbsp;</label>
               <button id="add-site" type="submit" class="btn" :disabled="busy || newSiteRoot === ''">{{ t('sitesAdd') }}</button>
@@ -323,7 +342,14 @@ onBeforeUnmount(() => {
             <dd>{{ service?.pid ?? '—' }}</dd>
             <dt>{{ t('checksum') }}</dt>
             <dd aria-label="verified">✓ SHA-256</dd>
+            <dt>{{ t('certificateTitle') }}</dt>
+            <dd>{{ certificateLabel }}</dd>
           </dl>
+          <div class="divider" />
+          <button type="button" class="btn btn-sm" :disabled="busy || certificate?.exists !== true || certificate?.browserTrust === 'trusted'" @click="trustCertificate">
+            {{ caddyController.state.operation === 'trustCertificate' ? t('certificateTrusting') : t('certificateTrust') }}
+          </button>
+          <p class="help" style="margin-top: 10px">{{ t('certificateHint') }}</p>
           <p class="help" style="margin-top: 18px">{{ t('evidenceNote') }}</p>
         </div>
       </section>

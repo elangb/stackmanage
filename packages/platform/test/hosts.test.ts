@@ -50,6 +50,19 @@ describe('LinuxHostsManager (temp/fake storage, never /etc/hosts)', () => {
     expect(fs.files.get(hostsPath)).toBe(original);
   });
 
+  it('clears the managed block without touching unrelated hosts lines', async () => {
+    const fs = new MemoryFileSystem({ [hostsPath]: base });
+    const instance = manager(fs, new FakeRunner());
+    expect((await instance.write([{ hostname: 'app.test', address: '127.0.0.1' }])).status).toBe('written');
+    const cleared = await instance.clear();
+    expect(cleared.status).toBe('written');
+    const content = fs.files.get(hostsPath) as string;
+    expect(content).toContain('127.0.0.1\tlocalhost');
+    expect(content).toContain('# untouched');
+    expect(content).not.toContain('app.test');
+    expect(await instance.inspect()).toEqual({ status: 'valid', entries: [] });
+  });
+
   it('rejects invalid and empty entry sets', async () => {
     const fs = new MemoryFileSystem({ [hostsPath]: base });
     expect((await manager(fs, new FakeRunner()).write([])).status).toBe('invalid');

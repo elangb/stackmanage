@@ -8,6 +8,7 @@ import {
   ServiceRequestSchema,
   SiteRemoveRequestSchema,
   SitesApplyRequestSchema,
+  TrustRequestSchema,
   WorkerResultResponseSchema
 } from './operations';
 
@@ -30,12 +31,14 @@ export const DESKTOP_METHODS = Object.freeze({
   logsTail: 'stackmanage:v1:logs-tail',
   sitesApply: 'stackmanage:v1:sites-apply',
   sitesList: 'stackmanage:v1:sites-list',
-  sitesRemove: 'stackmanage:v1:sites-remove'
+  sitesRemove: 'stackmanage:v1:sites-remove',
+  certificateStatus: 'stackmanage:v1:certificate-status',
+  trustCertificate: 'stackmanage:v1:certificate-trust'
 } as const);
 
 export type DesktopMethodName = keyof typeof DESKTOP_METHODS;
 export const DesktopMethodNameSchema = z.enum([
-  'install', 'start', 'stop', 'restart', 'status', 'listServices', 'listInstallations', 'logsTail', 'sitesApply', 'sitesList', 'sitesRemove'
+  'install', 'start', 'stop', 'restart', 'status', 'listServices', 'listInstallations', 'logsTail', 'sitesApply', 'sitesList', 'sitesRemove', 'certificateStatus', 'trustCertificate'
 ]);
 
 export const BridgeOkResponseSchema = z.object({ ok: z.literal(true), data: WorkerResultResponseSchema.shape.result }).strict();
@@ -58,7 +61,9 @@ export const BRIDGE_REQUEST_SCHEMAS = Object.freeze({
   logsTail: LogTailRequestSchema,
   sitesApply: SitesApplyRequestSchema,
   sitesList: z.object({}).strict(),
-  sitesRemove: SiteRemoveRequestSchema
+  sitesRemove: SiteRemoveRequestSchema,
+  certificateStatus: z.object({}).strict(),
+  trustCertificate: TrustRequestSchema
 });
 export type BridgeRequestFor<M extends DesktopMethodName> = z.infer<(typeof BRIDGE_REQUEST_SCHEMAS)[M]>;
 export type BridgeResultData = z.infer<typeof WorkerResultResponseSchema>['result'];
@@ -104,6 +109,8 @@ export interface DesktopBridgeV1 {
   sitesApply(request: BridgeRequestFor<'sitesApply'>): Promise<BridgeResponse>;
   sitesList(request: BridgeRequestFor<'sitesList'>): Promise<BridgeResponse>;
   sitesRemove(request: BridgeRequestFor<'sitesRemove'>): Promise<BridgeResponse>;
+  certificateStatus(request: BridgeRequestFor<'certificateStatus'>): Promise<BridgeResponse>;
+  trustCertificate(request: BridgeRequestFor<'trustCertificate'>): Promise<BridgeResponse>;
   /** Progress for one operation; the caller filters stale sequences and mismatched operation IDs. */
   onOperationEvent(listener: (payload: BridgeEventPayload) => void): EventSubscriptionHandle;
 }
