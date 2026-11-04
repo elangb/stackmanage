@@ -15,7 +15,7 @@ LEGAL-LICENSE, branch `agent/legal-license`. Baseline `d196a79` (menyatukan ARCH
 ## YANG SELESAI
 
 1. Memverifikasi lisensi upstream dari teks `LICENSE` aktual di master dan tag `v4.20.2` (commit `7507ccd…`), keduanya **BSD 3-Clause** dan identik byte-per-byte (SHA-256 `01d77fe9…`). Ringkasan “MIT” di `AGENTS.md` legacy dikoreksi sebagai tidak akurat.
-2. Menetapkan kebijakan implementasi bersih: tidak menyalin kode/aset/logo/teks/sistem lisensi FlyEnv; atribusi referensi tetap dicantumkan.
+2. Menetapkan kebijakan implementasi bersih: tidak menyalin kode/aset/logo/teks/sistem lisensi proyek referensi; atribusi lisensi tetap dicantumkan di `THIRD_PARTY_NOTICES.md`.
 3. Membuat katalog 71 entri vendor dengan status `version-dependent`, `terms-review`, atau `identity-unknown`. Tidak ada persetujuan menyeluruh untuk vendor proprietary/source-available.
 4. Menyusun `THIRD_PARTY_NOTICES.md`, analisis lisensi, inventaris 31 dependensi produksi, dan SBOM CycloneDX 1.7 (244 komponen, 254 relasi).
 5. Menambahkan pemeriksa otomatis `pnpm legal:verify` (548 assertion): digest lisensi, integritas katalog, lisensi produksi permisif, struktur SBOM tanpa path absolut, tidak ada aset legacy byte-identik, tidak ada merek legacy di kode aplikasi, dan notice wajib.

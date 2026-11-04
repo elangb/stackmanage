@@ -4,7 +4,7 @@ Status: accepted for Phase 0. Date: 2026-11-04.
 
 ## Context
 
-The clean baseline is FlyEnv `7507ccd`. User requires preserving legacy, an original implementation, separate agent branches, a runnable foundation, no new module Pinia, and evidence-based acceptance. The official feature page and GitHub README are scope references, not implementation or asset sources.
+The clean baseline is the legacy project at commit `7507ccd`. User requires preserving legacy, an original implementation, separate agent branches, a runnable foundation, no new module Pinia, and evidence-based acceptance. The official feature page and GitHub README are scope references, not implementation or asset sources.
 
 ## Decisions
 

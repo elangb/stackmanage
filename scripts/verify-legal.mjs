@@ -20,6 +20,7 @@ const CATALOG = 'docs/legal/vendor-catalog.tsv';
 const PRODUCTION = 'docs/legal/production-dependencies.tsv';
 const SBOM = 'docs/legal/sbom.cdx.json';
 const ALLOWED_STATES = new Set(['version-dependent', 'terms-review', 'identity-unknown']);
+const LEGACY = /(flyenv|macphpstudy|xpf0000)/i;
 
 // 1. Upstream reference licence is the actual pinned text, not a misleading summary.
 const licenceHash = createHash('sha256').update(readFileSync(join(root, '..', 'LICENSE'))).digest('hex');
@@ -61,15 +62,15 @@ check('SBOM components', Array.isArray(sbom.components) && sbom.components.lengt
 check('SBOM dependency graph', Object.keys(sbom.dependencies ?? {}).length > 0);
 const serialised = JSON.stringify(sbom);
 check('SBOM has no local absolute path', !/\/(?:home|tmp|Users)\//.test(serialised));
-check('SBOM has no legacy project path', !/FlyEnv/i.test(serialised));
+check('SBOM has no legacy project path', !LEGACY.test(serialised));
 for (const file of ['pnpm-tree.raw.json', 'pnpm-licenses.raw.json', 'production-dependencies.tsv']) {
   const content = read(`docs/legal/${file}`);
   check(`${file} has no local absolute path`, !/\/(?:home|tmp|Users)\//.test(content));
 }
 
-// 5. Shipped application code contains no FlyEnv branding or byte-identical assets.
+// 5. Shipped application code contains no legacy branding or byte-identical assets.
 const assetPattern = /\.(png|jpe?g|webp|gif|ico|icns|svg)$/i;
-const forbidden = /(flyenv|macphpstudy|xpf0000)/i;
+const forbidden = LEGACY;
 const scanDirs = ['apps', 'packages'];
 const legacyDirs = ['build', 'public', 'static', 'src'];
 const assets = [];
@@ -106,7 +107,7 @@ check('no legacy branding in shipped code', brandHits.length === 0, brandHits.jo
 
 // 6. Notices exist and name the reference plus unresolved vendor policy.
 const notices = read('THIRD_PARTY_NOTICES.md');
-check('notices include reference BSD text', /BSD 3-Clause License/.test(notices) && /FlyEnv/.test(notices));
+check('notices include reference BSD text', /BSD 3-Clause License/.test(notices) && /Pengfei Xu/.test(notices));
 check('notices state no redistribution of proprietary vendors', /Do not bundle/i.test(notices));
 check('notices require unresolved vendors to block release', /identity-unknown|terms-review/.test(notices));
 

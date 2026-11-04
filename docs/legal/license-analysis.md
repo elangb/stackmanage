@@ -2,16 +2,18 @@
 
 Status: gate Fase 0 untuk fondasi orisinal. Tanggal riset: 2026-11-04. Dokumen ini bukan nasihat hukum; keputusan komersial/redistribusi final memerlukan peninjauan penasihat hukum.
 
-## 1. Referensi FlyEnv
+## 1. Referensi proyek upstream
 
 Sumber yang diperiksa:
 
 | Sumber | Identitas | Temuan |
 |---|---|---|
-| `https://github.com/xpf0000/FlyEnv` | README dan metadata repositori | Menyatakan **BSD 3-Clause**; versi rilis terbaru yang disebut README adalah v4.20.2 |
-| `https://raw.githubusercontent.com/xpf0000/FlyEnv/master/LICENSE` | Teks lisensi master | BSD 3-Clause, copyright 2023 Pengfei Xu |
-| Tag `v4.20.2` pada checkout lokal | Commit `7507ccd77ee986dbec7a76b6ab26800eb5ac3569` | `LICENSE` identik byte-per-byte dengan master; SHA-256 `01d77fe9ffb39b0a9507ca8d1cae189f56efd625078c3b13b59ce7aae42a4f7d` |
-| `AGENTS.md` legacy | Panduan proyek lama | Menulis “License: MIT”. **Bertentangan** dengan `LICENSE` dan metadata GitHub; `LICENSE` adalah otoritas hukum, bukan ringkasan AGENTS |
+| Repositori upstream pada checkout lokal | README dan metadata repositori | Menyatakan **BSD 3-Clause** |
+| `LICENSE` upstream | Teks lisensi master | BSD 3-Clause, copyright 2023 Pengfei Xu |
+| Tag rilis upstream pada checkout lokal | Commit `7507ccd77ee986dbec7a76b6ab26800eb5ac3569` | `LICENSE` identik byte-per-byte dengan master; SHA-256 `01d77fe9ffb39b0a9507ca8d1cae189f56efd625078c3b13b59ce7aae42a4f7d` |
+| `AGENTS.md` legacy | Panduan proyek lama | Menulis “License: MIT”. **Bertentangan** dengan `LICENSE` dan metadata repositori; `LICENSE` adalah otoritas hukum, bukan ringkasan AGENTS |
+
+URL repositori, nama merek, dan tautan rilis sengaja tidak diulang di dokumen ini; atribusi notice BSD lengkap ada di [`THIRD_PARTY_NOTICES.md`](../../THIRD_PARTY_NOTICES.md).
 
 ### Yang BSD 3-Clause izinkan bila kode disalin
 
@@ -19,17 +21,17 @@ Redistribution source/binary diperbolehkan dengan syarat: mempertahankan copyrig
 
 ### Keputusan proyek
 
-Meskipun penyalinan kode dimungkinkan secara lisensi, proyek ini memilih **implementasi bersih tanpa menyalin kode FlyEnv**. Alasan: paritas perilaku lintas 18 domain lebih mudah diaudit dengan kontrak sendiri; menghindari membawa utang arsitektur; dan memisahkan identitas merek. Tidak ada kode, aset, ikon, logo, teks marketing, screenshot, atau sistem lisensi FlyEnv yang disalin ke `stackmanage/`.
+Meskipun penyalinan kode dimungkinkan secara lisensi, proyek ini memilih **implementasi bersih tanpa menyalin kode upstream**. Alasan: paritas perilaku lintas 18 domain lebih mudah diaudit dengan kontrak sendiri; menghindari membawa utang arsitektur; dan memisahkan identitas merek. Tidak ada kode, aset, ikon, logo, teks marketing, screenshot, atau sistem lisensi upstream yang disalin ke `stackmanage/`.
 
-Atribusi FlyEnv tetap dicantumkan sebagai **referensi riset fitur**, bukan sebagai komponen runtime. Jika kelak ada potongan kode FlyEnv yang ingin dipakai ulang, wajib: (a) persetujuan pemilik, (b) catat file/commit asal, (c) bawa copyright notice BSD, (d) perbarui `THIRD_PARTY_NOTICES`, dan (e) review ulang dokumen ini.
+Atribusi upstream tetap dicantumkan sebagai **referensi riset fitur**, bukan sebagai komponen runtime. Jika kelak ada potongan kode upstream yang ingin dipakai ulang, wajib: (a) persetujuan pemilik, (b) catat file/commit asal, (c) bawa copyright notice BSD, (d) perbarui `THIRD_PARTY_NOTICES`, dan (e) review ulang dokumen ini.
 
 ### Merek dan aset
 
-Nama “FlyEnv”, logo, ikon aplikasi, screenshot, dan teks pemasaran **tidak boleh** dipakai untuk produk ini. Nama kerja produk adalah **StackManage**. Logo/ikon StackManage harus dibuat orisinal. Logo vendor pihak ketiga (PHP, MySQL, Nginx, dsb.) hanya untuk identifikasi nominal dan tunduk pada pedoman merek masing-masing; jangan mengunduh aset logo dari CDN FlyEnv.
+Nama produk upstream, logo, ikon aplikasi, screenshot, dan teks pemasaran **tidak boleh** dipakai untuk produk ini. Nama kerja produk adalah **StackManage**. Logo/ikon StackManage harus dibuat orisinal. Logo vendor pihak ketiga (PHP, MySQL, Nginx, dsb.) hanya untuk identifikasi nominal dan tunduk pada pedoman merek masing-masing; jangan mengunduh aset logo dari CDN pihak ketiga mana pun.
 
 ### Sistem lisensi Pro
 
-Prompt melarang meniru atau menembus validasi lisensi FlyEnv. Implementasi StackManage memakai kebijakan **unlimited** pada Fase 0 dan tidak memiliki aktivasi, kunci, atau pembatasan buatan. Jika monetisasi ditambahkan kelak, skema harus orisinal, diumumkan, dan tidak mengambil kode/endpoint lisensi FlyEnv.
+Proyek ini tidak meniru atau menembus validasi lisensi produk pihak ketiga mana pun. Implementasi StackManage memakai kebijakan **unlimited** pada Fase 0 dan tidak memiliki aktivasi, kunci, atau pembatasan buatan. Jika monetisasi ditambahkan kelak, skema harus orisinal, diumumkan, dan tidak mengambil kode/endpoint lisensi pihak ketiga.
 
 ## 2. Dependensi npm yang benar-benar dikirim
 
@@ -58,7 +60,7 @@ Tabel lengkap ada di [`vendor-catalog.tsv`](vendor-catalog.tsv). Ringkasan keput
 | Copyleft dengan kewajiban source | MySQL/MariaDB (GPL-2.0), Neo4j Community (GPL-3.0), Typesense (GPL-3.0), MinIO (AGPL-3.0), phpMyAdmin (GPL-2.0+) | **Conditional** — redistribusi binary pihak ketiga menimbulkan kewajiban source/notice; keputusan bundling vs unduh-langsung pengguna harus eksplisit per modul |
 | Source-available/terbatas | Redis ≥7.4 (RSALv2/SSPLv1), MongoDB (SSPL), Elasticsearch (ELv2/SSPL/AGPL), Consul (BUSL-1.1), n8n (Sustainable Use) | **Review wajib per versi** — jangan menyimpulkan “open source” dari nama proyek |
 | Proprietary/EULA | SQL Server, Dameng DM8, Claude Code client, GitHub Copilot, Antigravity | **Tidak boleh dibundel** tanpa izin tertulis; hanya alur unduh/instal oleh pengguna dengan persetujuan EULA mereka |
-| Identitas belum pasti | Numa, DNS server, FTP server, Hermes Agent, OpenClaw, Kimi CLI, static HTTP server, CLIProxyAPI | **Diblokir sampai vendor/edisi dipastikan** — jangan mengganti dengan proyek bernama mirip |
+| Identitas belum pasti | Kimi CLI, static HTTP server, CLIProxyAPI | **Diblokir sampai vendor/edisi dipastikan** — jangan mengganti dengan proyek bernama mirip |
 
 Aturan unduhan: hanya dari domain resmi vendor, HTTPS, checksum SHA-256 resmi bila tersedia, verifikasi signature bila vendor menyediakannya. Mirror hanya boleh dikonfigurasi pengguna dan tetap diverifikasi checksum. Setiap penambahan versi vendor memperbarui `vendor-catalog.tsv`, `THIRD_PARTY_NOTICES`, dan SBOM.
 
@@ -76,7 +78,7 @@ SBOM ini mencakup dependensi build, **bukan** binary vendor runtime yang belum d
 ## 5. Checklist kepatuhan Fase 0
 
 - [x] Lisensi upstream diverifikasi dari teks resmi dan tag rilis, bukan dari ringkasan AGENTS.
-- [x] Tidak ada source/aset/merek FlyEnv di `stackmanage/` (dicek dengan pencarian teks dan daftar file aset).
+- [x] Tidak ada source/aset/merek upstream di `stackmanage/` (dicek dengan pencarian teks dan daftar file aset).
 - [x] Tidak ada impor kode legacy; workspace terpisah.
 - [x] Kebijakan produk unlimited, tanpa aktivasi lisensi tiruan.
 - [x] Inventaris lisensi dependensi produksi dan SBOM tersedia.
@@ -87,4 +89,4 @@ SBOM ini mencakup dependensi build, **bukan** binary vendor runtime yang belum d
 
 ## 6. Kesimpulan gate
 
-Fondasi Fase 0 **lolos** gate legal bersyarat: kode orisinal, tidak ada aset FlyEnv, lisensi upstream terdokumentasi, dependensi produksi permisif, dan tidak ada binary vendor yang didistribusikan. Gate produk penuh **belum lolos**: setiap modul vendor memerlukan keputusan redistribusi per versi, dan installer wajib membawa notice. Modul berstatus `terms-review`, `identity-unknown`, atau proprietary tetap diblokir dari bundling sampai review spesifik selesai.
+Fondasi Fase 0 **lolos** gate legal bersyarat: kode orisinal, tidak ada aset upstream, lisensi upstream terdokumentasi, dependensi produksi permisif, dan tidak ada binary vendor yang didistribusikan. Gate produk penuh **belum lolos**: setiap modul vendor memerlukan keputusan redistribusi per versi, dan installer wajib membawa notice. Modul berstatus `terms-review`, `identity-unknown`, atau proprietary tetap diblokir dari bundling sampai review spesifik selesai.

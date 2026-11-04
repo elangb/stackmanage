@@ -1,11 +1,10 @@
 # Full requested scope and evidence matrix
 
-Status baseline: **except for the Linux x64 Caddy vertical slice recorded below, every product feature is unverified and unimplemented in StackManage**. A vendor appearing in official FlyEnv material is scope evidence only, never StackManage execution evidence or vendor availability. Windows/Linux/architecture availability is unknown unless a later row links an actual vendor artifact and execution report. Phase 0 bootstrap is tracked separately in `reports/phase0.md`.
+Status baseline: **except for the Linux x64 Caddy vertical slice recorded below, every product feature is unverified and unimplemented in StackManage**. A vendor appearing in the legacy reference material is scope evidence only, never StackManage execution evidence or vendor availability. Windows/Linux/architecture availability is unknown unless a later row links an actual vendor artifact and execution report. Phase 0 bootstrap is tracked separately in `reports/phase0.md`.
 
 Evidence sources consulted 2026-11-04:
 
-- [Official Indonesian features](https://flyenv.com/id/features): runtime, web, database, infrastructure, workflow, AI and plugin categories.
-- [Official GitHub README](https://github.com/xpf0000/FlyEnv/blob/master/README.md): native stack, project workflows, AI/MCP, downloadable platforms.
+- Legacy reference feature inventory at baseline `7507ccd`: runtime, web, database, infrastructure, workflow, AI and plugin categories; native stack, project workflows, AI/MCP and downloadable platforms. See [`adr/0001-foundation.md`](adr/0001-foundation.md) for the provenance record.
 - Local baseline `7507ccd`, `LICENSE` heading: BSD 3-Clause, despite stale MIT wording in legacy `AGENTS.md`. No legal conclusion is made here; legal agent owns review. No source/assets were copied.
 
 **U** = not implemented, not tested, vendor/platform availability unverified. Each semicolon-separated feature is independently U; completion of one does not establish siblings. Owners below are future implementation responsibilities.

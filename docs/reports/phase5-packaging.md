@@ -19,7 +19,7 @@ PACKAGING, branch `agent/packaging`, baseline `3632737`.
   - appId, productName, kategori, dependency Debian;
   - memuat `dist` main/preload/worker/renderer;
   - menyertakan `THIRD_PARTY_NOTICES.md`.
-- Ikon aplikasi 512×512 orisinal (bukan aset FlyEnv).
+- Ikon aplikasi 512×512 orisinal (bukan aset legacy).
 - Script `dist:linux:deb:x64`, `dist:linux:deb:arm64`, `dist:linux:rpm`.
 - Paket x64 diekstrak dan binary terpaket menjalankan smoke test penuh.
 - `release/` diabaikan dari git agar artefak besar tidak masuk repositori.

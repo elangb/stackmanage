@@ -2,7 +2,7 @@
 
 ## Scope and authorization
 
-Original implementation lives exclusively in `stackmanage/`; the existing FlyEnv tree is preserved. User explicitly authorized a separate pnpm/Turbo workspace and agent branch, tests and reports. No module-specific exceptions to ownership rules are authorized. No legacy code/assets are imported. Existing legacy `ModuleInstalledItem` is not available in this independent workspace: future adapters must share the new `ServiceManager` lifecycle rather than copy legacy implementations. No service adapters or persistent module data are implemented in Phase 0.
+Original implementation lives exclusively in `stackmanage/`; the existing legacy tree is preserved. User explicitly authorized a separate pnpm/Turbo workspace and agent branch, tests and reports. No module-specific exceptions to ownership rules are authorized. No legacy code/assets are imported. Existing legacy `ModuleInstalledItem` is not available in this independent workspace: future adapters must share the new `ServiceManager` lifecycle rather than copy legacy implementations. No service adapters or persistent module data are implemented in Phase 0.
 
 Checklist: no Pinia; no `config.setup`; future module persistence uses module-scoped `StorageGetAsync`/`StorageSetAsync`; module-only policies stay in module directories. `reactiveBind` binds singleton operation state; component state contains only locale and presentation. Public contracts stay module-agnostic.
 

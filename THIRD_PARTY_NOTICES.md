@@ -4,9 +4,9 @@ This file records third-party components that StackManage uses or may download. 
 
 ## A. Reference project (not distributed)
 
-**FlyEnv** — <https://github.com/xpf0000/FlyEnv>, BSD 3-Clause, Copyright (c) 2023, 徐鹏飞 (Pengfei Xu).
+**Legacy upstream project** — BSD 3-Clause, Copyright (c) 2023, 徐鹏飞 (Pengfei Xu).
 
-FlyEnv was used only as a behavioural/feature reference during requirements research. No FlyEnv source code, assets, icons, marketing text, screenshots, or licensing system are included in StackManage. The BSD notice is reproduced here for transparency:
+The upstream project was used only as a behavioural/feature reference during requirements research. No upstream source code, assets, icons, marketing text, screenshots, or licensing system are included in StackManage. The BSD notice is reproduced here for transparency:
 
 > BSD 3-Clause License
 >
@@ -54,7 +54,7 @@ Each entry below is **planned**; none is downloaded or redistributed in Phase 0.
 | RabbitMQ | MPL-2.0 | File-level source obligations; Erlang runtime separate |
 | Elasticsearch | ELv2/SSPL/AGPLv3 depending on version | Not OSI for current default distribution; review before bundling |
 | Meilisearch, Typesense, ZincSearch | MIT / GPL-3.0 / Apache-2.0 candidate | Pin project identity and release |
-| Numa, DNS server, FTP server, static HTTP server | UNKNOWN | Blocked until vendor identity confirmed |
+| Static HTTP server | UNKNOWN | Blocked until vendor identity confirmed |
 | MinIO, RustFS | AGPL-3.0 / Apache-2.0 candidate | Pin release; AGPL network obligations |
 | Podman | Apache-2.0 | Windows machine/VM images separately licensed |
 | Cloudflared | Apache-2.0 client | Cloudflare service terms separate |
@@ -65,7 +65,7 @@ Each entry below is **planned**; none is downloaded or redistributed in Phase 0.
 
 ## D. Assets and identity
 
-No FlyEnv logo, icon, screenshot or marketing text is used. The StackManage name and mark are project-original. Vendor product names and logos remain trademarks of their owners and are used only for identification.
+No upstream-brand logo, icon, screenshot or marketing text is used. The StackManage name and mark are project-original. Vendor product names and logos remain trademarks of their owners and are used only for identification.
 
 ## E. Updates
 

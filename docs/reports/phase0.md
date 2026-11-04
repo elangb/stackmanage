@@ -2,7 +2,7 @@
 
 ## AGEN
 
-ARCHITECT, branch `agent/architect`, worktree `/tmp/opencode/stackmanage-architect`. Baseline legacy `7507ccd`. Seluruh perubahan terlacak berada di `stackmanage/`; tidak ada kode atau aset FlyEnv yang disalin.
+ARCHITECT, branch `agent/architect`, worktree `/tmp/opencode/stackmanage-architect`. Baseline legacy `7507ccd`. Seluruh perubahan terlacak berada di `stackmanage/`; tidak ada kode atau aset legacy yang disalin.
 
 ## FASE
 
