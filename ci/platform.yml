@@ -1,0 +1,58 @@
+name: StackManage platform package
+
+# Inactive template, same handoff rule as checks.yml: GitHub only runs
+# repository-root .github/workflows, so activation needs explicit approval
+# outside this branch. No CI run is claimed by this file.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'stackmanage/packages/platform/**'
+      - 'stackmanage/packages/core/**'
+      - 'stackmanage/pnpm-lock.yaml'
+      - 'stackmanage/ci/platform.yml'
+permissions:
+  contents: read
+jobs:
+  platform:
+    strategy:
+      fail-fast: false
+      matrix:
+        # The Linux job executes the real unprivileged evidence suite.
+        # The Windows job typechecks and runs planning-only tests; it does NOT
+        # write hosts, touch the trust store, or claim privileged verification.
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: stackmanage
+    env:
+      TURBO_TELEMETRY_DISABLED: '1'
+      DO_NOT_TRACK: '1'
+      STACKMANAGE_DATA_HOME: ${{ runner.temp }}/stackmanage-data
+      STACKMANAGE_CACHE_HOME: ${{ runner.temp }}/stackmanage-cache
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.32.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+          cache-dependency-path: stackmanage/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - name: Typecheck platform package
+        run: pnpm --filter @stackmanage/platform typecheck
+      - name: Lint platform package
+        run: pnpm exec eslint packages/platform --max-warnings 0
+      - name: Unit and behavioural tests
+        run: pnpm exec vitest run packages/platform
+      - name: Platform package build
+        run: pnpm --filter @stackmanage/platform build
+      - name: Assert no privilege escalation in the test environment
+        if: runner.os == 'Linux'
+        run: |
+          # Tests must never need root. Failing fast here keeps a future
+          # regression from silently depending on elevated CI.
+          test "$(id -u)" -ne 0
