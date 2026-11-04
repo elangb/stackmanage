@@ -1,2 +1,7 @@
-import type { DesktopBridge } from '@stackmanage/core';
-declare global { interface Window { readonly stackmanage: DesktopBridge } }
+import type { DesktopBridgeV1 } from '@stackmanage/core';
+
+declare global {
+  interface Window {
+    readonly stackmanage: DesktopBridgeV1;
+  }
+}

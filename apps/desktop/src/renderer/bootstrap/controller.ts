@@ -1,10 +1,10 @@
 import { reactiveBind } from '@stackmanage/ui';
-import type { DesktopBridge, Snapshot } from '@stackmanage/core';
+import type { DesktopBridgeV1, Snapshot } from '@stackmanage/core';
 
 export class BootstrapController {
   readonly state = reactiveBind<{ status: 'idle' | 'pending' | 'ready' | 'failed'; snapshot: Snapshot | undefined }>({ status: 'idle', snapshot: undefined });
   private inFlight: Promise<void> | undefined;
-  constructor(private readonly bridge: () => DesktopBridge) {}
+  constructor(private readonly bridge: () => DesktopBridgeV1) {}
 
   refresh(): Promise<void> {
     if (this.inFlight) return this.inFlight;
