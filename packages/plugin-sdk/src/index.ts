@@ -1,5 +1,5 @@
-export { PluginManifestSchema, API_VERSION } from '@stackmanage/core';
-export type { PluginManifest, PluginHost, ModuleDefinition, OperationContext, OperationResult } from '@stackmanage/core';
+export { API_VERSION } from '@stackmanage/core';
+export type { ModuleDefinition, OperationContext, OperationResult, PluginHost } from '@stackmanage/core';
 
-/** Host runtime/isolation implementation is a later phase. */
-export const pluginRuntimeStatus = 'not-implemented' as const;
+export * from './manifest';
+export * from './protocol';

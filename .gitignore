@@ -4,3 +4,4 @@ dist/
 coverage/
 *.log
 release/
+.plugin-keys/
