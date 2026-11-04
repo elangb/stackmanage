@@ -128,3 +128,29 @@ cause a retry or a write. A missing Caddy/Nginx/Node root only affects that modu
 No mutation exists to partially complete, so no mutation replay path is introduced.
 Unknown tool names and invalid arguments are rejected by the protocol/schema before
 any read. The future authenticated mutation bridge is out of scope.
+
+## Phase 9 local PluginHost operation contract
+
+Authorization: user authorized a Plugin SDK and a minimal local PluginHost backend on a
+separate `agent/plugin` branch. No default module constraint is relaxed: there is no
+Pinia store, no `config.setup`, no renderer IPC and no service lifecycle change. Installed
+metadata is module-owned JSON under the managed plugin root. Caddy, Node, Nginx, Redis and
+the read-only MCP server are unchanged.
+
+| Operation/state | Owner / lifetime | Start / intermediate / terminal | Duplicate / cleanup / service interaction | Verification |
+|---|---|---|---|---|
+| Registry read | PluginHost call; short-lived | read + strict schema / signature verification / loaded entries or fixed error | No cache mutation; duplicate IDs and unsigned entries fail before package I/O | schema, duplicate, tamper and unknown-key tests |
+| Install | PluginHost install call | registry/package/manifest/signature checks / extract to staging / one terminal `OperationResult` | Duplicate id rejected; staging removed in `finally`; atomic rename; promoted directory removed if state write fails; no service starts | digest/signature/path/lifecycle tests |
+| Enable | PluginHost enable call | manifest revalidation / spawn + handshake / one terminal result | Idempotent while running; state marked enabled only after handshake; state-write failure stops the child; one child per plugin | lifecycle, handshake-timeout and state tests |
+| Disable/shutdown | PluginHost disable or shutdown | stop RPC / SIGTERM/SIGKILL grace / one terminal result | Disable clears the runtime and records disabled; shutdown stops children without rewriting enabled records; failed state write is a partial warning after the process stopped | lifecycle and crash tests |
+| Remove | PluginHost remove call | refuse running / rename to trash / state update / cleanup | State failure restores the directory; cleanup failure after state removal is a warning; no installed record survives a successful remove | remove, running refusal and path-guard tests |
+| Child probe | Enabled runtime; child lifetime | bounded JSON-RPC / request timeout / typed result or fixed error | Only `plugin.ping`/`plugin.status`; oversized/uncorrelated messages fail the runtime; child exit rejects only that plugin's pending requests; no automatic restart | real child ping/status, timeout, oversized result, crash isolation and output-cap tests |
+| Managed metadata | Plugin root JSON | read / schema validation / atomic write | Never shared config; corrupt state is an explicit I/O failure rather than silent loss | persistence test and schema |
+
+Failure boundaries: package/manifest digests, signatures, pinned keys and managed-path
+checks are required for install; any failure aborts promotion and leaves existing state
+untouched. Staging cleanup is supplementary after a required failure. Enable's handshake
+is required; a failed handshake kills only that child. A disable state-write failure does
+not replay the stop. Remove restores the directory when the required state write fails;
+trash deletion after the state update is supplementary. Child stdout/stderr and RPC
+failures are isolated per plugin. The runtime is explicitly not an OS sandbox.

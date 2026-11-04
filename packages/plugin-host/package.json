@@ -1,0 +1,21 @@
+{
+  "name": "@stackmanage/plugin-host",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local PluginHost backend: manifest verification, signed package installation and one child process per enabled plugin.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@stackmanage/core": "workspace:*",
+    "@stackmanage/plugin-sdk": "workspace:*",
+    "tar": "7.5.22",
+    "zod": "4.6.7"
+  }
+}

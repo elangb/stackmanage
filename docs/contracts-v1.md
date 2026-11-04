@@ -147,3 +147,29 @@ no mutation tool.
 Tool names in this phase differ from the planned inventory above (`services.inspect`,
 `logs.read`, `configs.read`). The v1 schema and all existing worker/bridge channels are
 unchanged; reconciling the names requires a later additive version, not a silent rename.
+
+## Phase 9 additions (local Plugin SDK and PluginHost)
+
+This phase adds two workspace packages and **no** worker, preload, renderer, MCP or bridge
+channel. The frozen core `PluginManifestSchema` and `PluginHost` interface remain
+unchanged. `@stackmanage/plugin-sdk` defines an additive, richer package manifest; the
+local host backend lives in `@stackmanage/plugin-host`.
+
+| Surface | Contract |
+|---|---|
+| Manifest | Strict Zod. `apiVersion` exactly `1`; id syntax; strict semver; relative `.mjs` entry with no traversal/absolute/drive/backslash; explicit unique capabilities; inclusive host compatibility window; optional Ed25519 signature metadata |
+| Capabilities | Only `host.ping` and `host.status` are supported. `fs.read`, `fs.write`, `network.connect` and `process.spawn` are known declarations but are rejected by the host; nothing is granted by default |
+| Package | `tar.gz` with root `plugin.json`, entry `.mjs` and optional assets. The registry pins the package SHA-256 and the exact `plugin.json` SHA-256; extraction rejects absolute/traversal/link/special entries and enforces size bounds |
+| Signature | Base64 detached Ed25519 `plugin.sig` over the exact `plugin.json` bytes; public keys are pinned by `keyId`; unsigned manifests/registry entries are rejected when signature policy requires them |
+| Registry | Local JSON index with strict entries and unique IDs. Entry signature covers canonical JSON (sorted keys) with `signature` removed; package paths stay inside the registry directory |
+| Installation | Managed per-user plugin root; staging extraction, atomic rename promotion, rollback on state failure, duplicate-ID rejection, state JSON under the plugin root (never shared config) |
+| Lifecycle | `install`, `enable`, `disable`, `remove`, `shutdown` without restarting the host process. The state record is marked enabled only after a successful child handshake |
+| Runtime | One `child_process.fork` per enabled plugin, argument array, small environment allowlist, cwd inside the installed plugin directory, bounded JSON-RPC, handshake/request/heartbeat timeouts, capped stdout/stderr, crash isolation |
+| Host API | Only `plugin.ping`, `plugin.status` and host-initiated `plugin.shutdown`. No generic invoke/exec, filesystem, network, shell or exec bridge |
+| Isolation claim | A Node child is **not** an OS sandbox. The plugin retains the same OS user privileges; capability denial is a host contract, not OS containment |
+| UI/market | Not implemented. No market UI, remote registry transport, discovery, approvals or MCP plugin mutations |
+
+Phase 9 evidence is Linux x64 unit/integration tests only. Windows/macOS execution,
+plugin updates, multi-version installs, key rotation/revocation and real OS containment
+remain unimplemented.
+
