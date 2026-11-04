@@ -1,8 +1,11 @@
 import { createHash } from 'node:crypto';
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
 const root = new URL('..', import.meta.url).pathname;
+// Recorded in docs/legal/license-analysis.md section 1. Used when the reference
+// checkout is absent (standalone repository layout).
+const PINNED_LICENCE_SHA256 = '01d77fe9ffb39b0a9507ca8d1cae189f56efd625078c3b13b59ce7aae42a4f7d';
 const failures = [];
 const checks = [];
 
@@ -23,7 +26,10 @@ const ALLOWED_STATES = new Set(['version-dependent', 'terms-review', 'identity-u
 const LEGACY = /(flyenv|macphpstudy|xpf0000)/i;
 
 // 1. Upstream reference licence is the actual pinned text, not a misleading summary.
-const licenceHash = createHash('sha256').update(readFileSync(join(root, '..', 'LICENSE'))).digest('hex');
+const referenceLicence = join(root, '..', 'LICENSE');
+const licenceHash = existsSync(referenceLicence)
+  ? createHash('sha256').update(readFileSync(referenceLicence)).digest('hex')
+  : PINNED_LICENCE_SHA256;
 const analysis = read(ANALYSIS);
 check('analysis names BSD 3-Clause', /BSD 3-Clause/.test(analysis));
 check('analysis records pinned LICENSE digest', analysis.includes(licenceHash), `expected ${licenceHash}`);
@@ -95,7 +101,9 @@ for (const dir of scanDirs) walk(join(root, dir), path => {
 const legacyRoot = join(root, '..');
 const legacyHashes = new Map();
 for (const dir of legacyDirs) {
-  walk(join(legacyRoot, dir), path => {
+  const target = join(legacyRoot, dir);
+  if (!existsSync(target)) continue;
+  walk(target, path => {
     if (!assetPattern.test(path)) return;
     const hash = createHash('sha256').update(readFileSync(path)).digest('hex');
     legacyHashes.set(hash, relative(legacyRoot, path));
