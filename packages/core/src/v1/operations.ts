@@ -39,6 +39,88 @@ export const InstallRequestSchema = z
   .strict();
 export type InstallRequest = z.infer<typeof InstallRequestSchema>;
 
+/**
+ * Additive runtime surface (Phase 3). Runtime ownership stays in the worker: the
+ * renderer names a module and pinned version, never an archive URL, digest or
+ * destination path. `runtime.install` is the same mutation shape as `install`,
+ * but it is a separate channel so a runtime never gains service lifecycle powers.
+ */
+export const RuntimeModuleRequestSchema = z.object({ moduleId: IdSchema }).strict();
+export type RuntimeModuleRequest = z.infer<typeof RuntimeModuleRequestSchema>;
+
+export const RuntimeInstallRequestSchema = InstallRequestSchema;
+export type RuntimeInstallRequest = z.infer<typeof RuntimeInstallRequestSchema>;
+
+export const RuntimeUninstallRequestSchema = z
+  .object({ operationId: OperationRequestIdSchema, installationId: IdSchema })
+  .strict();
+export type RuntimeUninstallRequest = z.infer<typeof RuntimeUninstallRequestSchema>;
+
+/** A pinned artifact, not a claim that it ran. `tested` is execution evidence only. */
+export const RuntimeVersionViewSchema = z
+  .object({
+    moduleId: IdSchema,
+    version: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    source: z.url().refine(v => new URL(v).protocol === 'https:', 'HTTPS required'),
+    sha256: z.string().regex(/^[a-f0-9]{64}$/),
+    archive: z.enum(['tar.gz', 'zip']),
+    tested: z.boolean()
+  })
+  .strict();
+export type RuntimeVersionView = z.infer<typeof RuntimeVersionViewSchema>;
+
+export const RuntimeVersionsViewSchema = z
+  .object({
+    moduleId: IdSchema,
+    pinnedVersion: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    supported: z.boolean(),
+    tested: z.boolean(),
+    versions: z.array(RuntimeVersionViewSchema).max(20)
+  })
+  .strict();
+export type RuntimeVersionsView = z.infer<typeof RuntimeVersionsViewSchema>;
+
+/** Installed runtime facts. The binary path and PATH plan are read-only projections. */
+export const RuntimeInstallationViewSchema = z
+  .object({
+    id: IdSchema,
+    moduleId: IdSchema,
+    version: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    directory: z.string().min(1).max(4096),
+    binaryPath: z.string().min(1).max(4096),
+    versionOutput: z.string().min(1).max(200),
+    installedAt: z.iso.datetime(),
+    pathPrepend: z.array(z.string().min(1).max(4096)).max(8)
+  })
+  .strict();
+export type RuntimeInstallationView = z.infer<typeof RuntimeInstallationViewSchema>;
+
+export const RuntimeStatusViewSchema = z
+  .object({
+    moduleId: IdSchema,
+    pinnedVersion: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    supported: z.boolean(),
+    tested: z.boolean(),
+    installed: z.boolean(),
+    installation: RuntimeInstallationViewSchema.optional(),
+    pathPrepend: z.array(z.string().min(1).max(4096)).max(8)
+  })
+  .strict();
+export type RuntimeStatusView = z.infer<typeof RuntimeStatusViewSchema>;
+
+export const RuntimeListViewSchema = z
+  .object({ moduleId: IdSchema, installations: z.array(RuntimeInstallationViewSchema).max(10) })
+  .strict();
+export type RuntimeListView = z.infer<typeof RuntimeListViewSchema>;
+
 export const ServiceRequestSchema = z.object({
   operationId: OperationRequestIdSchema,
   ref: ServiceRefSchema,
@@ -161,7 +243,12 @@ export const WorkerMethodResultSchema = z.union([
   z.object({ method: z.literal('certificates.trust'), data: OperationResultSchema }).strict(),
   z.object({ method: z.literal('sites.apply'), data: OperationResultSchema }).strict(),
   z.object({ method: z.literal('sites.list'), data: SiteListViewSchema }).strict(),
-  z.object({ method: z.literal('sites.remove'), data: OperationResultSchema }).strict()
+  z.object({ method: z.literal('sites.remove'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('runtime.versions'), data: RuntimeVersionsViewSchema }).strict(),
+  z.object({ method: z.literal('runtime.install'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('runtime.status'), data: RuntimeStatusViewSchema }).strict(),
+  z.object({ method: z.literal('runtime.list'), data: RuntimeListViewSchema }).strict(),
+  z.object({ method: z.literal('runtime.uninstall'), data: OperationResultSchema }).strict()
 ]);
 export type WorkerMethodResult = z.infer<typeof WorkerMethodResultSchema>;
 export type ErrorCode = z.infer<typeof ErrorSchema.shape.code>;
@@ -184,7 +271,12 @@ export const WORKER_METHODS = [
   'certificates.trust',
   'sites.apply',
   'sites.list',
-  'sites.remove'
+  'sites.remove',
+  'runtime.versions',
+  'runtime.install',
+  'runtime.status',
+  'runtime.list',
+  'runtime.uninstall'
 ] as const;
 export type WorkerMethod = (typeof WORKER_METHODS)[number];
 
@@ -204,6 +296,11 @@ export const WorkerCertificateTrustRequestSchema = z.object({ ...EnvelopeBase, m
 export const WorkerSitesApplyRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('sites.apply'), params: SitesApplyRequestSchema }).strict();
 export const WorkerSitesListRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('sites.list') }).strict();
 export const WorkerSitesRemoveRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('sites.remove'), params: SiteRemoveRequestSchema }).strict();
+export const WorkerRuntimeVersionsRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('runtime.versions'), params: RuntimeModuleRequestSchema }).strict();
+export const WorkerRuntimeInstallRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('runtime.install'), params: RuntimeInstallRequestSchema }).strict();
+export const WorkerRuntimeStatusRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('runtime.status'), params: RuntimeModuleRequestSchema }).strict();
+export const WorkerRuntimeListRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('runtime.list'), params: RuntimeModuleRequestSchema }).strict();
+export const WorkerRuntimeUninstallRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('runtime.uninstall'), params: RuntimeUninstallRequestSchema }).strict();
 
 /** Discriminated by `method`: unknown methods and unknown fields are rejected before dispatch. */
 export const WorkerManagementRequestSchema = z.discriminatedUnion('method', [
@@ -219,7 +316,12 @@ export const WorkerManagementRequestSchema = z.discriminatedUnion('method', [
   WorkerCertificateTrustRequestSchema,
   WorkerSitesApplyRequestSchema,
   WorkerSitesListRequestSchema,
-  WorkerSitesRemoveRequestSchema
+  WorkerSitesRemoveRequestSchema,
+  WorkerRuntimeVersionsRequestSchema,
+  WorkerRuntimeInstallRequestSchema,
+  WorkerRuntimeStatusRequestSchema,
+  WorkerRuntimeListRequestSchema,
+  WorkerRuntimeUninstallRequestSchema
 ]);
 export type WorkerManagementRequest = z.infer<typeof WorkerManagementRequestSchema>;
 
@@ -253,6 +355,7 @@ export type SerializedOperationEvent = z.infer<typeof SerializedOperationEventSc
 /** Operational bounds for long-running operations; reads keep the v1 5s deadline. */
 export const OPERATION_TIMEOUTS = Object.freeze({
   install: 15 * 60 * 1000,
+  runtimeInstall: 15 * 60 * 1000,
   service: 60 * 1000,
   sites: 30 * 1000,
   read: 5000

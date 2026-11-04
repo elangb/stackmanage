@@ -45,7 +45,12 @@ const METHOD_MAP = Object.freeze({
   sitesList: 'sites.list',
   sitesRemove: 'sites.remove',
   certificateStatus: 'certificates.status',
-  trustCertificate: 'certificates.trust'
+  trustCertificate: 'certificates.trust',
+  runtimeVersions: 'runtime.versions',
+  runtimeInstall: 'runtime.install',
+  runtimeStatus: 'runtime.status',
+  runtimeList: 'runtime.list',
+  runtimeUninstall: 'runtime.uninstall'
 } as const satisfies Record<DesktopMethodName, string>);
 
 class IpcFailure extends Error {
@@ -148,7 +153,7 @@ function registerHandlers(): void {
           apiVersion: API_VERSION,
           appVersion: app.getVersion(),
           worker: 'ready',
-          implementedFeatures: ['bootstrap', 'services.install', 'services.lifecycle', 'sites', 'logs'],
+          implementedFeatures: ['bootstrap', 'services.install', 'services.lifecycle', 'sites', 'logs', 'runtimes'],
           limits: DEFAULT_LIMITS,
           platform: process.platform === 'win32' || process.platform === 'linux' || process.platform === 'darwin' ? process.platform : undefined,
           architecture: process.arch === 'x64' || process.arch === 'arm64' ? process.arch : undefined,
@@ -209,7 +214,13 @@ app
   .then(async () => {
     session.defaultSession.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
     session.defaultSession.setPermissionCheckHandler(() => false);
-    worker = new WorkerClient({ entry: join(__dirname, 'worker.cjs'), env: { STACKMANAGE_DATA_HOME: join(app.getPath('userData'), 'caddy') } });
+    worker = new WorkerClient({
+      entry: join(__dirname, 'worker.cjs'),
+      env: {
+        STACKMANAGE_DATA_HOME: join(app.getPath('userData'), 'caddy'),
+        STACKMANAGE_NODE_HOME: join(app.getPath('userData'), 'node', 'runtime')
+      }
+    });
     registerHandlers();
     createWindow();
     if (process.env['STACKMANAGE_SMOKE'] === '1') await runSmoke();
@@ -231,13 +242,19 @@ async function runSmoke(): Promise<void> {
     const parsed = SnapshotResponseSchema.parse(result);
     if (!parsed.ok) throw new Error('Bridge health failed');
     const isolated: unknown = await window.webContents.executeJavaScript(
-      `typeof require === 'undefined' && typeof process === 'undefined' && Object.keys(window.stackmanage).sort().join(',') === 'certificateStatus,install,listInstallations,listServices,logsTail,onOperationEvent,restart,sitesApply,sitesList,sitesRemove,snapshot,start,status,stop,trustCertificate'`
+      `typeof require === 'undefined' && typeof process === 'undefined' && Object.keys(window.stackmanage).sort().join(',') === 'certificateStatus,install,listInstallations,listServices,logsTail,onOperationEvent,restart,runtimeInstall,runtimeList,runtimeStatus,runtimeUninstall,runtimeVersions,sitesApply,sitesList,sitesRemove,snapshot,start,status,stop,trustCertificate'`
     );
     if (isolated !== true) throw new Error('Renderer isolation/bridge surface failed');
     const status = await window.webContents.executeJavaScript(`window.stackmanage.status({instanceId:'caddy-18080'})`);
     const statusParsed = BridgeResponseSchema.parse(status);
     if (!statusParsed.ok) throw new Error('Service status bridge failed');
-    console.log('DESKTOP_SMOKE_OK: renderer → sandbox preload → main → fork worker; typed narrow bridge; Node globals absent');
+    const runtimeVersions = await window.webContents.executeJavaScript(`window.stackmanage.runtimeVersions({moduleId:'node'})`);
+    const runtimeVersionsParsed = BridgeResponseSchema.parse(runtimeVersions);
+    if (!runtimeVersionsParsed.ok || runtimeVersionsParsed.data.method !== 'runtime.versions') throw new Error('Runtime versions bridge failed');
+    const runtimeStatus = await window.webContents.executeJavaScript(`window.stackmanage.runtimeStatus({moduleId:'node'})`);
+    const runtimeStatusParsed = BridgeResponseSchema.parse(runtimeStatus);
+    if (!runtimeStatusParsed.ok || runtimeStatusParsed.data.method !== 'runtime.status') throw new Error('Runtime status bridge failed');
+    console.log('DESKTOP_SMOKE_OK: renderer → sandbox preload → main → fork worker; typed narrow bridge; runtime reads; Node globals absent');
     app.quit();
   } catch (error) {
     console.error(error);
