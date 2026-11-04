@@ -13,8 +13,11 @@ export const CADDY_MODULE_ID = 'caddy';
 export const CADDY_VERSION = '2.11.8';
 export const CADDY_RELEASE_BASE_URL = `https://github.com/caddyserver/caddy/releases/download/v${CADDY_VERSION}/`;
 
-/** Single instance in Phase 1; the id is fixed so a caller cannot address another instance. */
-export const DEFAULT_INSTANCE_ID = 'caddy-default';
+/**
+ * Single instance in Phase 1; the id is fixed so a caller cannot address another
+ * instance. Matches the frozen `CADDY_INSTANCE_ID` in `@stackmanage/core`.
+ */
+export const DEFAULT_INSTANCE_ID = 'default';
 export const LOOPBACK_ADDRESS = '127.0.0.1';
 export const DEFAULT_SITE_PORT = 18080;
 export const DEFAULT_HOSTNAME = 'localhost';
@@ -26,8 +29,8 @@ export interface CaddyAsset {
   asset: string;
   /** Verified on every download; the upstream checksums file publishes SHA-512. */
   sha512: string;
-  /** SHA-256 of the same artifact where known; used only for the `VersionRecord` field. */
-  sha256?: string;
+  /** SHA-256 of the same artifact, computed from the official download and cross-checked with its SHA-512. */
+  sha256: string;
   archive: 'tar.gz' | 'zip';
 }
 
@@ -46,11 +49,13 @@ export const CADDY_ASSETS: Readonly<Record<CaddyTarget, CaddyAsset>> = Object.fr
   },
   'linux-arm64': {
     asset: 'caddy_2.11.8_linux_arm64.tar.gz',
+    sha256: '6781a68e090fecda8c563b5a3b00115e18d7134084099ae804a017622471bed1',
     sha512: '6a285426268c8f987e0c459f61dc5af3c25e663955c0e4dddc6e187722b7cdd15e4233ff0e570a4ee17b3c68d59e2a61ce96d2f6be55ea58eead6a334859557c',
     archive: 'tar.gz'
   },
   'windows-amd64': {
     asset: 'caddy_2.11.8_windows_amd64.zip',
+    sha256: 'eaf062366aeba9d782af7f70edb4b49097652be1af31e8141f9f2761aa25cb1f',
     sha512: 'fff45b117b9d9ea5cc3f824f3c18de89630bcb43a0b759ca5e7163b7a3c1fb39ec7dae7f3147012d602213c950a46c8b0ef8095c77109e807ebf90132deeb759',
     archive: 'zip'
   }

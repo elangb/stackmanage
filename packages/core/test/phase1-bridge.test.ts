@@ -15,7 +15,7 @@ import {
   safeSerialize
 } from '../src';
 
-const REF = { moduleId: 'caddy', installationId: 'caddy-2.11.8', instanceId: 'caddy-default' };
+const REF = { moduleId: 'caddy', installationId: 'caddy-2.11.8', instanceId: 'default' };
 
 describe('Phase 1 bridge contract', () => {
   it('exposes one fixed channel per method and none is a generic exec surface', () => {
@@ -33,10 +33,10 @@ describe('Phase 1 bridge contract', () => {
       start: { operationId: 'op-1', ref: REF },
       stop: { operationId: 'op-2', ref: REF },
       restart: { operationId: 'op-3', ref: REF },
-      status: { instanceId: 'caddy-default' },
+      status: { instanceId: 'default' },
       listServices: {},
       listInstallations: {},
-      logsTail: { instanceId: 'caddy-default', maxBytes: 4096 },
+      logsTail: { instanceId: 'default', maxBytes: 4096 },
       sitesApply: {
         operationId: 'op-4',
         sites: [
@@ -92,16 +92,17 @@ describe('wire responses', () => {
     expect(BridgeResponseSchema.safeParse({ ok: false, error: { code: 'IO_ERROR', message: '/home/user/secret', retryable: false } }).success).toBe(false);
   });
 
-  it('accepts only monotonic progress frames', () => {
-    const frame = { operationId: 'op-1', sequence: 1, lastSequence: 1 };
+  it('accepts only bounded progress frames', () => {
+    const frame = { operationId: 'op-1', sequence: 1, stageKey: 'install.download', fraction: 0.5 };
     expect(BridgeEventPayloadSchema.safeParse(frame).success).toBe(true);
     expect(BridgeEventPayloadSchema.safeParse({ ...frame, sequence: -1 }).success).toBe(false);
+    expect(BridgeEventPayloadSchema.safeParse({ ...frame, fraction: 1.1 }).success).toBe(false);
     expect(BridgeEventPayloadSchema.safeParse({ ...frame, stack: 'at x' }).success).toBe(false);
     expect(BridgeEventPayloadSchema.safeParse({ operationId: 'op-1' }).success).toBe(false);
   });
 
   it('rejects a completed result that hides a failed item', () => {
-    const failedItem = { id: 'caddy-default', status: 'failed', error: { code: 'CONFLICT', messageKey: 'service.portInUse', retryable: false } };
+    const failedItem = { id: 'default', status: 'failed', error: { code: 'CONFLICT', messageKey: 'service.portInUse', retryable: false } };
     expect(OperationResultSchema.safeParse({ operationId: 'op', status: 'completed', items: [failedItem], warnings: [] }).success).toBe(false);
     expect(OperationResultSchema.safeParse({ operationId: 'op', status: 'partial', items: [failedItem], warnings: [] }).success).toBe(true);
   });

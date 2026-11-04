@@ -127,7 +127,7 @@ export class CaddyInstaller {
       platform: this.platform,
       architecture: this.architecture,
       source: `${CADDY_RELEASE_BASE_URL}${CADDY_ASSETS[target].asset}`,
-      sha256: CADDY_ASSETS[target].sha256 ?? createHash('sha256').update(CADDY_ASSETS[target].sha512).digest('hex')
+      sha256: CADDY_ASSETS[target].sha256
     });
   }
 

@@ -83,7 +83,8 @@ export function parseBoundedBridgeRequest<M extends DesktopMethodName>(method: M
 export const BridgeEventPayloadSchema = z.object({
   operationId: IdSchema,
   sequence: z.number().int().nonnegative(),
-  lastSequence: z.number().int().nonnegative()
+  stageKey: IdSchema.optional(),
+  fraction: z.number().min(0).max(1).optional()
 }).strict();
 export type BridgeEventPayload = z.infer<typeof BridgeEventPayloadSchema>;
 
@@ -103,6 +104,6 @@ export interface DesktopBridgeV1 {
   sitesApply(request: BridgeRequestFor<'sitesApply'>): Promise<BridgeResponse>;
   sitesList(request: BridgeRequestFor<'sitesList'>): Promise<BridgeResponse>;
   sitesRemove(request: BridgeRequestFor<'sitesRemove'>): Promise<BridgeResponse>;
-  /** Progress for one operation; the caller filters stale `sequence` values. Unsubscribe on unmount. */
+  /** Progress for one operation; the caller filters stale sequences and mismatched operation IDs. */
   onOperationEvent(listener: (payload: BridgeEventPayload) => void): EventSubscriptionHandle;
 }

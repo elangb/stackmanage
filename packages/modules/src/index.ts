@@ -1,4 +1,28 @@
 import type { ModuleDefinition } from '@stackmanage/core';
 
-/** Intentionally empty: a feature-matrix entry is not a working module. */
-export const implementedModules: readonly ModuleDefinition[] = Object.freeze([]);
+/**
+ * Catalog declarations only. Runtime implementation lives in the worker module
+ * that owns the installed process; a declaration is never evidence that a platform
+ * actually ran.
+ */
+export const caddyModuleDefinition: ModuleDefinition = {
+  apiVersion: 1,
+  id: 'caddy',
+  nameKey: 'modules.caddy',
+  category: 'web',
+  capabilities: ['versions', 'install', 'service', 'config', 'logs', 'panel'],
+  dependencies: [],
+  availability: [
+    {
+      platform: 'linux',
+      architecture: 'x64',
+      status: 'unverified',
+      reason: 'Artifact is pinned; the Phase 1 Linux execution evidence is recorded in the worker integration test, not in this declaration.'
+    },
+    { platform: 'linux', architecture: 'arm64', status: 'unverified', reason: 'Artifact is pinned and hashed, no arm64 machine ran it.' },
+    { platform: 'win32', architecture: 'x64', status: 'unverified', reason: 'Artifact is pinned and hashed, no Windows machine ran it.' }
+  ]
+};
+
+/** Registered adapters. */
+export const implementedModules: readonly ModuleDefinition[] = Object.freeze([caddyModuleDefinition]);

@@ -1,6 +1,6 @@
 # Full requested scope and evidence matrix
 
-Status baseline: **every product feature below is unverified and unimplemented in StackManage**. A vendor appearing in official FlyEnv material is scope evidence only, never StackManage execution evidence or vendor availability. Windows/Linux/architecture availability is unknown unless a later row links an actual vendor artifact and execution report. Phase 0 bootstrap is tracked separately in `reports/phase0.md`.
+Status baseline: **except for the Linux x64 Caddy vertical slice recorded below, every product feature is unverified and unimplemented in StackManage**. A vendor appearing in official FlyEnv material is scope evidence only, never StackManage execution evidence or vendor availability. Windows/Linux/architecture availability is unknown unless a later row links an actual vendor artifact and execution report. Phase 0 bootstrap is tracked separately in `reports/phase0.md`.
 
 Evidence sources consulted 2026-11-04:
 
@@ -13,7 +13,7 @@ Evidence sources consulted 2026-11-04:
 | Category | Explicit feature inventory | Owner / acceptance evidence needed | Status |
 |---|---|---|---|
 | Runtimes | PHP (versions, extensions, FPM); Node.js (versions/project selection); Python (versions/environments); Java (JDK); Go; Erlang; Ruby; Rust; .NET; Zig; Bun; Deno; Flutter SDK; Gradle | modules + worker; real install/version-switch/run/uninstall per supported OS/arch | U each |
-| Web servers | Nginx; Apache; Caddy; FrankenPHP; Tomcat; static HTTP server | modules + worker; config validation, start/health/reload/stop and port conflicts | U each |
+| Web servers | Nginx; Apache; Caddy; FrankenPHP; Tomcat; static HTTP server | modules + worker; config validation, start/health/reload/stop and port conflicts | Caddy: **partial** on Linux x64 only (real pinned install + HTTP 200 + lifecycle/reconcile evidence in `reports/phase1-core.md`); Nginx/Apache/FrankenPHP/Tomcat/static: U; Caddy Windows/arm64: U |
 | Sites/HTTPS | local domains; aliases; document roots; per-site runtime; reverse proxy; HTTPS; mkcert; hosts editing; certificate issue/renew/remove/trust | sites + platform; actual local requests, trust-store and hosts write/rollback tests | U each |
 | Databases | MySQL; PostgreSQL; MariaDB; MongoDB; Qdrant; ClickHouse; Neo4j | modules + worker; versioned install, initialization, connection, clean shutdown | U each |
 | Database panels | phpMyAdmin; pgAdmin; DBGate; Redis Commander | module-local controller + worker; panel readiness, parent/companion shutdown, credentials handling | U each |
@@ -47,3 +47,14 @@ No artifacts are produced by Phase 0; `pnpm build` bundles code only. macOS is r
 ## Evidence progression rule
 
 Every later feature row must add: adapter path, upstream artifact URL/version/digest, vendor OS/arch support evidence, reproducible commands, positive/negative/lifecycle cases, actual machine OS/arch, logs and result. Distinguish implemented from tested and tested from accepted. Unknown vendor distribution must remain unknown; never substitute a similarly named vendor silently.
+
+## Phase 1 evidence
+
+| Slice | Adapter path | Evidence | Status |
+|---|---|---|---|
+| Caddy 2.11.8 install | `apps/worker/src/modules/caddy/{download,extract,installer}.ts` | Official GitHub release; SHA-512 from vendor checksums plus locally computed SHA-256; real download and `caddy version` in `STACKMANAGE_INTEGRATION=1` test | Verified Linux x64 only |
+| Caddy start/stop/status/reconcile | `apps/worker/src/modules/caddy/{service,process}.ts` | Real process, HTTP 200 from a generated site, stale PID reconciled after simulated worker death | Verified Linux x64 only |
+| Caddy local sites | `apps/worker/src/modules/caddy/{sites,caddyfile}.ts` | Caddyfile rendered for managed roots, validated with `caddy validate`, restart warning when running | Verified by unit/integration tests, not browser acceptance |
+| Desktop shell | `apps/desktop/src/renderer`, `packages/i18n`, `packages/ui` | Sandboxed Electron smoke, five-locale key parity, controller tests | Shell/UI only; not platform acceptance |
+| Nginx / HTTPS / hosts | — | Not implemented | U |
+

@@ -2,10 +2,10 @@ import { describe, expect, it } from 'vitest';
 import type { BridgeEventPayload, BridgeResponse, DesktopBridgeV1, EventSubscriptionHandle } from '@stackmanage/core';
 import { CaddyController, noticeFor } from '../src/renderer/caddy/controller';
 
-const REF = { moduleId: 'caddy', installationId: 'caddy-2.11.8', instanceId: 'caddy-default' };
+const REF = { moduleId: 'caddy', installationId: 'caddy-2.11.8', instanceId: 'default' };
 
 function completed(operationId = 'op'): BridgeResponse {
-  return { ok: true, data: { method: 'service.start', data: { operationId, status: 'completed', items: [{ id: 'caddy-default', status: 'completed' }], warnings: [] } } } as unknown as BridgeResponse;
+  return { ok: true, data: { method: 'service.start', data: { operationId, status: 'completed', items: [{ id: 'default', status: 'completed' }], warnings: [] } } } as unknown as BridgeResponse;
 }
 
 function failed(messageKey: string, code = 'CONFLICT'): BridgeResponse {
@@ -13,7 +13,7 @@ function failed(messageKey: string, code = 'CONFLICT'): BridgeResponse {
     ok: true,
     data: {
       method: 'service.start',
-      data: { operationId: 'op', status: 'failed', items: [{ id: 'caddy-default', status: 'failed', error: { code, messageKey, retryable: false } }], warnings: [] }
+      data: { operationId: 'op', status: 'failed', items: [{ id: 'default', status: 'failed', error: { code, messageKey, retryable: false } }], warnings: [] }
     }
   } as unknown as BridgeResponse;
 }
@@ -124,13 +124,18 @@ describe('CaddyController', () => {
     expect(fake.subscriptions()).toBe(1);
   });
 
-  it('drops stale and replayed progress frames', () => {
-    const fake = fakeBridge(async () => completed());
+  it('drops stale, foreign and replayed progress frames', async () => {
+    const fake = fakeBridge(() => new Promise(() => undefined));
     const controller = new CaddyController(() => fake.bridge);
     controller.attach();
-    fake.emit({ operationId: 'op', sequence: 3, lastSequence: 3 });
+    void controller.start({ operationId: 'op', ref: REF });
+    await Promise.resolve();
+    fake.emit({ operationId: 'other', sequence: 9 });
+    expect(controller.state.lastSequence).toBe(-1);
+    fake.emit({ operationId: 'op', sequence: 3, stageKey: 'install.download', fraction: 0.5 });
+    expect(controller.state.progress).toEqual({ stage: 'install.download', value: 0.5 });
     expect(controller.state.lastSequence).toBe(3);
-    fake.emit({ operationId: 'op', sequence: 2, lastSequence: 3 });
+    fake.emit({ operationId: 'op', sequence: 2 });
     expect(controller.state.lastSequence).toBe(3);
   });
 

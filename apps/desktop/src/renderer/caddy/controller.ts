@@ -71,7 +71,7 @@ export class CaddyController {
   readonly state = reactiveBind<CaddyState>({ operation: undefined, progress: undefined, notice: undefined, lastSequence: 0 });
   private inFlight: Partial<Record<OperationName, Promise<BridgeResponse>>> = {};
   private subscription: EventSubscriptionHandle | undefined;
-  private readonly tracksProgress = new Set<OperationName>(['install', 'start', 'stop', 'restart', 'sitesApply', 'sitesRemove']);
+  private activeOperationId: string | undefined;
 
   constructor(private readonly bridge: () => DesktopBridgeV1) {}
 
@@ -87,28 +87,33 @@ export class CaddyController {
   }
 
   private onEvent(payload: BridgeEventPayload): void {
-    // Drop stale or replayed frames; sequence is per operation and monotonic.
+    // Drop events from another operation and stale/replayed frames. Sequences restart per operation.
+    if (payload.operationId !== this.activeOperationId) return;
     if (payload.sequence <= this.state.lastSequence) return;
     this.state.lastSequence = payload.sequence;
+    const stage = payload.stageKey ?? this.state.operation;
+    if (stage !== undefined) this.state.progress = { stage, value: payload.fraction ?? this.state.progress?.value ?? 0 };
   }
 
-  /** Progress frames carry only sequence numbers on the wire; the stage is local. */
-  private begin(operation: OperationName): void {
+  private begin(operation: OperationName, operationId: string): void {
+    this.activeOperationId = operationId;
     this.state.operation = operation;
     this.state.progress = { stage: operation, value: 0 };
+    this.state.lastSequence = -1;
     this.state.notice = undefined;
   }
 
   private finish(notice: Notice | undefined): void {
+    this.activeOperationId = undefined;
     this.state.operation = undefined;
     this.state.progress = undefined;
     this.state.notice = notice;
   }
 
-  private run(operation: OperationName, call: () => Promise<BridgeResponse>): Promise<BridgeResponse> {
+  private run(operation: OperationName, operationId: string, call: () => Promise<BridgeResponse>): Promise<BridgeResponse> {
     const existing = this.inFlight[operation];
     if (existing !== undefined) return existing;
-    this.begin(operation);
+    this.begin(operation, operationId);
     const promise = Promise.resolve()
       .then(call)
       .then(response => {
@@ -141,27 +146,31 @@ export class CaddyController {
   }
 
   install(request: InstallRequest): Promise<BridgeResponse> {
-    return this.run('install', () => this.bridge().install(request));
+    return this.run('install', request.operationId, () => this.bridge().install(request));
   }
 
   start(request: ServiceRequest): Promise<BridgeResponse> {
-    return this.run('start', () => this.bridge().start(request));
+    return this.run('start', request.operationId, () => this.bridge().start(request));
   }
 
   stop(request: ServiceRequest): Promise<BridgeResponse> {
-    return this.run('stop', () => this.bridge().stop(request));
+    return this.run('stop', request.operationId, () => this.bridge().stop(request));
   }
 
   restart(request: ServiceRequest): Promise<BridgeResponse> {
-    return this.run('restart', () => this.bridge().restart(request));
+    return this.run('restart', request.operationId, () => this.bridge().restart(request));
   }
 
   sitesApply(request: SitesApplyRequest): Promise<BridgeResponse> {
-    return this.run('sitesApply', () => this.bridge().sitesApply(request));
+    return this.run('sitesApply', request.operationId, () => this.bridge().sitesApply(request));
+  }
+
+  sitesList(): Promise<BridgeResponse> {
+    return this.bridge().sitesList({});
   }
 
   sitesRemove(request: SiteRemoveRequest): Promise<BridgeResponse> {
-    return this.run('sitesRemove', () => this.bridge().sitesRemove(request));
+    return this.run('sitesRemove', request.operationId, () => this.bridge().sitesRemove(request));
   }
 
   /** Reads are not tracked as operations; they never touch the operation state. */

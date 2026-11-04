@@ -1,39 +1,85 @@
 <script setup lang="ts">
-import { watchEffect } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { locales } from '@stackmanage/i18n';
-import { bootstrapController as controller } from './bootstrap/controller';
+import { locales, type Locale } from '@stackmanage/i18n';
+import { bootstrapController } from './bootstrap/controller';
+import { caddyController } from './caddy/controller';
+import AppSidebar from './components/AppSidebar.vue';
+import HomeView from './views/HomeView.vue';
+import CaddyView from './views/CaddyView.vue';
+import SettingsView from './views/SettingsView.vue';
+import UnavailableView from './views/UnavailableView.vue';
+import { PAGE_TITLE_KEYS, type PageKey } from './pages';
 
 const { t, locale } = useI18n();
-watchEffect(() => { document.documentElement.lang = locale.value; document.title = t('brand'); });
+const page = ref<PageKey>((localStorage.getItem('stackmanage.page') as PageKey | null) ?? 'home');
+const theme = ref<'dark' | 'light'>((localStorage.getItem('stackmanage.theme') as 'dark' | 'light' | null) ?? 'dark');
+const snapshot = computed(() => bootstrapController.state.snapshot);
+const localeModel = computed<Locale>({ get: () => locale.value as Locale, set: value => { locale.value = value; } });
+const workerStatus = computed(() => bootstrapController.state.status);
+
+watchEffect(() => {
+  document.documentElement.dataset['theme'] = theme.value;
+  document.documentElement.lang = locale.value;
+  document.title = `${t('brand')} · ${t(PAGE_TITLE_KEYS[page.value])}`;
+  localStorage.setItem('stackmanage.theme', theme.value);
+  localStorage.setItem('stackmanage.page', page.value);
+  localStorage.setItem('stackmanage.locale', locale.value);
+});
+const savedLocale = localStorage.getItem('stackmanage.locale');
+if (savedLocale !== null && (locales as readonly string[]).includes(savedLocale)) locale.value = savedLocale as Locale;
+
+function navigate(next: PageKey): void {
+  page.value = next;
+}
+function toggleTheme(): void {
+  theme.value = theme.value === 'dark' ? 'light' : 'dark';
+}
+
+onMounted(() => {
+  caddyController.attach();
+  void bootstrapController.refresh();
+});
+onBeforeUnmount(() => caddyController.detach());
 </script>
 
 <template>
-  <main>
-    <header>
-      <strong>{{ t('brand') }}</strong>
-      <div class="language">
-        <label for="language">{{ t('language') }}</label>
-        <select id="language" v-model="locale">
-          <option v-for="language in locales" :key="language" :value="language">{{ t(`locales.${language}`) }}</option>
-        </select>
-      </div>
-    </header>
-    <span class="eyebrow">{{ t('phase') }}</span>
-    <h1>{{ t('title') }}</h1>
-    <p>{{ t('intro') }}</p>
-    <section class="panel" aria-labelledby="connection-title">
-      <h2 id="connection-title">{{ t('healthTitle') }}</h2>
-      <p class="status" role="status" aria-live="polite">{{ t(controller.state.status) }}</p>
-      <button :disabled="controller.state.status === 'pending'" @click="controller.refresh()">{{ t('check') }}</button>
-    </section>
-    <section class="panel" aria-labelledby="policy-title">
-      <h2 id="policy-title">{{ t('policyTitle') }}</h2>
-      <dl>
-        <dt>{{ t('licensing') }}</dt><dd>{{ t('unlimited') }}</dd>
-        <dt>{{ t('telemetry') }}</dt><dd>{{ t('off') }}</dd>
-      </dl>
-    </section>
-    <footer>{{ t('footer') }}</footer>
-  </main>
+  <a class="skip-link" href="#main-content">{{ t('skipToContent') }}</a>
+  <div class="app-shell">
+    <AppSidebar :page="page" :version="snapshot?.appVersion ?? ''" @select="navigate" />
+
+    <div class="main">
+      <header class="topbar">
+        <div>
+          <div class="topbar-title">{{ t(PAGE_TITLE_KEYS[page]) }}</div>
+          <div class="faint" style="font-size: 0.72rem">{{ t('tagline') }}</div>
+        </div>
+        <div class="topbar-actions">
+          <span class="badge" :class="workerStatus === 'ready' ? 'badge-success' : workerStatus === 'pending' ? 'badge-warn' : workerStatus === 'failed' ? 'badge-danger' : ''" role="status" aria-live="polite">
+            <span class="badge-dot" aria-hidden="true" />
+            {{ t('statWorker') }}: {{ t(workerStatus) }}
+          </span>
+          <button type="button" class="btn btn-sm btn-ghost" :aria-label="t('theme')" @click="toggleTheme">
+            {{ theme === 'dark' ? '☾' : '☀' }} {{ theme === 'dark' ? t('themeDark') : t('themeLight') }}
+          </button>
+        </div>
+      </header>
+
+      <main id="main-content" class="content" tabindex="-1">
+        <Transition name="fade" mode="out-in">
+          <HomeView v-if="page === 'home'" key="home" :snapshot="snapshot" :worker-status="workerStatus" @navigate="navigate" />
+          <CaddyView v-else-if="page === 'web'" key="web" :snapshot="snapshot" />
+          <SettingsView v-else-if="page === 'settings'" key="settings" v-model:theme="theme" v-model:locale="localeModel" :snapshot="snapshot" :worker-status="workerStatus" />
+          <UnavailableView v-else :key="page" :page="page" />
+        </Transition>
+        <footer class="faint" style="margin-top: 36px; font-size: 0.75rem">{{ t('footer') }}</footer>
+      </main>
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active { transition: opacity 140ms ease, transform 140ms ease; }
+.fade-enter-from { opacity: 0; transform: translateY(4px); }
+.fade-leave-to { opacity: 0; transform: translateY(-2px); }
+</style>

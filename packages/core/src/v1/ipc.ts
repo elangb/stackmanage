@@ -27,7 +27,12 @@ export type Feature = z.infer<typeof FeatureSchema>;
 
 export const SnapshotSchema = z.object({
   apiVersion: z.literal(1), appVersion: z.string().min(1), worker: z.literal('ready'),
-  implementedFeatures: z.array(FeatureSchema).min(1).max(32), limits: LimitsSchema
+  implementedFeatures: z.array(FeatureSchema).min(1).max(32), limits: LimitsSchema,
+  /** Additive Phase 1 facts; older Phase 0 payloads remain valid without them. */
+  platform: z.enum(['win32', 'linux', 'darwin']).optional(),
+  architecture: z.enum(['x64', 'arm64']).optional(),
+  /** Managed directory for local site document roots. Never a write token. */
+  sitesRoot: z.string().min(1).max(4096).optional()
 }).strict();
 export type Snapshot = z.infer<typeof SnapshotSchema>;
 export const SnapshotResponseSchema = z.discriminatedUnion('ok', [

@@ -141,7 +141,16 @@ function registerHandlers(): void {
       await worker.health();
       return SnapshotResponseSchema.parse({
         ok: true,
-        data: { apiVersion: API_VERSION, appVersion: app.getVersion(), worker: 'ready', implementedFeatures: ['bootstrap'], limits: DEFAULT_LIMITS }
+        data: {
+          apiVersion: API_VERSION,
+          appVersion: app.getVersion(),
+          worker: 'ready',
+          implementedFeatures: ['bootstrap', 'services.install', 'services.lifecycle', 'sites', 'logs', 'config'],
+          limits: DEFAULT_LIMITS,
+          platform: process.platform === 'win32' || process.platform === 'linux' || process.platform === 'darwin' ? process.platform : undefined,
+          architecture: process.arch === 'x64' || process.arch === 'arm64' ? process.arch : undefined,
+          sitesRoot: join(app.getPath('userData'), 'caddy', 'sites')
+        }
       });
     } catch {
       return { ok: false, error: { code: 'UNAVAILABLE', messageKey: 'worker.unavailable', retryable: true } };
@@ -197,7 +206,7 @@ app
   .then(async () => {
     session.defaultSession.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
     session.defaultSession.setPermissionCheckHandler(() => false);
-    worker = new WorkerClient({ entry: join(__dirname, 'worker.cjs') });
+    worker = new WorkerClient({ entry: join(__dirname, 'worker.cjs'), env: { STACKMANAGE_DATA_HOME: join(app.getPath('userData'), 'caddy') } });
     registerHandlers();
     createWindow();
     if (process.env['STACKMANAGE_SMOKE'] === '1') await runSmoke();
