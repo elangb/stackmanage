@@ -89,6 +89,26 @@ silently advanced.
 No native Windows build exists upstream, so StackManage does not substitute an
 unofficial Windows fork.
 
+### C.2 PHP 8.5.12 (PHP-3.01, download-on-demand)
+
+Phase 8 pins **PHP 8.5.12** from the official php.net distribution and builds a
+Linux x64 CLI/FPM runtime. The source archive is verified by SHA-256 before it
+enters the build context, and the Dockerfile verifies it again before extraction.
+
+- Official source: `https://www.php.net/distributions/php-8.5.12.tar.gz`
+- SHA-256: `81a0f450349e84b08eb43faa85f8a4c835684f3cc1c50471775d1317a046c525`
+  (matches the php.net releases JSON, 2026-10-21)
+- Licence evidence: <https://www.php.net/license/> and the upstream `LICENSE`
+- Redistribution posture: the generated artifact includes the upstream
+  `LICENSE`, `README.REDIST.BINS`, and the bundled notices copied by the build
+  (libmagic, libmbfl, libbcmath, libavifinfo, lexbor, uriparser). Other embedded
+  portions listed in `README.REDIST.BINS` still need release review. Runtime
+  shared libraries come from pinned Ubuntu packages and are not copied into the
+  tar; an installer or image distribution must carry the corresponding
+  Ubuntu/Debian notices.
+- Do not add `zend_extension=opcache.so`: PHP 8.5 always builds OPcache into the
+  binary.
+
 ## D. Assets and identity
 
 No upstream-brand logo, icon, screenshot or marketing text is used. The StackManage name and mark are project-original. Vendor product names and logos remain trademarks of their owners and are used only for identification.

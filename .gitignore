@@ -5,3 +5,7 @@ coverage/
 *.log
 release/
 .plugin-keys/
+
+
+# PHP build runner staged source (the script stages a temporary context)
+build/php/*.tar.gz

@@ -1,5 +1,5 @@
 id	module	licenseCandidate	sourceUrl	licenseUrl	reviewState	note
-php	PHP / extensions / FPM	PHP-3.01; extensions vary	https://github.com/php/php-src	https://www.php.net/license/	version-dependent	Audit extensions and linked libraries separately.
+php	PHP / extensions / FPM	PHP-3.01; extensions vary	https://github.com/php/php-src	https://www.php.net/license/	version-dependent	StackManage pins 8.5.12 from php.net and verifies its SHA-256; the artifact carries the PHP licence and bundled notices. Audit extensions and dynamically linked Ubuntu libraries separately.
 node	Node.js	MIT + bundled notices	https://github.com/nodejs/node	https://github.com/nodejs/node/blob/main/LICENSE	version-dependent	Binary includes third-party components.
 python	Python	PSF-2.0 + historical licenses	https://github.com/python/cpython	https://docs.python.org/3/license.html	version-dependent	Environment packages require separate inventory.
 java	Java JDK	GPL-2.0 with Classpath exception or vendor terms	https://openjdk.org/	https://openjdk.org/legal/gplv2+ce.html	version-dependent	Choose exact JDK vendor; Oracle binaries not interchangeable with OpenJDK grants.

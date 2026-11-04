@@ -106,3 +106,10 @@ Every later feature row must add: adapter path, upstream artifact URL/version/di
 | Installer and lifecycle | `packages/plugin-host/src/{installer,host,state}.ts` | Staging extraction, atomic promotion, state rollback, duplicate rejection, enable/disable/remove without restart | Lifecycle tests with temporary roots and generated keys; no UI/bridge |
 | Child runtime | `packages/plugin-host/src/{runtime.ts,runtime/runner.mjs}` | `fork` with argument array, env allowlist, managed cwd, JSON-RPC caps, handshake/request/heartbeat timeouts, capped stdout/stderr, crash isolation | Real child-process tests for ping/status, crash isolation, handshake timeout, request timeout, oversized result, output caps, function-free context |
 | Isolation honesty | `docs/plugin-sdk.md` | Child process is not an OS sandbox; no fs/network/shell/exec host bridge | Documented limitation, not claimed containment |
+
+## Phase 8 evidence
+
+| Slice | Adapter path | Evidence | Status |
+|---|---|---|---|
+| PHP 8.5.12 build runner | `build/php`, `scripts/php`, `ci/php-build.yml` | Official php.net source + SHA-256; Ubuntu 24.04 digest + 2026-10-21 snapshot + exact apt versions; multi-stage Dockerfile; deterministic tar/manifest exporter; ShellCheck, Hadolint, YAML and legal checks | Configuration only; no container runtime in the authoring environment, so no PHP artifact build or artifact execution is claimed (distro PHP/FPM were used only to syntax-check the ini/FPM files) |
+| PHP runtime module | not implemented | No worker install/lifecycle, no renderer page, no site or FPM integration | U |
