@@ -40,3 +40,5 @@ export { buildCapabilityMatrix, availabilityRows, type CapabilityInput, type Cap
 export { composePlatform, currentBindCapability, unimplementedCertManager, type CompositionOptions, type PlatformComposition } from './composition.js';
 export { createLinuxRunner, MAX_CAPTURE_BYTES } from './runner-linux.js';
 export { buildResult, emitTerminal, operationError, unsupportedResult, type ItemOutcomeInput, type ItemStatus } from './results.js';
+
+export { LinuxSystemTrust, LINUX_CA_TARGET_DIRECTORY, LINUX_CA_BUNDLE, LINUX_TRUST_HELPER_DIRECTORY, type SystemTrustStatus, type SystemTrustInstall, type LinuxSystemTrustOptions } from './system-trust-linux.js';

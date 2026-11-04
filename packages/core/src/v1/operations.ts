@@ -454,7 +454,7 @@ export const CertificateStatusViewSchema = z
     authorityPath: z.string().min(1).max(4096),
     exists: z.boolean(),
     browserTrust: z.enum(['trusted', 'untrusted', 'unsupported', 'unknown']),
-    systemTrust: z.enum(['not-modified', 'trusted', 'untrusted', 'unsupported']),
+    systemTrust: z.enum(['not-modified', 'trusted', 'untrusted', 'unsupported', 'unknown']),
     detail: z.string().max(300).optional()
   })
   .strict();

@@ -61,25 +61,26 @@ export class CaddyCertificates {
 
   async status(): Promise<CertificateStatusView> {
     const exists = await this.exists(this.authorityPath);
+    const systemTrust = exists ? await this.systemTrust() : 'not-modified';
     if (!exists) return { authorityPath: this.authorityPath, exists: false, browserTrust: 'untrusted', systemTrust: 'not-modified' };
     if (this.platform !== 'linux') {
-      return { authorityPath: this.authorityPath, exists: true, browserTrust: 'unsupported', systemTrust: 'unsupported', detail: 'NSS trust integration is implemented and tested on Linux only' };
+      return { authorityPath: this.authorityPath, exists: true, browserTrust: 'unsupported', systemTrust, detail: 'NSS trust integration is implemented and tested on Linux only' };
     }
     let certutil: ExecResult;
     try {
       certutil = await runCertutil(['-L', '-d', `sql:${this.nssDb}`, '-n', ALIAS, '-a']);
     } catch {
-      return { authorityPath: this.authorityPath, exists: true, browserTrust: 'unsupported', systemTrust: 'not-modified', detail: 'certutil is not available' };
+      return { authorityPath: this.authorityPath, exists: true, browserTrust: 'unsupported', systemTrust, detail: 'certutil is not available' };
     }
-    if (certutil.missing) return { authorityPath: this.authorityPath, exists: true, browserTrust: 'unsupported', systemTrust: 'not-modified', detail: 'certutil is not available' };
-    if (certutil.code !== 0) return { authorityPath: this.authorityPath, exists: true, browserTrust: 'untrusted', systemTrust: 'not-modified' };
+    if (certutil.missing) return { authorityPath: this.authorityPath, exists: true, browserTrust: 'unsupported', systemTrust, detail: 'certutil is not available' };
+    if (certutil.code !== 0) return { authorityPath: this.authorityPath, exists: true, browserTrust: 'untrusted', systemTrust };
     const installed = normalizePem(certutil.stdout);
     const authority = normalizePem(await readFile(this.authorityPath, 'utf8'));
     return {
       authorityPath: this.authorityPath,
       exists: true,
       browserTrust: installed.length > 0 && installed === authority ? 'trusted' : 'untrusted',
-      systemTrust: 'not-modified'
+      systemTrust
     };
   }
 
@@ -147,6 +148,18 @@ export class CaddyCertificates {
       });
       context.emit({ type: 'terminal', result });
       return result;
+    }
+  }
+
+  /** Read-only system-store check. Installing/removing is owned by LinuxSystemTrust and requires explicit elevation. */
+  private async systemTrust(): Promise<CertificateStatusView['systemTrust']> {
+    if (this.platform !== 'linux') return 'unsupported';
+    try {
+      const authority = normalizePem(await readFile(this.authorityPath, 'utf8'));
+      const bundle = normalizePem(await readFile('/etc/ssl/certs/ca-certificates.crt', 'utf8'));
+      return authority !== '' && bundle.includes(authority) ? 'trusted' : 'untrusted';
+    } catch {
+      return 'unknown';
     }
   }
 
