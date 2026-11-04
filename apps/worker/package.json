@@ -1,0 +1,6 @@
+{
+  "name": "@stackmanage/worker", "version": "0.1.0", "private": true, "type": "module",
+  "exports": { "./client": "./src/client.ts" },
+  "scripts": { "build": "node build.mjs", "typecheck": "tsc -p tsconfig.json --noEmit" },
+  "dependencies": { "@stackmanage/core": "workspace:*" }
+}

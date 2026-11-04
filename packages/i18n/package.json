@@ -1,0 +1,6 @@
+{
+  "name": "@stackmanage/i18n", "version": "0.1.0", "private": true, "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": { "build": "tsc -p tsconfig.json", "typecheck": "tsc -p tsconfig.json --noEmit" },
+  "dependencies": { "vue-i18n": "11.4.18", "vue": "3.5.44" }
+}
