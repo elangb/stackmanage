@@ -65,4 +65,23 @@ export const nginxModuleDefinition: ModuleDefinition = {
 };
 
 /** Registered adapters. */
-export const implementedModules: readonly ModuleDefinition[] = Object.freeze([caddyModuleDefinition, nodeModuleDefinition, nginxModuleDefinition]);
+export const redisModuleDefinition: ModuleDefinition = {
+  apiVersion: 1,
+  id: 'redis',
+  nameKey: 'modules.redis',
+  category: 'database',
+  capabilities: ['versions', 'install', 'service', 'config', 'logs'],
+  dependencies: [],
+  availability: [
+    {
+      platform: 'linux',
+      architecture: 'x64',
+      status: 'unverified',
+      reason: 'Official source is pinned and hashed; the Phase 6 Linux x64 build/PING/SET/GET evidence is recorded in the worker integration test, not in this declaration.'
+    },
+    { platform: 'linux', architecture: 'arm64', status: 'unverified', reason: 'Source build should work, but no arm64 machine ran it.' },
+    { platform: 'win32', architecture: 'x64', status: 'unsupported', reason: 'Redis upstream publishes no supported native Windows build; no unofficial fork is used.' }
+  ]
+};
+
+export const implementedModules: readonly ModuleDefinition[] = Object.freeze([caddyModuleDefinition, nodeModuleDefinition, nginxModuleDefinition, redisModuleDefinition]);

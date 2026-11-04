@@ -27,7 +27,7 @@ export const NAV_GROUPS: ReadonlyArray<{ labelKey: string; items: ReadonlyArray<
     items: [
       { key: 'runtimes', labelKey: 'navRuntimes', icon: '⌘', implemented: true },
       { key: 'web', labelKey: 'navWeb', icon: '◍', implemented: true },
-      { key: 'databases', labelKey: 'navDatabases', icon: '▤', implemented: false },
+      { key: 'databases', labelKey: 'navDatabases', icon: '▤', implemented: true },
       { key: 'cache', labelKey: 'navCache', icon: '⇄', implemented: false },
       { key: 'infra', labelKey: 'navInfra', icon: '⌁', implemented: false },
       { key: 'workflow', labelKey: 'navWorkflow', icon: '⟳', implemented: false },

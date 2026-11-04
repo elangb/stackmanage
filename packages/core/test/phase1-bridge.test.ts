@@ -69,7 +69,15 @@ describe('Phase 1 bridge contract', () => {
       nginxStop: { operationId: 'op-12' },
       nginxReload: { operationId: 'op-13' },
       nginxLogs: { maxBytes: 4096 },
-      nginxConfig: {}
+      nginxConfig: {},
+      redisVersions: { moduleId: 'redis' },
+      redisInstall: { operationId: 'op-14', moduleId: 'redis', version: '7.2.7', platform: 'linux', architecture: 'x64' },
+      redisStatus: { moduleId: 'redis' },
+      redisList: { moduleId: 'redis' },
+      redisUninstall: { operationId: 'op-15', installationId: 'redis-7.2.7-linux-x64' },
+      redisStart: { operationId: 'op-16' },
+      redisStop: { operationId: 'op-17' },
+      redisLogs: { maxBytes: 4096 }
     };
     expect(Object.keys(samples).sort()).toEqual(Object.keys(DESKTOP_METHODS).sort());
     for (const [method, sample] of Object.entries(samples)) {
@@ -98,6 +106,13 @@ describe('Phase 1 bridge contract', () => {
     expect(() => parseBoundedBridgeRequest('nginxStart', { operationId: 'op', command: 'sh' })).toThrow();
     expect(() => parseBoundedBridgeRequest('nginxVersions', { moduleId: 'caddy' })).toThrow();
     expect(() => parseBoundedBridgeRequest('nginxLogs', { maxBytes: 0 })).toThrow();
+    for (const injected of [{ url: 'https://evil.test/redis.tar.gz' }, { sha256: 'a'.repeat(64) }, { path: '/etc/passwd' }, { command: 'sh' }, { port: 6379 }]) {
+      expect(BRIDGE_REQUEST_SCHEMAS.redisInstall.safeParse({ operationId: 'op', moduleId: 'redis', version: '7.2.7', platform: 'linux', architecture: 'x64', ...injected }).success).toBe(false);
+    }
+    expect(() => parseBoundedBridgeRequest('redisUninstall', { operationId: 'op', installationId: '../../etc' })).toThrow();
+    expect(() => parseBoundedBridgeRequest('redisStart', { operationId: 'op', command: 'sh' })).toThrow();
+    expect(() => parseBoundedBridgeRequest('redisVersions', { moduleId: 'nginx' })).toThrow();
+    expect(() => parseBoundedBridgeRequest('redisLogs', { maxBytes: 0 })).toThrow();
     expect(SitesApplyRequestSchema.safeParse({ operationId: 'op', sites: [] }).success).toBe(false);
     expect(() => parseBoundedBridgeRequest('sitesRemove', { operationId: 'op', siteId: '../../etc' })).toThrow();
     expect(() => parseBoundedBridgeRequest('start', { operationId: 'op', ref: REF, command: 'sh' })).toThrow();
@@ -108,7 +123,7 @@ describe('Phase 1 bridge contract', () => {
     expect(Object.values(OPERATION_TIMEOUTS).every(value => Number.isFinite(value) && value > 0)).toBe(true);
     // Every method names a bounded operation class; nothing waits forever.
     for (const method of Object.keys(DESKTOP_METHODS)) {
-      const cls = method === 'install' || method === 'nginxInstall' ? 'install' : method === 'runtimeInstall' ? 'runtimeInstall' : method.startsWith('list') || method === 'status' || method === 'logsTail' || method === 'runtimeStatus' || method === 'runtimeList' || method === 'runtimeVersions' || method === 'nginxStatus' || method === 'nginxList' || method === 'nginxVersions' || method === 'nginxLogs' || method === 'nginxConfig' ? 'read' : method.startsWith('sites') ? 'sites' : 'service';
+      const cls = method === 'install' || method === 'nginxInstall' || method === 'redisInstall' ? 'install' : method === 'runtimeInstall' ? 'runtimeInstall' : method.startsWith('list') || method === 'status' || method === 'logsTail' || method === 'runtimeStatus' || method === 'runtimeList' || method === 'runtimeVersions' || method === 'nginxStatus' || method === 'nginxList' || method === 'nginxVersions' || method === 'nginxLogs' || method === 'nginxConfig' || method === 'redisStatus' || method === 'redisList' || method === 'redisVersions' || method === 'redisLogs' ? 'read' : method.startsWith('sites') ? 'sites' : 'service';
       expect(OPERATION_TIMEOUTS[cls as keyof typeof OPERATION_TIMEOUTS], method).toBeGreaterThan(0);
     }
   });

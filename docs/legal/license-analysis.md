@@ -62,6 +62,8 @@ Tabel lengkap ada di [`vendor-catalog.tsv`](vendor-catalog.tsv). Ringkasan keput
 | Proprietary/EULA | SQL Server, Dameng DM8, Claude Code client, GitHub Copilot, Antigravity | **Tidak boleh dibundel** tanpa izin tertulis; hanya alur unduh/instal oleh pengguna dengan persetujuan EULA mereka |
 | Identitas belum pasti | Kimi CLI, static HTTP server, CLIProxyAPI | **Diblokir sampai vendor/edisi dipastikan** — jangan mengganti dengan proyek bernama mirip |
 
+**Redis 7.2.7 (Fase 6).** Modul Redis memilih **7.2.7**, rilis terakhir pada jalur lisensi **BSD-3-Clause**. Redis 7.4 mengubah lisensi default menjadi RSALv2/SSPLv1 dan Redis 8 menambahkan opsi AGPLv3, sehingga pin ini tidak boleh dinaikkan tanpa review lisensi baru. Sumber resmi `https://download.redis.io/releases/redis-7.2.7.tar.gz`, SHA-256 `72c081e3b8cfae7144273d26d76736f08319000af46c01515cad5d29765cead5`, bukti lisensi `https://github.com/redis/redis/blob/7.2.7/COPYING`. Binary dibangun per pengguna dan tidak dibundel pada fase ini. Tidak ada build native Windows resmi dan tidak ada fork tidak resmi yang dipakai.
+
 Aturan unduhan: hanya dari domain resmi vendor, HTTPS, checksum SHA-256 resmi bila tersedia, verifikasi signature bila vendor menyediakannya. Mirror hanya boleh dikonfigurasi pengguna dan tetap diverifikasi checksum. Setiap penambahan versi vendor memperbarui `vendor-catalog.tsv`, `THIRD_PARTY_NOTICES`, dan SBOM.
 
 ## 4. SBOM
@@ -74,6 +76,8 @@ Aturan unduhan: hanya dari domain resmi vendor, HTTPS, checksum SHA-256 resmi bi
 - Beberapa properti `LocalNodeModulesPath` memuat path absolut mesin pembuat. Sebelum publikasi, path absolut harus dihapus/dinormalisasi. Untuk Fase 0 artefak disimpan sebagai bukti internal dengan path dinormalisasi menjadi `<workspace>`.
 
 SBOM ini mencakup dependensi build, **bukan** binary vendor runtime yang belum diunduh. SBOM rilis final harus dibuat dari artefak terpasang dan memuat komponen vendor.
+
+Catatan Redis 7.2.7 (Fase 6): Redis bukan komponen npm dan tidak muncul sebagai entri tersendiri di `sbom.cdx.json` karena modul mengunduh sumber resmi saat pengguna meminta instalasi. Provenance yang harus dibawa ke SBOM rilis final adalah sumber `https://download.redis.io/releases/redis-7.2.7.tar.gz`, SHA-256 `72c081e3b8cfae7144273d26d76736f08319000af46c01515cad5d29765cead5`, lisensi BSD-3-Clause, dan bukti `https://github.com/redis/redis/blob/7.2.7/COPYING`. Binary hasil build per pengguna tidak boleh diklaim sebagai komponen yang didistribusikan sebelum packaging menyertakan notice.
 
 ## 5. Checklist kepatuhan Fase 0
 

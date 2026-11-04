@@ -101,3 +101,27 @@ Nginx process identity uses the recorded executable and OS start token on Linux.
 The optional environment token used by Caddy cannot be relied on for Nginx
 because the vendor master rewrites its process environment; a recycled PID is
 still rejected by executable and start-token mismatch.
+
+## Phase 6 additions (Redis)
+
+| Surface | Contract |
+|---|---|
+| Redis reads | `redis.versions`, `redis.status`, `redis.list` take `{moduleId:'redis'}` and return strict typed views. `redis.logs` takes a bounded `maxBytes` |
+| Redis install | `redis.install` reuses the module-agnostic `InstallRequest` shape but has its own fixed channel. The worker accepts only module `redis`, version `7.2.7`, and its own Linux platform/architecture; callers cannot name a URL, digest, build flag, port, prefix or config path |
+| Redis uninstall | `redis.uninstall` takes `{operationId, installationId}`. The worker resolves the ID through its persisted record, refuses a running/unknown service, and refuses any path outside the managed installations root |
+| Redis lifecycle | `redis.start` and `redis.stop` take `{operationId, timeoutMs?}` for the single managed instance. Start binds `127.0.0.1:16379`, runs in the foreground under the worker, and reports readiness only when the managed `redis-cli ping` returns `PONG` |
+| Redis views | `RedisVersionsView` exposes the Linux source/SHA-256 pins and honest supported/tested flags. `RedisStatusView` exposes install facts plus a bounded service view (state, PID, loopback endpoint, config/data/log/pid paths). `RedisLogsView` exposes the managed log path and a bounded tail |
+| Bridge names | `redisVersions`, `redisInstall`, `redisStatus`, `redisList`, `redisUninstall`, `redisStart`, `redisStop`, `redisLogs` with fixed channels. No generic invoke/exec/shell channel is added |
+| Progress | Redis install/lifecycle stream the same bounded progress frames; exactly one terminal `OperationResult` settles each accepted operation |
+
+The Redis module is additive: Caddy, Node and Nginx channel names, pins and
+lifecycle semantics are unchanged. Linux x64 is the only Redis target with
+execution evidence. Linux arm64 builds from the same pinned source but remains
+unverified. Redis upstream publishes no supported native Windows build, so
+Windows is explicitly `unsupported`; no unofficial fork is used and no Windows
+artifact is pinned.
+
+Redis process identity uses the recorded executable and OS start token on Linux.
+The instance is never daemonized: the worker owns the child, and stop/reconcile
+verify identity before signalling. Authentication/ACL, replication, cluster mode,
+TLS and persistence tuning are not part of this contract.

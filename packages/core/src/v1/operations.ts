@@ -239,6 +239,126 @@ export const NginxLogsViewSchema = z
   .strict();
 export type NginxLogsView = z.infer<typeof NginxLogsViewSchema>;
 
+/**
+ * Additive Redis surface (Phase 6). Redis is built from the pinned official source
+ * into a per-user prefix and runs as a single managed instance. Callers may name
+ * the module/version and lifecycle operation, never a URL, digest, build flag,
+ * config path, port or shell command.
+ */
+export const RedisModuleRequestSchema = z.object({ moduleId: z.literal('redis') }).strict();
+export type RedisModuleRequest = z.infer<typeof RedisModuleRequestSchema>;
+
+export const RedisInstallRequestSchema = InstallRequestSchema;
+export type RedisInstallRequest = z.infer<typeof RedisInstallRequestSchema>;
+
+export const RedisUninstallRequestSchema = z
+  .object({ operationId: OperationRequestIdSchema, installationId: IdSchema })
+  .strict();
+export type RedisUninstallRequest = z.infer<typeof RedisUninstallRequestSchema>;
+
+export const RedisLifecycleRequestSchema = z
+  .object({
+    operationId: OperationRequestIdSchema,
+    /** Caller-supplied readiness bound; the worker clamps it into an operational range. */
+    timeoutMs: z.number().int().min(1000).max(120_000).optional()
+  })
+  .strict();
+export type RedisLifecycleRequest = z.infer<typeof RedisLifecycleRequestSchema>;
+
+export const RedisLogsRequestSchema = z.object({ maxBytes: z.number().int().min(256).max(1_048_576) }).strict();
+export type RedisLogsRequest = z.infer<typeof RedisLogsRequestSchema>;
+
+export const RedisVersionViewSchema = z
+  .object({
+    moduleId: z.literal('redis'),
+    version: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    source: z.url().refine(v => new URL(v).protocol === 'https:', 'HTTPS required'),
+    sha256: z.string().regex(/^[a-f0-9]{64}$/),
+    archive: z.literal('tar.gz'),
+    kind: z.literal('source'),
+    tested: z.boolean(),
+    supported: z.boolean()
+  })
+  .strict();
+export type RedisVersionView = z.infer<typeof RedisVersionViewSchema>;
+
+export const RedisVersionsViewSchema = z
+  .object({
+    moduleId: z.literal('redis'),
+    pinnedVersion: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    supported: z.boolean(),
+    tested: z.boolean(),
+    versions: z.array(RedisVersionViewSchema).max(4)
+  })
+  .strict();
+export type RedisVersionsView = z.infer<typeof RedisVersionsViewSchema>;
+
+export const RedisInstallationViewSchema = z
+  .object({
+    id: IdSchema,
+    moduleId: z.literal('redis'),
+    version: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    directory: z.string().min(1).max(4096),
+    serverPath: z.string().min(1).max(4096),
+    cliPath: z.string().min(1).max(4096),
+    versionOutput: z.string().min(1).max(200),
+    cliVersionOutput: z.string().min(1).max(200),
+    installedAt: z.iso.datetime(),
+    source: z.url().refine(v => new URL(v).protocol === 'https:', 'HTTPS required'),
+    sha256: z.string().regex(/^[a-f0-9]{64}$/)
+  })
+  .strict();
+export type RedisInstallationView = z.infer<typeof RedisInstallationViewSchema>;
+
+export const RedisServiceViewSchema = z
+  .object({
+    state: z.enum(['stopped', 'starting', 'running', 'stopping', 'failed', 'unknown']),
+    pid: z.number().int().positive().optional(),
+    port: z.number().int().min(1).max(65535),
+    bind: z.literal('127.0.0.1'),
+    configPath: z.string().min(1).max(4096),
+    dataDir: z.string().min(1).max(4096),
+    logPath: z.string().min(1).max(4096),
+    pidFile: z.string().min(1).max(4096),
+    observedAt: z.iso.datetime()
+  })
+  .strict();
+export type RedisServiceView = z.infer<typeof RedisServiceViewSchema>;
+
+export const RedisStatusViewSchema = z
+  .object({
+    moduleId: z.literal('redis'),
+    pinnedVersion: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    supported: z.boolean(),
+    tested: z.boolean(),
+    installed: z.boolean(),
+    installation: RedisInstallationViewSchema.optional(),
+    service: RedisServiceViewSchema
+  })
+  .strict();
+export type RedisStatusView = z.infer<typeof RedisStatusViewSchema>;
+
+export const RedisListViewSchema = z.object({ moduleId: z.literal('redis'), installations: z.array(RedisInstallationViewSchema).max(4) }).strict();
+export type RedisListView = z.infer<typeof RedisListViewSchema>;
+
+export const RedisLogsViewSchema = z
+  .object({
+    path: z.string().min(1).max(4096),
+    bytes: z.number().int().nonnegative(),
+    truncated: z.boolean(),
+    text: z.string().max(1_048_576)
+  })
+  .strict();
+export type RedisLogsView = z.infer<typeof RedisLogsViewSchema>;
+
 export const ServiceRequestSchema = z.object({
   operationId: OperationRequestIdSchema,
   ref: ServiceRefSchema,
@@ -376,7 +496,15 @@ export const WorkerMethodResultSchema = z.union([
   z.object({ method: z.literal('nginx.stop'), data: OperationResultSchema }).strict(),
   z.object({ method: z.literal('nginx.reload'), data: OperationResultSchema }).strict(),
   z.object({ method: z.literal('nginx.logs'), data: NginxLogsViewSchema }).strict(),
-  z.object({ method: z.literal('nginx.config'), data: ConfigReadViewSchema }).strict()
+  z.object({ method: z.literal('nginx.config'), data: ConfigReadViewSchema }).strict(),
+  z.object({ method: z.literal('redis.versions'), data: RedisVersionsViewSchema }).strict(),
+  z.object({ method: z.literal('redis.install'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('redis.status'), data: RedisStatusViewSchema }).strict(),
+  z.object({ method: z.literal('redis.list'), data: RedisListViewSchema }).strict(),
+  z.object({ method: z.literal('redis.uninstall'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('redis.start'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('redis.stop'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('redis.logs'), data: RedisLogsViewSchema }).strict()
 ]);
 export type WorkerMethodResult = z.infer<typeof WorkerMethodResultSchema>;
 export type ErrorCode = z.infer<typeof ErrorSchema.shape.code>;
@@ -414,7 +542,15 @@ export const WORKER_METHODS = [
   'nginx.stop',
   'nginx.reload',
   'nginx.logs',
-  'nginx.config'
+  'nginx.config',
+  'redis.versions',
+  'redis.install',
+  'redis.status',
+  'redis.list',
+  'redis.uninstall',
+  'redis.start',
+  'redis.stop',
+  'redis.logs'
 ] as const;
 export type WorkerMethod = (typeof WORKER_METHODS)[number];
 
@@ -449,6 +585,15 @@ export const WorkerNginxLifecycleRequestSchema = z
   .strict();
 export const WorkerNginxLogsRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('nginx.logs'), params: NginxLogsRequestSchema }).strict();
 export const WorkerNginxConfigRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('nginx.config'), params: NginxConfigRequestSchema }).strict();
+export const WorkerRedisVersionsRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('redis.versions'), params: RedisModuleRequestSchema }).strict();
+export const WorkerRedisInstallRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('redis.install'), params: RedisInstallRequestSchema }).strict();
+export const WorkerRedisStatusRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('redis.status'), params: RedisModuleRequestSchema }).strict();
+export const WorkerRedisListRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('redis.list'), params: RedisModuleRequestSchema }).strict();
+export const WorkerRedisUninstallRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('redis.uninstall'), params: RedisUninstallRequestSchema }).strict();
+export const WorkerRedisLifecycleRequestSchema = z
+  .object({ ...EnvelopeBase, method: z.enum(['redis.start', 'redis.stop']), params: RedisLifecycleRequestSchema })
+  .strict();
+export const WorkerRedisLogsRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('redis.logs'), params: RedisLogsRequestSchema }).strict();
 
 /** Discriminated by `method`: unknown methods and unknown fields are rejected before dispatch. */
 export const WorkerManagementRequestSchema = z.discriminatedUnion('method', [
@@ -477,7 +622,14 @@ export const WorkerManagementRequestSchema = z.discriminatedUnion('method', [
   WorkerNginxUninstallRequestSchema,
   WorkerNginxLifecycleRequestSchema,
   WorkerNginxLogsRequestSchema,
-  WorkerNginxConfigRequestSchema
+  WorkerNginxConfigRequestSchema,
+  WorkerRedisVersionsRequestSchema,
+  WorkerRedisInstallRequestSchema,
+  WorkerRedisStatusRequestSchema,
+  WorkerRedisListRequestSchema,
+  WorkerRedisUninstallRequestSchema,
+  WorkerRedisLifecycleRequestSchema,
+  WorkerRedisLogsRequestSchema
 ]);
 export type WorkerManagementRequest = z.infer<typeof WorkerManagementRequestSchema>;
 

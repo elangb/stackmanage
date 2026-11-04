@@ -50,8 +50,7 @@ Each entry below is **planned**; none is downloaded or redistributed in Phase 0.
 | phpMyAdmin | GPL-2.0-or-later | Web app redistribution requires corresponding source |
 | pgAdmin 4, DBGate, Redis Commander | PostgreSQL / MIT mixes | Bundled Python/Node dependencies reviewed separately |
 | Redis | BSD-3 ≤7.2; RSALv2/SSPLv1 ≥7.4; AGPLv3 option ≥8 | Pin version and licence path explicitly |
-| Memcached, Mailpit | BSD-3 / MIT | Include notices |
-| RabbitMQ | MPL-2.0 | File-level source obligations; Erlang runtime separate |
+| Memcached, Mailpit | BSD-3 / MIT | Include notices || RabbitMQ | MPL-2.0 | File-level source obligations; Erlang runtime separate |
 | Elasticsearch | ELv2/SSPL/AGPLv3 depending on version | Not OSI for current default distribution; review before bundling |
 | Meilisearch, Typesense, ZincSearch | MIT / GPL-3.0 / Apache-2.0 candidate | Pin project identity and release |
 | Static HTTP server | UNKNOWN | Blocked until vendor identity confirmed |
@@ -62,6 +61,25 @@ Each entry below is **planned**; none is downloaded or redistributed in Phase 0.
 | Kafka, OpenSearch, llama.cpp | Apache-2.0 / MIT | Confluent and model weights have separate terms |
 | SQL Server, Dameng DM8 | Proprietary EULA | Do not bundle; user installs under vendor terms |
 | Claude Code, GitHub Copilot, Antigravity | Proprietary service/client terms | Integration only; no binary redistribution |
+
+### C.1 Redis 7.2.7 (BSD-3-Clause, download-on-demand)
+
+Phase 6 pins **Redis 7.2.7**, the last release line distributed under the
+**BSD-3-Clause** licence. Redis 7.4 changed the default licence to
+RSALv2/SSPLv1 and Redis 8 added an AGPLv3 option, so this pin must not be
+silently advanced.
+
+- Official source: `https://download.redis.io/releases/redis-7.2.7.tar.gz`
+- SHA-256: `72c081e3b8cfae7144273d26d76736f08319000af46c01515cad5d29765cead5`
+  (computed from the official artifact on 2026-11-04; the vendor publishes no
+  SHA-256 sidecar)
+- Licence evidence: <https://github.com/redis/redis/blob/7.2.7/COPYING>
+- Redistribution posture: the user downloads and builds the source into their
+  own profile. StackManage does not bundle or redistribute the Redis binaries in
+  this phase. A release that bundles them must carry the upstream `COPYING` text.
+
+No native Windows build exists upstream, so StackManage does not substitute an
+unofficial Windows fork.
 
 ## D. Assets and identity
 

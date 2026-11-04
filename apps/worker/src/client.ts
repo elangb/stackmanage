@@ -25,6 +25,11 @@ import type {
   NginxLogsRequest,
   NginxModuleRequest,
   NginxUninstallRequest,
+  RedisInstallRequest,
+  RedisLifecycleRequest,
+  RedisLogsRequest,
+  RedisModuleRequest,
+  RedisUninstallRequest,
   ServiceRequest,
   SiteRemoveRequest,
   SitesApplyRequest,
@@ -85,6 +90,12 @@ export function timeoutFor(method: WorkerManagementMethod): number {
     case 'nginx.stop':
     case 'nginx.reload':
     case 'nginx.uninstall':
+      return OPERATION_TIMEOUTS.service + OPERATION_TIMEOUTS.read;
+    case 'redis.install':
+      return OPERATION_TIMEOUTS.install + OPERATION_TIMEOUTS.read;
+    case 'redis.start':
+    case 'redis.stop':
+    case 'redis.uninstall':
       return OPERATION_TIMEOUTS.service + OPERATION_TIMEOUTS.read;
     case 'service.start':
     case 'service.stop':
@@ -332,6 +343,38 @@ export class WorkerClient {
 
   nginxConfig(request: NginxConfigRequest): Promise<Terminal> {
     return this.call('nginx.config', request);
+  }
+
+  redisVersions(request: RedisModuleRequest): Promise<Terminal> {
+    return this.call('redis.versions', request);
+  }
+
+  redisInstall(request: RedisInstallRequest, onProgress?: ProgressSink): Promise<Terminal> {
+    return this.call('redis.install', request, onProgress);
+  }
+
+  redisStatus(request: RedisModuleRequest): Promise<Terminal> {
+    return this.call('redis.status', request);
+  }
+
+  redisList(request: RedisModuleRequest): Promise<Terminal> {
+    return this.call('redis.list', request);
+  }
+
+  redisUninstall(request: RedisUninstallRequest, onProgress?: ProgressSink): Promise<Terminal> {
+    return this.call('redis.uninstall', request, onProgress);
+  }
+
+  redisStart(request: RedisLifecycleRequest, onProgress?: ProgressSink): Promise<Terminal> {
+    return this.call('redis.start', request, onProgress);
+  }
+
+  redisStop(request: RedisLifecycleRequest, onProgress?: ProgressSink): Promise<Terminal> {
+    return this.call('redis.stop', request, onProgress);
+  }
+
+  redisLogs(request: RedisLogsRequest): Promise<Terminal> {
+    return this.call('redis.logs', request);
   }
 
   /* ------------------------------- lifecycle ------------------------------- */

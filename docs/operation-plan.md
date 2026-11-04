@@ -75,3 +75,32 @@ prerequisites return one actionable error before any download/build. `nginx -t`
 is required before starting or reloading, and a rejected candidate never replaces
 the live config. A failed start cleans up its own child and reports failure
 instead of a running service. Uninstall cannot delete a running binary.
+
+## Phase 6 Redis operation contract
+
+Authorization: user authorized a Redis database module, a separate `agent/redis`
+branch and Phase 6 tests/report. No default module constraint is relaxed: there
+is no Pinia store, no `config.setup`, persistence uses `StorageGetAsync`/
+`StorageSetAsync`, and Redis-only types, pins, limits, paths and policy live under
+`apps/worker/src/modules/redis` plus the renderer-local `redis` controller.
+Caddy, Node and Nginx behavior and the shared proxy-aware downloader are
+unchanged; the shared process primitives are reused as-is.
+
+| Operation/state | Owner / lifetime | Start / intermediate / terminal | Duplicate / cleanup / service interaction | Verification |
+|---|---|---|---|---|
+| Redis versions/status/list/logs | worker Redis module; worker lifetime | read / none / typed view or typed error | short-lived read; never mutates operation state; a corrupt/missing record is treated as absent; log path is bounded to the managed home | schema, path-guard and unsupported-platform tests |
+| Redis install | renderer `redisController` singleton plus worker Redis installer | `redis.preflight` / download, checksum, extract, make, validate, commit / one `OperationResult` | same original operation ID attaches through the worker inflight map and controller in-flight promise; a different overlapping install returns `CONFLICT`; a valid pinned install is idempotent; staging is removed in `finally`; a previous prefix is restored if promotion/validation/persistence fails | preflight, checksum, extraction, idempotency, rollback and real-network tests |
+| Redis uninstall | renderer controller plus worker installer | `redis.uninstall` progress / one `OperationResult` | only a recorded installation is addressed; a running or unverified service is refused; directory, server and CLI must resolve inside the managed installations root; record cleanup failure is a warning | managed-root, running-service, cleanup and missing-record tests |
+| Redis lifecycle | renderer controller plus worker service manager | `redis.preflight` / one `OperationResult` | one mutation per instance; duplicate calls attach to the in-flight promise; start checks the loopback port, renders the private config, captures identity and waits for `redis-cli ping` = `PONG`; stop/reconcile verify executable and start token before signalling | real child start/PING/SET/GET/stop, idempotent start, port-conflict, identity and stale-PID tests |
+| Redis progress | controller handler | subscribe once / validated operation ID + monotonic sequence / listener detached on application teardown | foreign, replayed and stale frames are dropped; no text beyond a bounded stage key and fraction crosses the bridge | controller dedupe/progress/cleanup tests |
+
+Failure boundaries: the official SHA-256 is a required dependency; a mismatch
+stops the install. `cc` and `make` are required; missing prerequisites return one
+actionable error before any download/build. A failed `make` retries once with
+`MALLOC=libc` (supplementary build strategy), but a real compiler failure still
+stops the install. The real binaries must report 7.2.7 before promotion.
+Readiness uses only the managed `redis-cli` reply `PONG`; a live process without
+PONG is reported as failure/unknown, never as running. Stop reports `unknown`
+when termination cannot be confirmed. Uninstall refuses a running or unverified
+service and cannot delete a path outside the managed root. Windows is reported
+`unsupported`; no unofficial fork is downloaded.

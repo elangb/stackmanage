@@ -22,7 +22,7 @@ export type WorkerRequest = z.infer<typeof WorkerRequestSchema>;
 export type WorkerResponse = z.infer<typeof WorkerResponseSchema>;
 
 /** Phase 1 features. Phase 0 reported only `bootstrap`. */
-export const FeatureSchema = z.enum(['bootstrap', 'services.install', 'services.lifecycle', 'sites', 'logs', 'config', 'runtimes']);
+export const FeatureSchema = z.enum(['bootstrap', 'services.install', 'services.lifecycle', 'sites', 'logs', 'config', 'runtimes', 'databases']);
 export type Feature = z.infer<typeof FeatureSchema>;
 
 export const SnapshotSchema = z.object({

@@ -60,7 +60,15 @@ const METHOD_MAP = Object.freeze({
   nginxStop: 'nginx.stop',
   nginxReload: 'nginx.reload',
   nginxLogs: 'nginx.logs',
-  nginxConfig: 'nginx.config'
+  nginxConfig: 'nginx.config',
+  redisVersions: 'redis.versions',
+  redisInstall: 'redis.install',
+  redisStatus: 'redis.status',
+  redisList: 'redis.list',
+  redisUninstall: 'redis.uninstall',
+  redisStart: 'redis.start',
+  redisStop: 'redis.stop',
+  redisLogs: 'redis.logs'
 } as const satisfies Record<DesktopMethodName, string>);
 
 class IpcFailure extends Error {
@@ -164,7 +172,7 @@ function registerHandlers(): void {
           apiVersion: API_VERSION,
           appVersion: app.getVersion(),
           worker: 'ready',
-          implementedFeatures: ['bootstrap', 'services.install', 'services.lifecycle', 'sites', 'logs', 'runtimes'],
+          implementedFeatures: ['bootstrap', 'services.install', 'services.lifecycle', 'sites', 'logs', 'runtimes', 'databases'],
           limits: DEFAULT_LIMITS,
           platform: process.platform === 'win32' || process.platform === 'linux' || process.platform === 'darwin' ? process.platform : undefined,
           architecture: process.arch === 'x64' || process.arch === 'arm64' ? process.arch : undefined,
@@ -230,7 +238,8 @@ app
       env: {
         STACKMANAGE_DATA_HOME: join(app.getPath('userData'), 'caddy'),
         STACKMANAGE_NODE_HOME: join(app.getPath('userData'), 'node', 'runtime'),
-        STACKMANAGE_NGINX_HOME: join(app.getPath('userData'), 'nginx')
+        STACKMANAGE_NGINX_HOME: join(app.getPath('userData'), 'nginx'),
+        STACKMANAGE_REDIS_HOME: join(app.getPath('userData'), 'redis')
       }
     });
     registerHandlers();
@@ -254,7 +263,7 @@ async function runSmoke(): Promise<void> {
     const parsed = SnapshotResponseSchema.parse(result);
     if (!parsed.ok) throw new Error('Bridge health failed');
     const isolated: unknown = await window.webContents.executeJavaScript(
-      `typeof require === 'undefined' && typeof process === 'undefined' && Object.keys(window.stackmanage).sort().join(',') === 'certificateStatus,install,listInstallations,listServices,logsTail,nginxConfig,nginxInstall,nginxList,nginxLogs,nginxReload,nginxStart,nginxStatus,nginxStop,nginxUninstall,nginxVersions,onOperationEvent,restart,runtimeInstall,runtimeList,runtimeStatus,runtimeUninstall,runtimeVersions,sitesApply,sitesList,sitesRemove,snapshot,start,status,stop,trustCertificate'`
+      `typeof require === 'undefined' && typeof process === 'undefined' && Object.keys(window.stackmanage).sort().join(',') === 'certificateStatus,install,listInstallations,listServices,logsTail,nginxConfig,nginxInstall,nginxList,nginxLogs,nginxReload,nginxStart,nginxStatus,nginxStop,nginxUninstall,nginxVersions,onOperationEvent,redisInstall,redisList,redisLogs,redisStart,redisStatus,redisStop,redisUninstall,redisVersions,restart,runtimeInstall,runtimeList,runtimeStatus,runtimeUninstall,runtimeVersions,sitesApply,sitesList,sitesRemove,snapshot,start,status,stop,trustCertificate'`
     );
     if (isolated !== true) throw new Error('Renderer isolation/bridge surface failed');
     const status = await window.webContents.executeJavaScript(`window.stackmanage.status({instanceId:'caddy-18080'})`);
@@ -269,7 +278,10 @@ async function runSmoke(): Promise<void> {
     const nginxStatus = await window.webContents.executeJavaScript(`window.stackmanage.nginxStatus({moduleId:'nginx'})`);
     const nginxStatusParsed = BridgeResponseSchema.parse(nginxStatus);
     if (!nginxStatusParsed.ok || nginxStatusParsed.data.method !== 'nginx.status') throw new Error('Nginx status bridge failed');
-    console.log('DESKTOP_SMOKE_OK: renderer → sandbox preload → main → fork worker; typed narrow bridge; runtime and Nginx reads; Node globals absent');
+    const redisStatus = await window.webContents.executeJavaScript(`window.stackmanage.redisStatus({moduleId:'redis'})`);
+    const redisStatusParsed = BridgeResponseSchema.parse(redisStatus);
+    if (!redisStatusParsed.ok || redisStatusParsed.data.method !== 'redis.status') throw new Error('Redis status bridge failed');
+    console.log('DESKTOP_SMOKE_OK: renderer → sandbox preload → main → fork worker; typed narrow bridge; runtime, Nginx and Redis reads; Node globals absent');
     app.quit();
   } catch (error) {
     console.error(error);

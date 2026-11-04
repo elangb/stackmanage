@@ -11,6 +11,11 @@ import {
   NginxLogsRequestSchema,
   NginxModuleRequestSchema,
   NginxUninstallRequestSchema,
+  RedisInstallRequestSchema,
+  RedisLifecycleRequestSchema,
+  RedisLogsRequestSchema,
+  RedisModuleRequestSchema,
+  RedisUninstallRequestSchema,
   RuntimeInstallRequestSchema,
   RuntimeModuleRequestSchema,
   RuntimeUninstallRequestSchema,
@@ -57,14 +62,23 @@ export const DESKTOP_METHODS = Object.freeze({
   nginxStop: 'stackmanage:v1:nginx-stop',
   nginxReload: 'stackmanage:v1:nginx-reload',
   nginxLogs: 'stackmanage:v1:nginx-logs',
-  nginxConfig: 'stackmanage:v1:nginx-config'
+  nginxConfig: 'stackmanage:v1:nginx-config',
+  redisVersions: 'stackmanage:v1:redis-versions',
+  redisInstall: 'stackmanage:v1:redis-install',
+  redisStatus: 'stackmanage:v1:redis-status',
+  redisList: 'stackmanage:v1:redis-list',
+  redisUninstall: 'stackmanage:v1:redis-uninstall',
+  redisStart: 'stackmanage:v1:redis-start',
+  redisStop: 'stackmanage:v1:redis-stop',
+  redisLogs: 'stackmanage:v1:redis-logs'
 } as const);
 
 export type DesktopMethodName = keyof typeof DESKTOP_METHODS;
 export const DesktopMethodNameSchema = z.enum([
   'install', 'start', 'stop', 'restart', 'status', 'listServices', 'listInstallations', 'logsTail', 'sitesApply', 'sitesList', 'sitesRemove', 'certificateStatus', 'trustCertificate',
   'runtimeVersions', 'runtimeInstall', 'runtimeStatus', 'runtimeList', 'runtimeUninstall',
-  'nginxVersions', 'nginxInstall', 'nginxStatus', 'nginxList', 'nginxUninstall', 'nginxStart', 'nginxStop', 'nginxReload', 'nginxLogs', 'nginxConfig'
+  'nginxVersions', 'nginxInstall', 'nginxStatus', 'nginxList', 'nginxUninstall', 'nginxStart', 'nginxStop', 'nginxReload', 'nginxLogs', 'nginxConfig',
+  'redisVersions', 'redisInstall', 'redisStatus', 'redisList', 'redisUninstall', 'redisStart', 'redisStop', 'redisLogs'
 ]);
 
 export const BridgeOkResponseSchema = z.object({ ok: z.literal(true), data: WorkerResultResponseSchema.shape.result }).strict();
@@ -104,7 +118,15 @@ export const BRIDGE_REQUEST_SCHEMAS = Object.freeze({
   nginxStop: NginxLifecycleRequestSchema,
   nginxReload: NginxLifecycleRequestSchema,
   nginxLogs: NginxLogsRequestSchema,
-  nginxConfig: NginxConfigRequestSchema
+  nginxConfig: NginxConfigRequestSchema,
+  redisVersions: RedisModuleRequestSchema,
+  redisInstall: RedisInstallRequestSchema,
+  redisStatus: RedisModuleRequestSchema,
+  redisList: RedisModuleRequestSchema,
+  redisUninstall: RedisUninstallRequestSchema,
+  redisStart: RedisLifecycleRequestSchema,
+  redisStop: RedisLifecycleRequestSchema,
+  redisLogs: RedisLogsRequestSchema
 });
 export type BridgeRequestFor<M extends DesktopMethodName> = z.infer<(typeof BRIDGE_REQUEST_SCHEMAS)[M]>;
 export type BridgeResultData = z.infer<typeof WorkerResultResponseSchema>['result'];
@@ -167,6 +189,14 @@ export interface DesktopBridgeV1 {
   nginxReload(request: BridgeRequestFor<'nginxReload'>): Promise<BridgeResponse>;
   nginxLogs(request: BridgeRequestFor<'nginxLogs'>): Promise<BridgeResponse>;
   nginxConfig(request: BridgeRequestFor<'nginxConfig'>): Promise<BridgeResponse>;
+  redisVersions(request: BridgeRequestFor<'redisVersions'>): Promise<BridgeResponse>;
+  redisInstall(request: BridgeRequestFor<'redisInstall'>): Promise<BridgeResponse>;
+  redisStatus(request: BridgeRequestFor<'redisStatus'>): Promise<BridgeResponse>;
+  redisList(request: BridgeRequestFor<'redisList'>): Promise<BridgeResponse>;
+  redisUninstall(request: BridgeRequestFor<'redisUninstall'>): Promise<BridgeResponse>;
+  redisStart(request: BridgeRequestFor<'redisStart'>): Promise<BridgeResponse>;
+  redisStop(request: BridgeRequestFor<'redisStop'>): Promise<BridgeResponse>;
+  redisLogs(request: BridgeRequestFor<'redisLogs'>): Promise<BridgeResponse>;
   /** Progress for one operation; the caller filters stale sequences and mismatched operation IDs. */
   onOperationEvent(listener: (payload: BridgeEventPayload) => void): EventSubscriptionHandle;
 }

@@ -5,6 +5,7 @@ import { CaddyModule } from './modules/caddy';
 import { FsModuleStorage } from './modules/caddy/paths';
 import { NodeModule } from './modules/node';
 import { NginxModule } from './modules/nginx';
+import { RedisModule } from './modules/redis';
 
 export interface BuildOptions {
   home?: string;
@@ -32,6 +33,7 @@ export function workerDataHome(env: NodeJS.ProcessEnv = process.env): string {
 let instance: { module: CaddyModule; storage: ModuleStorage } | undefined;
 let runtimeInstance: { module: NodeModule; storage: ModuleStorage } | undefined;
 let nginxInstance: { module: NginxModule; storage: ModuleStorage } | undefined;
+let redisInstance: { module: RedisModule; storage: ModuleStorage } | undefined;
 
 export function buildCaddyModule(options: BuildOptions = {}): { module: CaddyModule; storage: ModuleStorage } {
   const storage = options.storage ?? new FsModuleStorage(join(workerDataHome(), 'state'));
@@ -103,3 +105,29 @@ export function nginxModule(options: BuildOptions = {}): { module: NginxModule; 
 }
 
 export { NginxModule };
+
+/** Redis data is isolated from Caddy, the Node runtime and Nginx. */
+export function redisDataHome(env: NodeJS.ProcessEnv = process.env): string {
+  const explicit = env['STACKMANAGE_REDIS_HOME'];
+  if (explicit !== undefined && explicit.trim() !== '') return resolve(explicit);
+  return join(workerDataHome(env), 'redis');
+}
+
+export function buildRedisModule(options: BuildOptions = {}): { module: RedisModule; storage: ModuleStorage } {
+  const storage = options.storage ?? new FsModuleStorage(join(workerDataHome(), 'state'));
+  const module = new RedisModule({
+    storage,
+    home: options.runtimeHome ?? redisDataHome(),
+    ...(options.platform !== undefined ? { platform: options.platform } : {}),
+    ...(options.architecture !== undefined ? { architecture: options.architecture } : {}),
+    ...(options.fetchImpl !== undefined ? { fetchImpl: options.fetchImpl } : {})
+  });
+  return { module, storage };
+}
+
+export function redisModule(options: BuildOptions = {}): { module: RedisModule; storage: ModuleStorage } {
+  redisInstance ??= buildRedisModule(options);
+  return redisInstance;
+}
+
+export { RedisModule };
