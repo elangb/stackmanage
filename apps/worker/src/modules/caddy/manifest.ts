@@ -24,25 +24,34 @@ export type CaddyTarget = z.infer<typeof CaddyTargetSchema>;
 
 export interface CaddyAsset {
   asset: string;
-  sha256: string;
+  /** Verified on every download; the upstream checksums file publishes SHA-512. */
+  sha512: string;
+  /** SHA-256 of the same artifact where known; used only for the `VersionRecord` field. */
+  sha256?: string;
   archive: 'tar.gz' | 'zip';
 }
 
-/** Official GitHub release assets, pinned by digest from the published checksums. */
+/**
+ * Official GitHub release assets, pinned by the SHA-512 values in
+ * `caddy_2.11.8_checksums.txt`. SHA-512 is the verified digest: the 64-hex
+ * strings sometimes quoted for Caddy are truncations of these values and would
+ * never match a real SHA-256 of the artifact.
+ */
 export const CADDY_ASSETS: Readonly<Record<CaddyTarget, CaddyAsset>> = Object.freeze({
   'linux-amd64': {
     asset: 'caddy_2.11.8_linux_amd64.tar.gz',
-    sha256: 'c863699eee84c6b410573de2ec67af81d07eb054f9020bb98f3c6cb256fea4be',
+    sha256: 'f032f8805e4df2ce5e1a8a624495c91e9ff763d8ff3ceddadd4784a07c472f40',
+    sha512: 'c863699eee84c6b410573de2ec67af81d07eb054f9020bb98f3c6cb256fea4be2fd1acfbd39110c649c3338282593bba3d3ed6424d91b7f5675e8b877a8999e9',
     archive: 'tar.gz'
   },
   'linux-arm64': {
     asset: 'caddy_2.11.8_linux_arm64.tar.gz',
-    sha256: '6a285426268c8f987e0c459f61dc5af3c25e663955c0e4dddc6e187722b7cdd15e4233ff0e570a4ee17b3c68d59e2a61ce96d2f6be55ea58eead6a334859557c',
+    sha512: '6a285426268c8f987e0c459f61dc5af3c25e663955c0e4dddc6e187722b7cdd15e4233ff0e570a4ee17b3c68d59e2a61ce96d2f6be55ea58eead6a334859557c',
     archive: 'tar.gz'
   },
   'windows-amd64': {
     asset: 'caddy_2.11.8_windows_amd64.zip',
-    sha256: 'fff45b117b9d9ea5cc3f824f3c18de89630bcb43a0b759ca5e7163b7a3c1fb39ec7dae7f3147012d602213c950a46c8b0ef8095c77109e807ebf90132deeb759',
+    sha512: 'fff45b117b9d9ea5cc3f824f3c18de89630bcb43a0b759ca5e7163b7a3c1fb39ec7dae7f3147012d602213c950a46c8b0ef8095c77109e807ebf90132deeb759',
     archive: 'zip'
   }
 });
@@ -144,5 +153,7 @@ export class OperationProgress {
   }
 
   /** No-op: the worker emits exactly one terminal frame from the dispatch return value. */
-  terminal(_result: OperationResult): void {}
+  terminal(result: OperationResult): void {
+    void result;
+  }
 }

@@ -85,7 +85,11 @@ export async function extractBinary(options: ExtractOptions): Promise<ExtractRes
   let skipped = 0;
 
   if (options.kind === 'tar.gz') {
-    await tar.x({
+    // `tar`'s filter cannot reject by throwing: the throw escapes into its stream
+    // internals. Record the first rejection, then let the stream unwind and throw
+    // it afterwards so one archive yields exactly one OperationFailure.
+    let rejected: OperationFailure | undefined;
+    const parser = tar.x({
       file: archivePath,
       cwd: stagingDir,
       strict: true,
@@ -93,20 +97,29 @@ export async function extractBinary(options: ExtractOptions): Promise<ExtractRes
       noChmod: true,
       noMtime: true,
       filter: (entryPath: string, entry: unknown) => {
-        safeJoin(stagingDir, entryPath);
+        if (rejected !== undefined) return false;
+        try {
+          safeJoin(stagingDir, entryPath);
+        } catch {
+          rejected = new OperationFailure('IO_ERROR', 'install.unsafeEntry', false, 'escape');
+          return false;
+        }
         const typed = entry as { type?: string; size?: number };
         if (typed.type === 'SymbolicLink' || typed.type === 'Link') {
-          throw new OperationFailure('IO_ERROR', 'install.unsafeEntry', false, 'link');
+          rejected = new OperationFailure('IO_ERROR', 'install.unsafeEntry', false, 'link');
+          return false;
         }
         if (typed.type === 'Directory') {
           skipped += 1;
           return false;
         }
         if (typed.type !== undefined && typed.type !== 'File' && typed.type !== 'OldFile' && typed.type !== 'ContiguousFile') {
-          throw new OperationFailure('IO_ERROR', 'install.unsafeEntry', false, 'special entry');
+          rejected = new OperationFailure('IO_ERROR', 'install.unsafeEntry', false, 'special entry');
+          return false;
         }
         if (typeof typed.size === 'number' && typed.size > limits.maxExtractedFileBytes) {
-          throw new OperationFailure('IO_ERROR', 'install.archiveTooLarge', false);
+          rejected = new OperationFailure('IO_ERROR', 'install.archiveTooLarge', false);
+          return false;
         }
         if (!wanted(entryPath)) {
           skipped += 1;
@@ -115,6 +128,9 @@ export async function extractBinary(options: ExtractOptions): Promise<ExtractRes
         return true;
       }
     });
+    await parser.catch(() => undefined);
+    if (rejected !== undefined) throw rejected;
+    await assertRegularFilesOnly(stagingDir, limits);
   } else {
     await extractZip(archivePath, {
       dir: stagingDir,

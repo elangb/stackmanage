@@ -10,16 +10,20 @@
  */
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { createReadStream } from 'node:fs';
-import { open, rename, rm, stat, truncate } from 'node:fs/promises';
+import { open, rename, rm, stat, writeFile } from 'node:fs/promises';
 import { mkdir } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import type { Readable } from 'node:stream';
 import { OperationAbortedError, OperationFailure, throwIfAborted, type OperationalLimits } from './manifest';
 
+export type DigestAlgorithm = 'sha256' | 'sha512';
+
 export interface DownloadOptions {
   url: string;
   destination: string;
-  expectedSha256: string;
+  /** Expected digest of the finished file, in `algorithm` encoding. */
+  expectedDigest: string;
+  algorithm?: DigestAlgorithm;
   limits: OperationalLimits;
   signal: AbortSignal;
   fetchImpl?: typeof fetch;
@@ -27,7 +31,7 @@ export interface DownloadOptions {
   onProgress?: (received: number, total: number | undefined) => void;
 }
 
-const SHA256_HEX = /^[a-f0-9]{64}$/;
+const HEX: Record<DigestAlgorithm, RegExp> = { sha256: /^[a-f0-9]{64}$/, sha512: /^[a-f0-9]{128}$/ };
 const ALLOWED_HOST = 'github.com';
 const ALLOWED_REDIRECT_SUFFIX = '.githubusercontent.com';
 
@@ -128,21 +132,18 @@ async function consume(
 
 /** Download, resume, and verify `destination`; throws rather than leaving an unverified file. */
 export async function downloadVerified(options: DownloadOptions): Promise<{ bytes: number; resumed: boolean }> {
-  if (!SHA256_HEX.test(options.expectedSha256)) throw new OperationFailure('INVALID_REQUEST', 'install.invalidDigest', false);
+  const algorithm = options.algorithm ?? 'sha256';
+  if (!HEX[algorithm].test(options.expectedDigest)) throw new OperationFailure('INVALID_REQUEST', 'install.invalidDigest', false);
   const partial = `${options.destination}.part`;
   await mkdir(dirname(options.destination), { recursive: true });
   throwIfAborted(options.signal);
 
-  let offset = 0;
-  try {
-    offset = (await stat(partial)).size;
-  } catch {
-    offset = 0;
-  }
-  if (offset > options.limits.maxDownloadBytes) {
-    await rm(partial, { force: true });
-    offset = 0;
-  }
+  const partialSize = await stat(partial)
+    .then(stats => stats.size)
+    .catch(() => 0);
+  // An oversized leftover cannot be resumed; discard it and start clean.
+  const offset = partialSize > options.limits.maxDownloadBytes ? 0 : partialSize;
+  if (offset === 0 && partialSize > 0) await rm(partial, { force: true });
 
   const { response } = await openStream(options, offset);
   const status = response.status;
@@ -160,17 +161,18 @@ export async function downloadVerified(options: DownloadOptions): Promise<{ byte
     throw new OperationFailure('IO_ERROR', 'install.downloadTooLarge', false);
   }
   if (response.body === null) throw new OperationFailure('IO_ERROR', 'install.downloadFailed', true, 'empty body');
-  if (!resume) await truncate(partial, 0).catch(async () => rm(partial, { force: true }));
+  if (!resume) await writeFile(partial, '');
 
   const startOffset = resume ? offset : 0;
   const bytes = await consume(response.body, options, partial, startOffset, total);
   throwIfAborted(options.signal);
 
-  const digest = await fileDigest(partial);
-  if (digest === undefined || !isDigestEqual(digest, options.expectedSha256)) {
+  const digest = await fileDigest(partial, algorithm);
+  if (digest === undefined || !isDigestEqual(digest, options.expectedDigest)) {
     await rm(partial, { force: true });
     options.logger?.info('install.digestMismatch', {
-      expected: options.expectedSha256.slice(0, 12),
+      algorithm,
+      expected: options.expectedDigest.slice(0, 12),
       actual: (digest ?? 'missing').slice(0, 12)
     });
     throw new OperationFailure('IO_ERROR', 'install.digestMismatch', true);
@@ -184,14 +186,14 @@ function isDigestEqual(a: string, b: string): boolean {
   return timingSafeEqual(Buffer.from(a), Buffer.from(b));
 }
 
-/** SHA256 of a file, or `undefined` when it does not exist. Never throws for ENOENT. */
-export async function fileDigest(path: string): Promise<string | undefined> {
+/** Digest of a file, or `undefined` when it does not exist. Never throws for ENOENT. */
+export async function fileDigest(path: string, algorithm: DigestAlgorithm = 'sha256'): Promise<string | undefined> {
   try {
     await stat(path);
   } catch {
     return undefined;
   }
-  const hash = createHash('sha256');
+  const hash = createHash(algorithm);
   const stream: Readable = createReadStream(path);
   await new Promise<void>((resolve, reject) => {
     stream.on('data', chunk => hash.update(chunk));

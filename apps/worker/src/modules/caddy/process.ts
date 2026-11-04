@@ -245,8 +245,9 @@ export async function terminateTree(
   const verifyGone = async (): Promise<boolean> => {
     if (options.exitObserved()) return true;
     if (!(await isPidAlive(pid))) return true;
-    // A live PID whose identity no longer matches is not ours: stop signalling it.
-    return (await checkIdentity(options.expected)).status === 'mismatch';
+    // A recycled PID whose identity no longer matches is not ours, but it is still
+    // alive: report `false` so the caller does not claim a successful stop.
+    return false;
   };
 
   signal('SIGTERM');

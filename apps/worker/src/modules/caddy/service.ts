@@ -324,7 +324,8 @@ export class CaddyServiceManager {
     let exited = false;
     const spawned = await spawnDetached({
       command: binary,
-      args: ['run', '--config', configPath, '--adapter', 'caddy'],
+      // `--adapter caddyfile` is explicit so the live config never depends on the file suffix.
+      args: ['run', '--config', configPath, '--adapter', 'caddyfile'],
       cwd: join(this.deps.paths.instances, instanceId),
       env: childEnvironment(procToken, this.deps.paths.home),
       onStdout: chunk => {
@@ -455,10 +456,12 @@ export class CaddyServiceManager {
     }
     throwIfAborted(signal);
     await mkdir(this.deps.paths.caddyfiles, { recursive: true });
+    await mkdir(this.deps.paths.instances, { recursive: true });
     // Validate the candidate, never the live file: a rejected config cannot break a running service.
-    const candidate = `${configPath}.candidate-${Date.now().toString(36)}`;
+    // Adapter is inferred from the file name, so the candidate must still end in `.Caddyfile`.
+    const candidate = `${configPath}.${Date.now().toString(36)}.candidate.Caddyfile`;
     await atomicWriteFile(candidate, rendered.content);
-    const validation = await runCaddy(binary, ['validate', '--config', candidate, '--adapter', 'caddy'], this.deps.paths.instances, 10_000, childEnvironment('validate', this.deps.paths.home));
+    const validation = await runCaddy(binary, ['validate', '--config', candidate, '--adapter', 'caddyfile'], this.deps.paths.instances, 10_000, childEnvironment('validate', this.deps.paths.home));
     if (validation.code !== 0) {
       await rm(candidate, { force: true });
       this.deps.logger?.info('service.config-invalid', { timedOut: validation.timedOut });

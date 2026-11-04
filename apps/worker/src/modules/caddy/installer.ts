@@ -68,6 +68,8 @@ export function runCaddy(
       clearTimeout(timer);
       resolve({ code, stdout, stderr, timedOut });
     };
+    // Without this, a missing binary or cwd would only surface as a timeout.
+    child.once('error', () => finish(null));
     const timer = setTimeout(() => {
       timedOut = true;
       child.kill('SIGKILL');
@@ -125,7 +127,7 @@ export class CaddyInstaller {
       platform: this.platform,
       architecture: this.architecture,
       source: `${CADDY_RELEASE_BASE_URL}${CADDY_ASSETS[target].asset}`,
-      sha256: CADDY_ASSETS[target].sha256
+      sha256: CADDY_ASSETS[target].sha256 ?? createHash('sha256').update(CADDY_ASSETS[target].sha512).digest('hex')
     });
   }
 
@@ -201,15 +203,16 @@ export class CaddyInstaller {
 
     const downloadPath = join(paths.downloads, asset.asset);
     await mkdir(paths.downloads, { recursive: true });
-    const cachedDigest = await fileDigest(downloadPath);
-    if (cachedDigest === asset.sha256) {
+    const cachedDigest = await fileDigest(downloadPath, 'sha512');
+    if (cachedDigest === asset.sha512) {
       progress.emit('install.download.cached', 0.6);
     } else {
       progress.emit('install.download', 0.05);
       await downloadVerified({
         url: caddyAssetUrl(target),
         destination: downloadPath,
-        expectedSha256: asset.sha256,
+        expectedDigest: asset.sha512,
+        algorithm: 'sha512',
         limits: this.limits,
         signal,
         ...(this.deps.fetchImpl !== undefined ? { fetchImpl: this.deps.fetchImpl } : {}),

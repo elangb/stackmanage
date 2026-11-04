@@ -150,9 +150,10 @@ export class CaddySiteManager {
     const binary = join(installation.installation.directory, this.platform === 'win32' ? 'caddy.exe' : 'caddy');
     if (!isInside(installation.installation.directory, binary)) throw new OperationFailure('INVALID_REQUEST', 'caddy.unsafePath', false);
     await mkdir(this.deps.paths.caddyfiles, { recursive: true });
-    const candidate = `${configPath}.candidate-${Date.now().toString(36)}`;
+    // Adapter is inferred from the file name, so the candidate must still end in `.Caddyfile`.
+    const candidate = `${configPath}.${Date.now().toString(36)}.candidate.Caddyfile`;
     await atomicWriteFile(candidate, rendered.content);
-    const validation = await runCaddy(binary, ['validate', '--config', candidate, '--adapter', 'caddy'], this.deps.paths.home, 10_000, childEnvironment('validate', this.deps.paths.home));
+    const validation = await runCaddy(binary, ['validate', '--config', candidate, '--adapter', 'caddyfile'], this.deps.paths.home, 10_000, childEnvironment('validate', this.deps.paths.home));
     if (validation.code !== 0) {
       await rm(candidate, { force: true });
       throw new OperationFailure('INVALID_REQUEST', 'caddy.configInvalid', false);

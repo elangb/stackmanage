@@ -94,7 +94,9 @@ export class FsModuleStorage implements ModuleStorage {
     }
   }
 
-  async StorageSetAsync<T>(moduleId: string, key: string, value: T, _schema: z.ZodType<T>): Promise<void> {
+  async StorageSetAsync<T>(moduleId: string, key: string, value: T, schema: z.ZodType<T>): Promise<void> {
+    // Validate before persisting so a caller cannot store an out-of-contract record.
+    schema.parse(value);
     const path = this.file(moduleId, key);
     const previous = this.writing.get(path) ?? Promise.resolve();
     const next = previous

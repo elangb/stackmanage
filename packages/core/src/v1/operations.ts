@@ -7,8 +7,7 @@ import {
   OperationResultSchema,
   ServiceRefSchema,
   ServiceStateSchema,
-  SiteSchema,
-  VersionRecordSchema
+  SiteSchema
 } from './contracts';
 
 /**

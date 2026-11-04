@@ -47,7 +47,10 @@ export function renderCaddyfile(sites: Site[], siteRootsBase: string): RenderedC
   }
   const blocks: string[] = ['{', '\tadmin off', '\tauto_https off', '}', ''];
   for (const site of ordered) {
-    const addresses = [site.hostname, ...site.aliases].map(hostname => `${hostname}:${site.port}`).join(', ');
+    // The scheme is explicit: a bare hostname would infer HTTPS from the site address
+    // name alone and ignore the global `auto_https off`.
+    const scheme = site.tls ? 'https' : 'http';
+    const addresses = [site.hostname, ...site.aliases].map(hostname => `${scheme}://${hostname}:${site.port}`).join(', ');
     blocks.push(`# site: ${site.id}`);
     blocks.push(`${addresses} {`);
     blocks.push(`\tbind ${LOOPBACK_ADDRESS}`);
