@@ -96,3 +96,10 @@ Every later feature row must add: adapter path, upstream artifact URL/version/di
 | Secret redaction | `packages/mcp-server/src/data/redact.ts` | Authorization, cookies, assignments, URL credentials, bearer/JWT, PEM keys | Unit + tool tests |
 | Service identity | `packages/mcp-server/src/data/process.ts` | Linux `/proc` executable + start token + environment token; loopback probe | Real child process verified/mismatch/token-mismatch tests on Linux |
 | Client docs | `docs/mcp.md` | Formats checked against public docs 2026-11-04; none executed | Documentation only; client interoperability unverified |
+
+## Phase 8 evidence
+
+| Slice | Adapter path | Evidence | Status |
+|---|---|---|---|
+| PHP 8.5.12 build runner | `build/php`, `scripts/php`, `ci/php-build.yml` | Official php.net source + SHA-256; Ubuntu 24.04 digest + 2026-10-21 snapshot + exact apt versions; multi-stage Dockerfile; deterministic tar/manifest exporter; ShellCheck, Hadolint, YAML and legal checks | Configuration only; no container runtime in the authoring environment, so no PHP artifact build or artifact execution is claimed (distro PHP/FPM were used only to syntax-check the ini/FPM files) |
+| PHP runtime module | not implemented | No worker install/lifecycle, no renderer page, no site or FPM integration | U |

@@ -128,3 +128,27 @@ cause a retry or a write. A missing Caddy/Nginx/Node root only affects that modu
 No mutation exists to partially complete, so no mutation replay path is introduced.
 Unknown tool names and invalid arguments are rejected by the protocol/schema before
 any read. The future authenticated mutation bridge is out of scope.
+
+## Phase 8 PHP build runner operation contract
+
+Authorization: user authorized a PHP 8.5.12 Linux build runner only, on a separate
+`agent/php-runner` branch. There is no renderer operation, no IPC and no worker
+module in this phase, so the module-boundary defaults are untouched. The runner
+is an offline build CLI; it owns no service process and writes only its output
+directory and source cache.
+
+| Operation/state | Owner / lifetime | Start / intermediate / terminal | Duplicate / cleanup / failure interaction | Verification |
+|---|---|---|---|---|
+| Source preflight | build script; one invocation | cache lookup or HTTPS download / size + SHA-256 / one verified cache file or failure | reuse only on exact size and digest; invalid cache removed before one retry; no partial `.part` promoted | source hash evidence in report |
+| Image build | build script plus disposable builder container | build args/context / Docker/Podman log / image or failure | idempotent artifact check happens first; `--force` re-runs export; context removed in `EXIT` trap | Dockerfile lint; build not executed here |
+| Runtime export | export image; bounded `docker/podman run` | verify PHP/FPM/extensions/ldd / tar + manifest / three files or failure | tar is generated in `/tmp`; logs and pid files removed; symlinks, traversal, setuid and world-writable entries rejected; only verified files are moved to `/out` | fake-prefix harness passed; real container build outstanding |
+| Artifact verification | host script; short-lived | read sidecar/manifest / hash + manifest + tar checks / `PHP_RUNTIME_VERIFY_OK` or failure | works without a container engine; does not execute the binary; corrupt/missing artifact is never reported valid | `--verify-only` harness passed |
+
+Failure boundaries: the pinned source SHA-256 and package snapshot are required
+dependencies; their failure stops the build before compilation. The manifest
+and tar checks are required for a releasable artifact. The FPM log line is an
+observation, not a deliverable; its timestamp is sanitised, while a failed
+`php-fpm -t` still fails the export. The build log is supplementary and a log
+write failure cannot turn a successful artifact into a different terminal
+claim. Idempotent reuse only happens after the full artifact verification
+passes; `--force` is the explicit replay path.
