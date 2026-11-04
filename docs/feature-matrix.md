@@ -21,7 +21,7 @@ Evidence sources consulted 2026-11-04:
 | Storage/containers | MinIO; RustFS; Podman | modules + platform; native availability, storage integrity, VM/container prerequisites and shutdown | U each |
 | Distributed infrastructure | R-Nacos; Consul; etcd; Temporal | modules + worker; dependencies, native distributions, protocol probes and recovery | U each |
 | Workflow | startup groups; project environments; per-project versions; project start/stop commands and ports; cron/scheduler; user-defined modules; terminal; shortcuts; config editor; log viewer; Git integration | module controllers + worker; progress/re-entry, environment isolation, PTY cleanup, per-item failure semantics | U each |
-| MCP tools | full inventory in `contracts-v1.md`, covering discovery, versions, installation, lifecycle, sites, hosts/certs, projects, groups, schedules, configs/logs, jobs, plugins, terminal, shortcuts, system and screenshots | MCP server + shared managers; schema validation, grants/expiry/redaction, real transport/client tests | U each |
+| MCP tools | full inventory in `contracts-v1.md`, covering discovery, versions, installation, lifecycle, sites, hosts/certs, projects, groups, schedules, configs/logs, jobs, plugins, terminal, shortcuts, system and screenshots | MCP server + shared managers; schema validation, grants/expiry/redaction, real transport/client tests | **Partial:** stdio `system.info`, `modules.list`, `installations.list`, `services.status`, `sites.list`, `logs.tail`, `config.read` only; no mutations, grants/expiry or auth bridge |
 | AI clients | Claude Code; Codex; OpenCode; Kimi; Antigravity; GitHub Copilot; Hermes Agent; OpenClaw | AI module controllers; verify vendor identity/version/OS distribution and client-specific MCP registration | U each |
 | AI/automation | n8n; Ollama; CLIProxyAPI; assistant; screenshot capture; optimizer | modules + worker/platform; real integrations, explicit permissions, model/runtime requirements, optimizer semantics need specification | U each |
 | Plugin modules | MySQL cluster; MariaDB cluster; Kafka; llama/llama.cpp; OpenSearch; SQL Server; Dameng; shortcuts plugins | plugin host + module adapter; vendor availability/licensing left to research/legal, install/cluster recovery/stop tests | U each |
@@ -77,3 +77,13 @@ Every later feature row must add: adapter path, upstream artifact URL/version/di
 | Nginx service lifecycle | `apps/worker/src/modules/nginx/{service,config,run}.ts`, `apps/worker/src/shared/process.ts` | Real build serves HTTP 200 on `127.0.0.1:18081`; reload validates config and sends SIGHUP; stop/reconcile verify executable and start token; port conflict test | Verified Linux x64 only |
 | Nginx uninstall/guards | `apps/worker/src/modules/nginx/installer.ts` | Recorded installation only; managed-root and binary-path guards; refuses running service | Unit + real-network Linux x64 |
 | Nginx bridge/UI | `packages/core`, `apps/desktop` | Typed `nginx.*` worker/bridge channels, module-local controller, compact Web card, five-locale keys | Unit/controller/smoke evidence; Windows/arm64 unverified |
+
+## Phase 7 evidence
+
+| Slice | Adapter path | Evidence | Status |
+|---|---|---|---|
+| Read-only stdio MCP | `packages/mcp-server/src` | MCP SDK 1.32.2 stdio, seven strict read-only tools, no listener/mutation/shell | Unit + in-memory + real stdio process tests; no Windows/macOS execution |
+| Data confinement | `packages/mcp-server/src/data` | Absolute/relative override validation, realpath prefix, symlink rejection, bounded reads | Unit tests for traversal, symlink escape, missing/corrupt/oversized state |
+| Secret redaction | `packages/mcp-server/src/data/redact.ts` | Authorization, cookies, assignments, URL credentials, bearer/JWT, PEM keys | Unit + tool tests |
+| Service identity | `packages/mcp-server/src/data/process.ts` | Linux `/proc` executable + start token + environment token; loopback probe | Real child process verified/mismatch/token-mismatch tests on Linux |
+| Client docs | `docs/mcp.md` | Formats checked against public docs 2026-11-04; none executed | Documentation only; client interoperability unverified |

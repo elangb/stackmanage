@@ -75,3 +75,27 @@ prerequisites return one actionable error before any download/build. `nginx -t`
 is required before starting or reloading, and a rejected candidate never replaces
 the live config. A failed start cleans up its own child and reports failure
 instead of a running service. Uninstall cannot delete a running binary.
+
+## Phase 7 read-only MCP operation contract
+
+Authorization: user authorized a standalone read-only MCP server, a separate
+`agent/mcp` branch and Phase 7 tests/report. No module boundary is changed: the
+MCP server is a separate process, owns no service lifecycle, adds no Pinia store,
+no `config.setup` persistence and no renderer IPC. It reads persisted worker
+records and filesystem state directly.
+
+| Operation/state | Owner / lifetime | Start / intermediate / terminal | Duplicate / cleanup / service interaction | Verification |
+|---|---|---|---|---|
+| Server process | CLI entry; stdio client lifetime | resolve trusted roots / none / stdio connection close or fatal config error | one stdio transport; no port; no child process; stderr only for fatal errors | config rejection, EOF, real spawned client tests |
+| Tool reads | MCP server request; short-lived | strict input validation / none / one JSON text result | no writes, no record reconciliation, no retry, no shell; overlapping reads are independent | in-memory + stdio tests for success, missing, corrupt, oversized and path escape |
+| Service status | MCP server read-only projection | read record / PID identity + loopback probe / `running`, `stopped`, `unknown` | identity mismatch or stale PID never claims running; record is not modified | dead PID, executable mismatch, token mismatch, verified running child |
+| Logs/config | MCP server read-only projection | confined open / bounded read + redaction / bounded text or absent | missing file is explicit; path/symlink escape fails; secrets never returned | traversal, symlink, size-bound and redaction tests |
+
+Failure boundaries: absent state is not an error and must not become a fabricated
+installation/site/service. Corrupt or unsafe state is reported as unknown with a
+reason; one bad record does not block other modules or other valid records.
+Redaction is applied after reading and before output; a redaction failure cannot
+cause a retry or a write. A missing Caddy/Nginx/Node root only affects that module.
+No mutation exists to partially complete, so no mutation replay path is introduced.
+Unknown tool names and invalid arguments are rejected by the protocol/schema before
+any read. The future authenticated mutation bridge is out of scope.
