@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import type { BridgeResponse, CertificateStatusView, Installation, ServiceState, Site, Snapshot } from '@stackmanage/core';
 import { caddyController } from '../caddy/controller';
 import StatusBadge from '../components/StatusBadge.vue';
+import NginxCard from '../components/NginxCard.vue';
 
 const props = defineProps<{ snapshot: Snapshot | undefined }>();
 const { t } = useI18n();
@@ -369,6 +370,7 @@ onBeforeUnmount(() => {
       <p v-else class="empty">{{ t('logsEmpty') }}</p>
     </div>
   </section>
+  <NginxCard />
 </template>
 
 <style scoped>

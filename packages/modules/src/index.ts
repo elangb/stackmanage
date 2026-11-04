@@ -44,5 +44,25 @@ export const nodeModuleDefinition: ModuleDefinition = {
   ]
 };
 
+
+export const nginxModuleDefinition: ModuleDefinition = {
+  apiVersion: 1,
+  id: 'nginx',
+  nameKey: 'modules.nginx',
+  category: 'web',
+  capabilities: ['versions', 'install', 'service', 'config', 'logs'],
+  dependencies: [],
+  availability: [
+    {
+      platform: 'linux',
+      architecture: 'x64',
+      status: 'unverified',
+      reason: 'Official source is pinned and hashed; the Phase 4 Linux x64 build/HTTP/reload evidence is recorded in the worker integration test, not in this declaration.'
+    },
+    { platform: 'linux', architecture: 'arm64', status: 'unverified', reason: 'Source build should work, but no arm64 machine ran it.' },
+    { platform: 'win32', architecture: 'x64', status: 'unsupported', reason: 'The official Windows zip is pinned and hashed, but Windows extraction/service execution is not implemented.' }
+  ]
+};
+
 /** Registered adapters. */
-export const implementedModules: readonly ModuleDefinition[] = Object.freeze([caddyModuleDefinition, nodeModuleDefinition]);
+export const implementedModules: readonly ModuleDefinition[] = Object.freeze([caddyModuleDefinition, nodeModuleDefinition, nginxModuleDefinition]);

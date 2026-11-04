@@ -48,3 +48,30 @@ list entry that contradicts the pinned digest stops the install. Extraction reje
 traversal, outside-top-level entries and special files and never creates symlinks; a
 linked `bin/node` fails the required binary check. The real binary `--version` must equal
 `v24.22.2` before commit. No Windows/arm64 execution is claimed.
+
+## Phase 4 Nginx operation contract
+
+Authorization: user authorized an Nginx web-server module, a separate
+`agent/nginx` branch and Phase 4 tests/report. No default module constraint is
+relaxed: there is no Pinia store, no `config.setup`, persistence uses
+`StorageGetAsync`/`StorageSetAsync`, and Nginx-only types, pins, paths and policy
+live under `apps/worker/src/modules/nginx` plus the renderer-local `nginx`
+controller. Generic process/identity primitives were moved to
+`apps/worker/src/shared/process.ts`; Caddy re-exports them unchanged.
+
+| Operation/state | Owner / lifetime | Start / intermediate / terminal | Duplicate / cleanup / service interaction | Verification |
+|---|---|---|---|---|
+| Nginx versions/status/list/logs/config | worker Nginx module; worker lifetime | read / none / typed view or typed error | short-lived read; never mutates operation state; log and config paths are bounded to the managed home | schema, path-guard, unsupported-platform tests |
+| Nginx install | renderer `nginxController` singleton plus worker Nginx installer | `nginx.preflight` / download, signature, extract, configure, build, install, validate / one `OperationResult` | same original operation ID attaches through the worker inflight map and controller in-flight promise; a different overlapping install returns `CONFLICT`; a valid pinned install is idempotent; staging is removed in `finally`; a previous prefix is restored if promotion/validation/persistence fails | preflight, checksum, signature, extraction, configure/build, idempotency and real-network tests |
+| Nginx uninstall | renderer `nginxController` singleton plus worker installer | `nginx.uninstall` progress / one `OperationResult` | only a recorded installation is addressed; a running service is refused; directory and binary must resolve inside the managed installations root; record cleanup failure is a warning | managed-root, running-service, cleanup and missing-record tests |
+| Nginx lifecycle | renderer `nginxController` singleton plus worker service manager | `nginx.preflight`/`config` / one `OperationResult` | one mutation per instance; duplicate calls attach to the in-flight promise; start checks the loopback port, validates config, captures identity and waits for readiness; reload validates the candidate then sends SIGHUP; stop/reconcile verify executable and start token before signalling | real child start/HTTP 200/reload/stop, port-conflict, identity and stale-PID tests |
+| Nginx progress | controller handler | subscribe once / validated operation ID + monotonic sequence / listener detached on application teardown | foreign, replayed and stale frames are dropped; no text beyond a bounded stage key and fraction crosses the bridge | controller dedupe/progress/cleanup tests |
+
+Failure boundaries: the pinned SHA-256 is a required dependency; a mismatch
+stops the install. The detached signature is supplementary when gpg or the
+`.asc` file is unavailable (warning), but a bad signature, wrong key or failed
+verification stops the install. Build tools and headers are required; missing
+prerequisites return one actionable error before any download/build. `nginx -t`
+is required before starting or reloading, and a rejected candidate never replaces
+the live config. A failed start cleans up its own child and reports failure
+instead of a running service. Uninstall cannot delete a running binary.

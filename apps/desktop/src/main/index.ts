@@ -50,7 +50,17 @@ const METHOD_MAP = Object.freeze({
   runtimeInstall: 'runtime.install',
   runtimeStatus: 'runtime.status',
   runtimeList: 'runtime.list',
-  runtimeUninstall: 'runtime.uninstall'
+  runtimeUninstall: 'runtime.uninstall',
+  nginxVersions: 'nginx.versions',
+  nginxInstall: 'nginx.install',
+  nginxStatus: 'nginx.status',
+  nginxList: 'nginx.list',
+  nginxUninstall: 'nginx.uninstall',
+  nginxStart: 'nginx.start',
+  nginxStop: 'nginx.stop',
+  nginxReload: 'nginx.reload',
+  nginxLogs: 'nginx.logs',
+  nginxConfig: 'nginx.config'
 } as const satisfies Record<DesktopMethodName, string>);
 
 class IpcFailure extends Error {
@@ -126,7 +136,8 @@ async function handleCall(method: DesktopMethodName, event: Electron.IpcMainInvo
   }
   if (!worker) return bridgeError('UNAVAILABLE', 'worker.unavailable', true);
   const operationId = params !== null && typeof params === 'object' && typeof (params as { operationId?: unknown }).operationId === 'string' ? (params as { operationId: string }).operationId : undefined;
-  const noParams = method === 'listServices' || method === 'listInstallations' || method === 'sitesList' || method === 'certificateStatus';
+  const noParams =
+    method === 'listServices' || method === 'listInstallations' || method === 'sitesList' || method === 'certificateStatus' || method === 'nginxConfig';
   try {
     const terminal = await worker.call(METHOD_MAP[method], noParams ? undefined : params, operationId !== undefined ? forwardProgress(operationId) : undefined);
     if (!terminal.ok) return BridgeResponseSchema.parse({ ok: false, error: terminal.error });
@@ -218,7 +229,8 @@ app
       entry: join(__dirname, 'worker.cjs'),
       env: {
         STACKMANAGE_DATA_HOME: join(app.getPath('userData'), 'caddy'),
-        STACKMANAGE_NODE_HOME: join(app.getPath('userData'), 'node', 'runtime')
+        STACKMANAGE_NODE_HOME: join(app.getPath('userData'), 'node', 'runtime'),
+        STACKMANAGE_NGINX_HOME: join(app.getPath('userData'), 'nginx')
       }
     });
     registerHandlers();
@@ -242,7 +254,7 @@ async function runSmoke(): Promise<void> {
     const parsed = SnapshotResponseSchema.parse(result);
     if (!parsed.ok) throw new Error('Bridge health failed');
     const isolated: unknown = await window.webContents.executeJavaScript(
-      `typeof require === 'undefined' && typeof process === 'undefined' && Object.keys(window.stackmanage).sort().join(',') === 'certificateStatus,install,listInstallations,listServices,logsTail,onOperationEvent,restart,runtimeInstall,runtimeList,runtimeStatus,runtimeUninstall,runtimeVersions,sitesApply,sitesList,sitesRemove,snapshot,start,status,stop,trustCertificate'`
+      `typeof require === 'undefined' && typeof process === 'undefined' && Object.keys(window.stackmanage).sort().join(',') === 'certificateStatus,install,listInstallations,listServices,logsTail,nginxConfig,nginxInstall,nginxList,nginxLogs,nginxReload,nginxStart,nginxStatus,nginxStop,nginxUninstall,nginxVersions,onOperationEvent,restart,runtimeInstall,runtimeList,runtimeStatus,runtimeUninstall,runtimeVersions,sitesApply,sitesList,sitesRemove,snapshot,start,status,stop,trustCertificate'`
     );
     if (isolated !== true) throw new Error('Renderer isolation/bridge surface failed');
     const status = await window.webContents.executeJavaScript(`window.stackmanage.status({instanceId:'caddy-18080'})`);
@@ -254,7 +266,10 @@ async function runSmoke(): Promise<void> {
     const runtimeStatus = await window.webContents.executeJavaScript(`window.stackmanage.runtimeStatus({moduleId:'node'})`);
     const runtimeStatusParsed = BridgeResponseSchema.parse(runtimeStatus);
     if (!runtimeStatusParsed.ok || runtimeStatusParsed.data.method !== 'runtime.status') throw new Error('Runtime status bridge failed');
-    console.log('DESKTOP_SMOKE_OK: renderer → sandbox preload → main → fork worker; typed narrow bridge; runtime reads; Node globals absent');
+    const nginxStatus = await window.webContents.executeJavaScript(`window.stackmanage.nginxStatus({moduleId:'nginx'})`);
+    const nginxStatusParsed = BridgeResponseSchema.parse(nginxStatus);
+    if (!nginxStatusParsed.ok || nginxStatusParsed.data.method !== 'nginx.status') throw new Error('Nginx status bridge failed');
+    console.log('DESKTOP_SMOKE_OK: renderer → sandbox preload → main → fork worker; typed narrow bridge; runtime and Nginx reads; Node globals absent');
     app.quit();
   } catch (error) {
     console.error(error);

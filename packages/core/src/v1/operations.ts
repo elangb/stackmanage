@@ -121,6 +121,124 @@ export const RuntimeListViewSchema = z
   .strict();
 export type RuntimeListView = z.infer<typeof RuntimeListViewSchema>;
 
+/**
+ * Additive Nginx surface (Phase 4). The module owns the pinned source build and
+ * the single managed service instance. Callers may name the module/version and
+ * lifecycle operation, never a URL, digest, build flag, config path or shell.
+ */
+export const NginxModuleRequestSchema = z.object({ moduleId: z.literal('nginx') }).strict();
+export type NginxModuleRequest = z.infer<typeof NginxModuleRequestSchema>;
+
+export const NginxInstallRequestSchema = InstallRequestSchema;
+export type NginxInstallRequest = z.infer<typeof NginxInstallRequestSchema>;
+
+export const NginxUninstallRequestSchema = z
+  .object({ operationId: OperationRequestIdSchema, installationId: IdSchema })
+  .strict();
+export type NginxUninstallRequest = z.infer<typeof NginxUninstallRequestSchema>;
+
+export const NginxLifecycleRequestSchema = z
+  .object({
+    operationId: OperationRequestIdSchema,
+    /** Caller-supplied readiness bound; the worker clamps it into an operational range. */
+    timeoutMs: z.number().int().min(1000).max(120_000).optional()
+  })
+  .strict();
+export type NginxLifecycleRequest = z.infer<typeof NginxLifecycleRequestSchema>;
+
+export const NginxLogsRequestSchema = z.object({ maxBytes: z.number().int().min(256).max(1_048_576) }).strict();
+export type NginxLogsRequest = z.infer<typeof NginxLogsRequestSchema>;
+
+export const NginxConfigRequestSchema = z.object({}).strict();
+export type NginxConfigRequest = z.infer<typeof NginxConfigRequestSchema>;
+
+export const NginxVersionViewSchema = z
+  .object({
+    moduleId: z.literal('nginx'),
+    version: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    source: z.url().refine(v => new URL(v).protocol === 'https:', 'HTTPS required'),
+    sha256: z.string().regex(/^[a-f0-9]{64}$/),
+    archive: z.enum(['tar.gz', 'zip']),
+    kind: z.enum(['source', 'binary']),
+    tested: z.boolean(),
+    supported: z.boolean()
+  })
+  .strict();
+export type NginxVersionView = z.infer<typeof NginxVersionViewSchema>;
+
+export const NginxVersionsViewSchema = z
+  .object({
+    moduleId: z.literal('nginx'),
+    pinnedVersion: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    supported: z.boolean(),
+    tested: z.boolean(),
+    versions: z.array(NginxVersionViewSchema).max(4)
+  })
+  .strict();
+export type NginxVersionsView = z.infer<typeof NginxVersionsViewSchema>;
+
+export const NginxInstallationViewSchema = z
+  .object({
+    id: IdSchema,
+    moduleId: z.literal('nginx'),
+    version: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    directory: z.string().min(1).max(4096),
+    binaryPath: z.string().min(1).max(4096),
+    versionOutput: z.string().min(1).max(200),
+    installedAt: z.iso.datetime(),
+    source: z.url().refine(v => new URL(v).protocol === 'https:', 'HTTPS required'),
+    sha256: z.string().regex(/^[a-f0-9]{64}$/)
+  })
+  .strict();
+export type NginxInstallationView = z.infer<typeof NginxInstallationViewSchema>;
+
+export const NginxServiceViewSchema = z
+  .object({
+    state: z.enum(['stopped', 'starting', 'running', 'stopping', 'failed', 'unknown']),
+    pid: z.number().int().positive().optional(),
+    port: z.number().int().min(1).max(65535),
+    ports: z.array(z.number().int().min(1).max(65535)).max(8),
+    configPath: z.string().min(1).max(4096),
+    logPath: z.string().min(1).max(4096),
+    observedAt: z.iso.datetime()
+  })
+  .strict();
+export type NginxServiceView = z.infer<typeof NginxServiceViewSchema>;
+
+export const NginxStatusViewSchema = z
+  .object({
+    moduleId: z.literal('nginx'),
+    pinnedVersion: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    supported: z.boolean(),
+    tested: z.boolean(),
+    installed: z.boolean(),
+    installation: NginxInstallationViewSchema.optional(),
+    service: NginxServiceViewSchema
+  })
+  .strict();
+export type NginxStatusView = z.infer<typeof NginxStatusViewSchema>;
+
+export const NginxListViewSchema = z.object({ moduleId: z.literal('nginx'), installations: z.array(NginxInstallationViewSchema).max(4) }).strict();
+export type NginxListView = z.infer<typeof NginxListViewSchema>;
+
+export const NginxLogsViewSchema = z
+  .object({
+    path: z.string().min(1).max(4096),
+    bytes: z.number().int().nonnegative(),
+    truncated: z.boolean(),
+    text: z.string().max(1_048_576)
+  })
+  .strict();
+export type NginxLogsView = z.infer<typeof NginxLogsViewSchema>;
+
 export const ServiceRequestSchema = z.object({
   operationId: OperationRequestIdSchema,
   ref: ServiceRefSchema,
@@ -248,7 +366,17 @@ export const WorkerMethodResultSchema = z.union([
   z.object({ method: z.literal('runtime.install'), data: OperationResultSchema }).strict(),
   z.object({ method: z.literal('runtime.status'), data: RuntimeStatusViewSchema }).strict(),
   z.object({ method: z.literal('runtime.list'), data: RuntimeListViewSchema }).strict(),
-  z.object({ method: z.literal('runtime.uninstall'), data: OperationResultSchema }).strict()
+  z.object({ method: z.literal('runtime.uninstall'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('nginx.versions'), data: NginxVersionsViewSchema }).strict(),
+  z.object({ method: z.literal('nginx.install'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('nginx.status'), data: NginxStatusViewSchema }).strict(),
+  z.object({ method: z.literal('nginx.list'), data: NginxListViewSchema }).strict(),
+  z.object({ method: z.literal('nginx.uninstall'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('nginx.start'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('nginx.stop'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('nginx.reload'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('nginx.logs'), data: NginxLogsViewSchema }).strict(),
+  z.object({ method: z.literal('nginx.config'), data: ConfigReadViewSchema }).strict()
 ]);
 export type WorkerMethodResult = z.infer<typeof WorkerMethodResultSchema>;
 export type ErrorCode = z.infer<typeof ErrorSchema.shape.code>;
@@ -276,7 +404,17 @@ export const WORKER_METHODS = [
   'runtime.install',
   'runtime.status',
   'runtime.list',
-  'runtime.uninstall'
+  'runtime.uninstall',
+  'nginx.versions',
+  'nginx.install',
+  'nginx.status',
+  'nginx.list',
+  'nginx.uninstall',
+  'nginx.start',
+  'nginx.stop',
+  'nginx.reload',
+  'nginx.logs',
+  'nginx.config'
 ] as const;
 export type WorkerMethod = (typeof WORKER_METHODS)[number];
 
@@ -301,6 +439,16 @@ export const WorkerRuntimeInstallRequestSchema = z.object({ ...EnvelopeBase, met
 export const WorkerRuntimeStatusRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('runtime.status'), params: RuntimeModuleRequestSchema }).strict();
 export const WorkerRuntimeListRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('runtime.list'), params: RuntimeModuleRequestSchema }).strict();
 export const WorkerRuntimeUninstallRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('runtime.uninstall'), params: RuntimeUninstallRequestSchema }).strict();
+export const WorkerNginxVersionsRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('nginx.versions'), params: NginxModuleRequestSchema }).strict();
+export const WorkerNginxInstallRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('nginx.install'), params: NginxInstallRequestSchema }).strict();
+export const WorkerNginxStatusRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('nginx.status'), params: NginxModuleRequestSchema }).strict();
+export const WorkerNginxListRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('nginx.list'), params: NginxModuleRequestSchema }).strict();
+export const WorkerNginxUninstallRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('nginx.uninstall'), params: NginxUninstallRequestSchema }).strict();
+export const WorkerNginxLifecycleRequestSchema = z
+  .object({ ...EnvelopeBase, method: z.enum(['nginx.start', 'nginx.stop', 'nginx.reload']), params: NginxLifecycleRequestSchema })
+  .strict();
+export const WorkerNginxLogsRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('nginx.logs'), params: NginxLogsRequestSchema }).strict();
+export const WorkerNginxConfigRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('nginx.config'), params: NginxConfigRequestSchema }).strict();
 
 /** Discriminated by `method`: unknown methods and unknown fields are rejected before dispatch. */
 export const WorkerManagementRequestSchema = z.discriminatedUnion('method', [
@@ -321,7 +469,15 @@ export const WorkerManagementRequestSchema = z.discriminatedUnion('method', [
   WorkerRuntimeInstallRequestSchema,
   WorkerRuntimeStatusRequestSchema,
   WorkerRuntimeListRequestSchema,
-  WorkerRuntimeUninstallRequestSchema
+  WorkerRuntimeUninstallRequestSchema,
+  WorkerNginxVersionsRequestSchema,
+  WorkerNginxInstallRequestSchema,
+  WorkerNginxStatusRequestSchema,
+  WorkerNginxListRequestSchema,
+  WorkerNginxUninstallRequestSchema,
+  WorkerNginxLifecycleRequestSchema,
+  WorkerNginxLogsRequestSchema,
+  WorkerNginxConfigRequestSchema
 ]);
 export type WorkerManagementRequest = z.infer<typeof WorkerManagementRequestSchema>;
 

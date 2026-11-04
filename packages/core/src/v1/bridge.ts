@@ -5,6 +5,12 @@ import {
   InstallRequestSchema,
   InstanceRequestSchema,
   LogTailRequestSchema,
+  NginxConfigRequestSchema,
+  NginxInstallRequestSchema,
+  NginxLifecycleRequestSchema,
+  NginxLogsRequestSchema,
+  NginxModuleRequestSchema,
+  NginxUninstallRequestSchema,
   RuntimeInstallRequestSchema,
   RuntimeModuleRequestSchema,
   RuntimeUninstallRequestSchema,
@@ -41,13 +47,24 @@ export const DESKTOP_METHODS = Object.freeze({
   runtimeInstall: 'stackmanage:v1:runtime-install',
   runtimeStatus: 'stackmanage:v1:runtime-status',
   runtimeList: 'stackmanage:v1:runtime-list',
-  runtimeUninstall: 'stackmanage:v1:runtime-uninstall'
+  runtimeUninstall: 'stackmanage:v1:runtime-uninstall',
+  nginxVersions: 'stackmanage:v1:nginx-versions',
+  nginxInstall: 'stackmanage:v1:nginx-install',
+  nginxStatus: 'stackmanage:v1:nginx-status',
+  nginxList: 'stackmanage:v1:nginx-list',
+  nginxUninstall: 'stackmanage:v1:nginx-uninstall',
+  nginxStart: 'stackmanage:v1:nginx-start',
+  nginxStop: 'stackmanage:v1:nginx-stop',
+  nginxReload: 'stackmanage:v1:nginx-reload',
+  nginxLogs: 'stackmanage:v1:nginx-logs',
+  nginxConfig: 'stackmanage:v1:nginx-config'
 } as const);
 
 export type DesktopMethodName = keyof typeof DESKTOP_METHODS;
 export const DesktopMethodNameSchema = z.enum([
   'install', 'start', 'stop', 'restart', 'status', 'listServices', 'listInstallations', 'logsTail', 'sitesApply', 'sitesList', 'sitesRemove', 'certificateStatus', 'trustCertificate',
-  'runtimeVersions', 'runtimeInstall', 'runtimeStatus', 'runtimeList', 'runtimeUninstall'
+  'runtimeVersions', 'runtimeInstall', 'runtimeStatus', 'runtimeList', 'runtimeUninstall',
+  'nginxVersions', 'nginxInstall', 'nginxStatus', 'nginxList', 'nginxUninstall', 'nginxStart', 'nginxStop', 'nginxReload', 'nginxLogs', 'nginxConfig'
 ]);
 
 export const BridgeOkResponseSchema = z.object({ ok: z.literal(true), data: WorkerResultResponseSchema.shape.result }).strict();
@@ -77,7 +94,17 @@ export const BRIDGE_REQUEST_SCHEMAS = Object.freeze({
   runtimeInstall: RuntimeInstallRequestSchema,
   runtimeStatus: RuntimeModuleRequestSchema,
   runtimeList: RuntimeModuleRequestSchema,
-  runtimeUninstall: RuntimeUninstallRequestSchema
+  runtimeUninstall: RuntimeUninstallRequestSchema,
+  nginxVersions: NginxModuleRequestSchema,
+  nginxInstall: NginxInstallRequestSchema,
+  nginxStatus: NginxModuleRequestSchema,
+  nginxList: NginxModuleRequestSchema,
+  nginxUninstall: NginxUninstallRequestSchema,
+  nginxStart: NginxLifecycleRequestSchema,
+  nginxStop: NginxLifecycleRequestSchema,
+  nginxReload: NginxLifecycleRequestSchema,
+  nginxLogs: NginxLogsRequestSchema,
+  nginxConfig: NginxConfigRequestSchema
 });
 export type BridgeRequestFor<M extends DesktopMethodName> = z.infer<(typeof BRIDGE_REQUEST_SCHEMAS)[M]>;
 export type BridgeResultData = z.infer<typeof WorkerResultResponseSchema>['result'];
@@ -130,6 +157,16 @@ export interface DesktopBridgeV1 {
   runtimeStatus(request: BridgeRequestFor<'runtimeStatus'>): Promise<BridgeResponse>;
   runtimeList(request: BridgeRequestFor<'runtimeList'>): Promise<BridgeResponse>;
   runtimeUninstall(request: BridgeRequestFor<'runtimeUninstall'>): Promise<BridgeResponse>;
+  nginxVersions(request: BridgeRequestFor<'nginxVersions'>): Promise<BridgeResponse>;
+  nginxInstall(request: BridgeRequestFor<'nginxInstall'>): Promise<BridgeResponse>;
+  nginxStatus(request: BridgeRequestFor<'nginxStatus'>): Promise<BridgeResponse>;
+  nginxList(request: BridgeRequestFor<'nginxList'>): Promise<BridgeResponse>;
+  nginxUninstall(request: BridgeRequestFor<'nginxUninstall'>): Promise<BridgeResponse>;
+  nginxStart(request: BridgeRequestFor<'nginxStart'>): Promise<BridgeResponse>;
+  nginxStop(request: BridgeRequestFor<'nginxStop'>): Promise<BridgeResponse>;
+  nginxReload(request: BridgeRequestFor<'nginxReload'>): Promise<BridgeResponse>;
+  nginxLogs(request: BridgeRequestFor<'nginxLogs'>): Promise<BridgeResponse>;
+  nginxConfig(request: BridgeRequestFor<'nginxConfig'>): Promise<BridgeResponse>;
   /** Progress for one operation; the caller filters stale sequences and mismatched operation IDs. */
   onOperationEvent(listener: (payload: BridgeEventPayload) => void): EventSubscriptionHandle;
 }

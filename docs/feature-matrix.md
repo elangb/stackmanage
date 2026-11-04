@@ -13,7 +13,7 @@ Evidence sources consulted 2026-11-04:
 | Category | Explicit feature inventory | Owner / acceptance evidence needed | Status |
 |---|---|---|---|
 | Runtimes | PHP (versions, extensions, FPM); Node.js (versions/project selection); Python (versions/environments); Java (JDK); Go; Erlang; Ruby; Rust; .NET; Zig; Bun; Deno; Flutter SDK; Gradle | modules + worker; real install/version-switch/run/uninstall per supported OS/arch | Node.js: **partial** on Linux x64 only (pinned install, binary `--version`, uninstall, PATH-prepend plan; shell hooks/project env/version switch U); PHP/Python/Java/Go/Erlang/Ruby/Rust/.NET/Zig/Bun/Deno/Flutter/Gradle: U each |
-| Web servers | Nginx; Apache; Caddy; FrankenPHP; Tomcat; static HTTP server | modules + worker; config validation, start/health/reload/stop and port conflicts | Caddy: **partial** on Linux x64 only (real pinned install + HTTP 200 + lifecycle/reconcile evidence in `reports/phase1-core.md`); Nginx/Apache/FrankenPHP/Tomcat/static: U; Caddy Windows/arm64: U |
+| Web servers | Nginx; Apache; Caddy; FrankenPHP; Tomcat; static HTTP server | modules + worker; config validation, start/health/reload/stop and port conflicts | Caddy: **partial** on Linux x64 only (real pinned install + HTTP 200 + lifecycle/reconcile evidence in `reports/phase1-core.md`); Nginx: **partial** on Linux x64 only (official source build, SHA-256 + signature evidence, HTTP 200, reload, stop, uninstall; see `reports/phase4-nginx.md`); Nginx Windows/arm64: U; Apache/FrankenPHP/Tomcat/static: U; Caddy Windows/arm64: U |
 | Sites/HTTPS | local domains; aliases; document roots; per-site runtime; reverse proxy; HTTPS; mkcert; hosts editing; certificate issue/renew/remove/trust | sites + platform; actual local requests, trust-store and hosts write/rollback tests | **Partial Linux x64:** managed hosts block, `.test` aliases, internal TLS, isolated NSS trust, HTTPS 200 with CA, and real headless Google Chrome acceptance without bypass flags (see `reports/phase2-hosts-tls.md`); Firefox/Edge, Windows and system trust still U |
 | Databases | MySQL; PostgreSQL; MariaDB; MongoDB; Qdrant; ClickHouse; Neo4j | modules + worker; versioned install, initialization, connection, clean shutdown | U each |
 | Database panels | phpMyAdmin; pgAdmin; DBGate; Redis Commander | module-local controller + worker; panel readiness, parent/companion shutdown, credentials handling | U each |
@@ -57,7 +57,7 @@ Every later feature row must add: adapter path, upstream artifact URL/version/di
 | Caddy local sites | `apps/worker/src/modules/caddy/{sites,caddyfile}.ts` | Caddyfile rendered for managed roots, validated with `caddy validate`, restart warning when running | Verified by unit/integration tests, not browser acceptance |
 | Hosts + internal TLS | `packages/platform/src/hosts-*.ts`, `apps/worker/src/modules/caddy/{sites,certificates}.ts` | Temporary hosts/NSS integration: `.test`+alias, HTTPS 200 with CA, NSS trust, hosts cleanup | Verified Linux x64 only; browser/system trust unverified |
 | Desktop shell | `apps/desktop/src/renderer`, `packages/i18n`, `packages/ui` | Sandboxed Electron smoke, five-locale key parity, controller tests | Shell/UI only; not platform acceptance |
-| Nginx / HTTPS / hosts | — | Not implemented | U |
+| Nginx / HTTPS / hosts | `apps/worker/src/modules/nginx` | Source build + lifecycle evidence; no PHP-FPM or site manager integration yet | Verified Linux x64 only (see Phase 4) |
 
 
 
@@ -68,3 +68,13 @@ Every later feature row must add: adapter path, upstream artifact URL/version/di
 | Node.js 24.22.2 install | `apps/worker/src/modules/node/{download,extract,installer}.ts` | Official `nodejs.org` tarball and SHASUMS256.txt; pinned SHA-256; `bin/node --version` equals `v24.22.2`; staging + atomic rename + rollback; real-network opt-in test | Verified Linux x64 only |
 | Node.js uninstall | `apps/worker/src/modules/node/installer.ts` | Recorded installation only; managed-root and binary path guards; real-network test asserts directory removal and empty list | Verified Linux x64 only |
 | Node.js bridge/UI | `packages/core`, `apps/desktop` | Typed `runtime.*` worker/bridge channels, module-local controller, Runtimes page, five-locale keys | Unit/controller/smoke evidence; Windows/arm64 unverified |
+
+
+## Phase 4 evidence
+
+| Slice | Adapter path | Evidence | Status |
+|---|---|---|---|
+| Nginx 1.30.6 source build | `apps/worker/src/modules/nginx/{manifest,download,extract,build,installer}.ts` | Official `nginx.org` tarball; locally computed and pinned SHA-256; detached `.asc` verified with pinned author key when gpg is available; staged configure/make/install with private paths; `nginx -v` and `nginx -t`; atomic promotion/rollback | Verified Linux x64 only |
+| Nginx service lifecycle | `apps/worker/src/modules/nginx/{service,config,run}.ts`, `apps/worker/src/shared/process.ts` | Real build serves HTTP 200 on `127.0.0.1:18081`; reload validates config and sends SIGHUP; stop/reconcile verify executable and start token; port conflict test | Verified Linux x64 only |
+| Nginx uninstall/guards | `apps/worker/src/modules/nginx/installer.ts` | Recorded installation only; managed-root and binary-path guards; refuses running service | Unit + real-network Linux x64 |
+| Nginx bridge/UI | `packages/core`, `apps/desktop` | Typed `nginx.*` worker/bridge channels, module-local controller, compact Web card, five-locale keys | Unit/controller/smoke evidence; Windows/arm64 unverified |
