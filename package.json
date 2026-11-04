@@ -1,0 +1,28 @@
+{
+  "name": "stackmanage-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.32.1",
+  "engines": { "node": ">=24.0.0 <25" },
+  "scripts": {
+    "dev": "pnpm --filter @stackmanage/desktop dev",
+    "build": "node ci/turbo.mjs build",
+    "typecheck": "node ci/turbo.mjs typecheck",
+    "lint": "eslint . --max-warnings 0",
+    "test": "vitest run",
+    "test:desktop": "pnpm --filter @stackmanage/desktop smoke",
+    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.10.0",
+    "eslint": "10.14.0",
+    "eslint-plugin-vue": "10.12.0",
+    "esbuild": "0.28.2",
+    "turbo": "2.11.10",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.72.1",
+    "vitest": "5.1.0"
+  }
+}

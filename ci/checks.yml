@@ -1,0 +1,36 @@
+name: StackManage foundation
+on:
+  workflow_dispatch:
+  pull_request:
+    paths: ['stackmanage/**']
+permissions:
+  contents: read
+jobs:
+  checks:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: stackmanage
+    env:
+      TURBO_TELEMETRY_DISABLED: '1'
+      DO_NOT_TRACK: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.32.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+          cache-dependency-path: stackmanage/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+      - if: runner.os == 'Linux'
+        run: xvfb-run -a pnpm test:desktop
+      - if: runner.os == 'Windows'
+        run: pnpm test:desktop
