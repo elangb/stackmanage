@@ -1,0 +1,3277 @@
+[
+  {
+    "name": "stackmanage-workspace",
+    "version": "0.1.0",
+    "path": "/tmp/opencode/stackmanage-legal/stackmanage",
+    "private": true,
+    "devDependencies": {
+      "eslint": {
+        "from": "eslint",
+        "version": "10.14.0",
+        "resolved": "https://registry.npmjs.org/eslint/-/eslint-10.14.0.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+        "deduped": true,
+        "dedupedDependenciesCount": 103
+      },
+      "typescript": {
+        "from": "typescript",
+        "version": "5.9.3",
+        "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+      },
+      "@types/node": {
+        "from": "@types/node",
+        "version": "24.10.0",
+        "resolved": "https://registry.npmjs.org/@types/node/-/node-24.10.0.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+        "dependencies": {
+          "undici-types": {
+            "from": "undici-types",
+            "version": "7.16.0",
+            "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.16.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/undici-types@7.16.0/node_modules/undici-types"
+          }
+        }
+      },
+      "esbuild": {
+        "from": "esbuild",
+        "version": "0.28.2",
+        "resolved": "https://registry.npmjs.org/esbuild/-/esbuild-0.28.2.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+        "dependencies": {
+          "@esbuild/aix-ppc64": {
+            "from": "@esbuild/aix-ppc64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/aix-ppc64/-/aix-ppc64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+aix-ppc64@0.28.2/node_modules/@esbuild/aix-ppc64"
+          },
+          "@esbuild/android-arm": {
+            "from": "@esbuild/android-arm",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/android-arm/-/android-arm-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+android-arm@0.28.2/node_modules/@esbuild/android-arm"
+          },
+          "@esbuild/android-arm64": {
+            "from": "@esbuild/android-arm64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/android-arm64/-/android-arm64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+android-arm64@0.28.2/node_modules/@esbuild/android-arm64"
+          },
+          "@esbuild/android-x64": {
+            "from": "@esbuild/android-x64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/android-x64/-/android-x64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+android-x64@0.28.2/node_modules/@esbuild/android-x64"
+          },
+          "@esbuild/darwin-arm64": {
+            "from": "@esbuild/darwin-arm64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+darwin-arm64@0.28.2/node_modules/@esbuild/darwin-arm64"
+          },
+          "@esbuild/darwin-x64": {
+            "from": "@esbuild/darwin-x64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+darwin-x64@0.28.2/node_modules/@esbuild/darwin-x64"
+          },
+          "@esbuild/freebsd-arm64": {
+            "from": "@esbuild/freebsd-arm64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/freebsd-arm64/-/freebsd-arm64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+freebsd-arm64@0.28.2/node_modules/@esbuild/freebsd-arm64"
+          },
+          "@esbuild/freebsd-x64": {
+            "from": "@esbuild/freebsd-x64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/freebsd-x64/-/freebsd-x64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+freebsd-x64@0.28.2/node_modules/@esbuild/freebsd-x64"
+          },
+          "@esbuild/linux-arm": {
+            "from": "@esbuild/linux-arm",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/linux-arm/-/linux-arm-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+linux-arm@0.28.2/node_modules/@esbuild/linux-arm"
+          },
+          "@esbuild/linux-arm64": {
+            "from": "@esbuild/linux-arm64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/linux-arm64/-/linux-arm64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+linux-arm64@0.28.2/node_modules/@esbuild/linux-arm64"
+          },
+          "@esbuild/linux-ia32": {
+            "from": "@esbuild/linux-ia32",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/linux-ia32/-/linux-ia32-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+linux-ia32@0.28.2/node_modules/@esbuild/linux-ia32"
+          },
+          "@esbuild/linux-loong64": {
+            "from": "@esbuild/linux-loong64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/linux-loong64/-/linux-loong64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+linux-loong64@0.28.2/node_modules/@esbuild/linux-loong64"
+          },
+          "@esbuild/linux-mips64el": {
+            "from": "@esbuild/linux-mips64el",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/linux-mips64el/-/linux-mips64el-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+linux-mips64el@0.28.2/node_modules/@esbuild/linux-mips64el"
+          },
+          "@esbuild/linux-ppc64": {
+            "from": "@esbuild/linux-ppc64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/linux-ppc64/-/linux-ppc64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+linux-ppc64@0.28.2/node_modules/@esbuild/linux-ppc64"
+          },
+          "@esbuild/linux-riscv64": {
+            "from": "@esbuild/linux-riscv64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/linux-riscv64/-/linux-riscv64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+linux-riscv64@0.28.2/node_modules/@esbuild/linux-riscv64"
+          },
+          "@esbuild/linux-s390x": {
+            "from": "@esbuild/linux-s390x",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/linux-s390x/-/linux-s390x-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+linux-s390x@0.28.2/node_modules/@esbuild/linux-s390x"
+          },
+          "@esbuild/linux-x64": {
+            "from": "@esbuild/linux-x64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+linux-x64@0.28.2/node_modules/@esbuild/linux-x64"
+          },
+          "@esbuild/netbsd-arm64": {
+            "from": "@esbuild/netbsd-arm64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/netbsd-arm64/-/netbsd-arm64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+netbsd-arm64@0.28.2/node_modules/@esbuild/netbsd-arm64"
+          },
+          "@esbuild/netbsd-x64": {
+            "from": "@esbuild/netbsd-x64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/netbsd-x64/-/netbsd-x64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+netbsd-x64@0.28.2/node_modules/@esbuild/netbsd-x64"
+          },
+          "@esbuild/openbsd-arm64": {
+            "from": "@esbuild/openbsd-arm64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/openbsd-arm64/-/openbsd-arm64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+openbsd-arm64@0.28.2/node_modules/@esbuild/openbsd-arm64"
+          },
+          "@esbuild/openbsd-x64": {
+            "from": "@esbuild/openbsd-x64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/openbsd-x64/-/openbsd-x64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+openbsd-x64@0.28.2/node_modules/@esbuild/openbsd-x64"
+          },
+          "@esbuild/openharmony-arm64": {
+            "from": "@esbuild/openharmony-arm64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/openharmony-arm64/-/openharmony-arm64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+openharmony-arm64@0.28.2/node_modules/@esbuild/openharmony-arm64"
+          },
+          "@esbuild/sunos-x64": {
+            "from": "@esbuild/sunos-x64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/sunos-x64/-/sunos-x64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+sunos-x64@0.28.2/node_modules/@esbuild/sunos-x64"
+          },
+          "@esbuild/win32-arm64": {
+            "from": "@esbuild/win32-arm64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/win32-arm64/-/win32-arm64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+win32-arm64@0.28.2/node_modules/@esbuild/win32-arm64"
+          },
+          "@esbuild/win32-ia32": {
+            "from": "@esbuild/win32-ia32",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/win32-ia32/-/win32-ia32-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+win32-ia32@0.28.2/node_modules/@esbuild/win32-ia32"
+          },
+          "@esbuild/win32-x64": {
+            "from": "@esbuild/win32-x64",
+            "version": "0.28.2",
+            "resolved": "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.28.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@esbuild+win32-x64@0.28.2/node_modules/@esbuild/win32-x64"
+          }
+        }
+      },
+      "turbo": {
+        "from": "turbo",
+        "version": "2.11.10",
+        "resolved": "https://registry.npmjs.org/turbo/-/turbo-2.11.10.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/turbo@2.11.10/node_modules/turbo",
+        "dependencies": {
+          "@turbo/darwin-64": {
+            "from": "@turbo/darwin-64",
+            "version": "2.11.10",
+            "resolved": "https://registry.npmjs.org/@turbo/darwin-64/-/darwin-64-2.11.10.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@turbo+darwin-64@2.11.10/node_modules/@turbo/darwin-64"
+          },
+          "@turbo/darwin-arm64": {
+            "from": "@turbo/darwin-arm64",
+            "version": "2.11.10",
+            "resolved": "https://registry.npmjs.org/@turbo/darwin-arm64/-/darwin-arm64-2.11.10.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@turbo+darwin-arm64@2.11.10/node_modules/@turbo/darwin-arm64"
+          },
+          "@turbo/linux-64": {
+            "from": "@turbo/linux-64",
+            "version": "2.11.10",
+            "resolved": "https://registry.npmjs.org/@turbo/linux-64/-/linux-64-2.11.10.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@turbo+linux-64@2.11.10/node_modules/@turbo/linux-64"
+          },
+          "@turbo/linux-arm64": {
+            "from": "@turbo/linux-arm64",
+            "version": "2.11.10",
+            "resolved": "https://registry.npmjs.org/@turbo/linux-arm64/-/linux-arm64-2.11.10.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@turbo+linux-arm64@2.11.10/node_modules/@turbo/linux-arm64"
+          },
+          "@turbo/windows-64": {
+            "from": "@turbo/windows-64",
+            "version": "2.11.10",
+            "resolved": "https://registry.npmjs.org/@turbo/windows-64/-/windows-64-2.11.10.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@turbo+windows-64@2.11.10/node_modules/@turbo/windows-64"
+          },
+          "@turbo/windows-arm64": {
+            "from": "@turbo/windows-arm64",
+            "version": "2.11.10",
+            "resolved": "https://registry.npmjs.org/@turbo/windows-arm64/-/windows-arm64-2.11.10.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@turbo+windows-arm64@2.11.10/node_modules/@turbo/windows-arm64"
+          }
+        }
+      },
+      "typescript-eslint": {
+        "from": "typescript-eslint",
+        "version": "8.72.1",
+        "resolved": "https://registry.npmjs.org/typescript-eslint/-/typescript-eslint-8.72.1.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint",
+        "dependencies": {
+          "@typescript-eslint/parser": {
+            "from": "@typescript-eslint/parser",
+            "version": "8.72.1",
+            "resolved": "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-8.72.1.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/@typescript-eslint/parser",
+            "deduped": true,
+            "dedupedDependenciesCount": 30
+          },
+          "@typescript-eslint/typescript-estree": {
+            "from": "@typescript-eslint/typescript-estree",
+            "version": "8.72.1",
+            "resolved": "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-8.72.1.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+typescript-estree@8.72.1_typescript@5.9.3/node_modules/@typescript-eslint/typescript-estree",
+            "deduped": true,
+            "dedupedDependenciesCount": 19
+          },
+          "@typescript-eslint/utils": {
+            "from": "@typescript-eslint/utils",
+            "version": "8.72.1",
+            "resolved": "https://registry.npmjs.org/@typescript-eslint/utils/-/utils-8.72.1.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+utils@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/@typescript-eslint/utils",
+            "deduped": true,
+            "dedupedDependenciesCount": 6
+          },
+          "eslint": {
+            "from": "eslint",
+            "version": "10.14.0",
+            "resolved": "https://registry.npmjs.org/eslint/-/eslint-10.14.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+            "deduped": true,
+            "dedupedDependenciesCount": 103
+          },
+          "typescript": {
+            "from": "typescript",
+            "version": "5.9.3",
+            "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+          },
+          "@typescript-eslint/eslint-plugin": {
+            "from": "@typescript-eslint/eslint-plugin",
+            "version": "8.72.1",
+            "resolved": "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-8.72.1.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+eslint-plugin@8.72.1_@typescript-eslint+parser@8.72.1_eslint@10.14.0_b472f55a34b7a67a21ab0d57bcd8592a/node_modules/@typescript-eslint/eslint-plugin",
+            "dependencies": {
+              "@eslint-community/regexpp": {
+                "from": "@eslint-community/regexpp",
+                "version": "4.12.2",
+                "resolved": "https://registry.npmjs.org/@eslint-community/regexpp/-/regexpp-4.12.2.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint-community+regexpp@4.12.2/node_modules/@eslint-community/regexpp"
+              },
+              "@typescript-eslint/parser": {
+                "from": "@typescript-eslint/parser",
+                "version": "8.72.1",
+                "resolved": "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-8.72.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/@typescript-eslint/parser",
+                "deduped": true,
+                "dedupedDependenciesCount": 30
+              },
+              "@typescript-eslint/scope-manager": {
+                "from": "@typescript-eslint/scope-manager",
+                "version": "8.72.1",
+                "resolved": "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-8.72.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+scope-manager@8.72.1/node_modules/@typescript-eslint/scope-manager",
+                "deduped": true,
+                "dedupedDependenciesCount": 4
+              },
+              "@typescript-eslint/utils": {
+                "from": "@typescript-eslint/utils",
+                "version": "8.72.1",
+                "resolved": "https://registry.npmjs.org/@typescript-eslint/utils/-/utils-8.72.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+utils@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/@typescript-eslint/utils",
+                "deduped": true,
+                "dedupedDependenciesCount": 6
+              },
+              "@typescript-eslint/visitor-keys": {
+                "from": "@typescript-eslint/visitor-keys",
+                "version": "8.72.1",
+                "resolved": "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-8.72.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+visitor-keys@8.72.1/node_modules/@typescript-eslint/visitor-keys",
+                "deduped": true,
+                "dedupedDependenciesCount": 2
+              },
+              "eslint": {
+                "from": "eslint",
+                "version": "10.14.0",
+                "resolved": "https://registry.npmjs.org/eslint/-/eslint-10.14.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+                "deduped": true,
+                "dedupedDependenciesCount": 103
+              },
+              "ignore": {
+                "from": "ignore",
+                "version": "7.0.14",
+                "resolved": "https://registry.npmjs.org/ignore/-/ignore-7.0.14.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/ignore@7.0.14/node_modules/ignore"
+              },
+              "natural-compare": {
+                "from": "natural-compare",
+                "version": "1.4.0",
+                "resolved": "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/natural-compare@1.4.0/node_modules/natural-compare"
+              },
+              "ts-api-utils": {
+                "from": "ts-api-utils",
+                "version": "2.5.0",
+                "resolved": "https://registry.npmjs.org/ts-api-utils/-/ts-api-utils-2.5.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/ts-api-utils@2.5.0_typescript@5.9.3/node_modules/ts-api-utils",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              },
+              "typescript": {
+                "from": "typescript",
+                "version": "5.9.3",
+                "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+              },
+              "@typescript-eslint/type-utils": {
+                "from": "@typescript-eslint/type-utils",
+                "version": "8.72.1",
+                "resolved": "https://registry.npmjs.org/@typescript-eslint/type-utils/-/type-utils-8.72.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+type-utils@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/@typescript-eslint/type-utils",
+                "dependencies": {
+                  "@typescript-eslint/types": {
+                    "from": "@typescript-eslint/types",
+                    "version": "8.72.1",
+                    "resolved": "https://registry.npmjs.org/@typescript-eslint/types/-/types-8.72.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+types@8.72.1/node_modules/@typescript-eslint/types"
+                  },
+                  "@typescript-eslint/typescript-estree": {
+                    "from": "@typescript-eslint/typescript-estree",
+                    "version": "8.72.1",
+                    "resolved": "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-8.72.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+typescript-estree@8.72.1_typescript@5.9.3/node_modules/@typescript-eslint/typescript-estree",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 19
+                  },
+                  "debug": {
+                    "from": "debug",
+                    "version": "4.4.3",
+                    "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/debug@4.4.3/node_modules/debug",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 1
+                  },
+                  "eslint": {
+                    "from": "eslint",
+                    "version": "10.14.0",
+                    "resolved": "https://registry.npmjs.org/eslint/-/eslint-10.14.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 103
+                  },
+                  "ts-api-utils": {
+                    "from": "ts-api-utils",
+                    "version": "2.5.0",
+                    "resolved": "https://registry.npmjs.org/ts-api-utils/-/ts-api-utils-2.5.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/ts-api-utils@2.5.0_typescript@5.9.3/node_modules/ts-api-utils",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 1
+                  },
+                  "typescript": {
+                    "from": "typescript",
+                    "version": "5.9.3",
+                    "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+                  },
+                  "@typescript-eslint/utils": {
+                    "from": "@typescript-eslint/utils",
+                    "version": "8.72.1",
+                    "resolved": "https://registry.npmjs.org/@typescript-eslint/utils/-/utils-8.72.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+utils@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/@typescript-eslint/utils",
+                    "dependencies": {
+                      "@eslint-community/eslint-utils": {
+                        "from": "@eslint-community/eslint-utils",
+                        "version": "4.10.1",
+                        "resolved": "https://registry.npmjs.org/@eslint-community/eslint-utils/-/eslint-utils-4.10.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint-community+eslint-utils@4.10.1_eslint@10.14.0/node_modules/@eslint-community/eslint-utils",
+                        "deduped": true,
+                        "dedupedDependenciesCount": 2
+                      },
+                      "@typescript-eslint/scope-manager": {
+                        "from": "@typescript-eslint/scope-manager",
+                        "version": "8.72.1",
+                        "resolved": "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-8.72.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+scope-manager@8.72.1/node_modules/@typescript-eslint/scope-manager",
+                        "deduped": true,
+                        "dedupedDependenciesCount": 4
+                      },
+                      "@typescript-eslint/types": {
+                        "from": "@typescript-eslint/types",
+                        "version": "8.72.1",
+                        "resolved": "https://registry.npmjs.org/@typescript-eslint/types/-/types-8.72.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+types@8.72.1/node_modules/@typescript-eslint/types"
+                      },
+                      "@typescript-eslint/typescript-estree": {
+                        "from": "@typescript-eslint/typescript-estree",
+                        "version": "8.72.1",
+                        "resolved": "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-8.72.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+typescript-estree@8.72.1_typescript@5.9.3/node_modules/@typescript-eslint/typescript-estree",
+                        "deduped": true,
+                        "dedupedDependenciesCount": 19
+                      },
+                      "eslint": {
+                        "from": "eslint",
+                        "version": "10.14.0",
+                        "resolved": "https://registry.npmjs.org/eslint/-/eslint-10.14.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+                        "deduped": true,
+                        "dedupedDependenciesCount": 103
+                      },
+                      "typescript": {
+                        "from": "typescript",
+                        "version": "5.9.3",
+                        "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "vitest": {
+        "from": "vitest",
+        "version": "5.1.0",
+        "resolved": "https://registry.npmjs.org/vitest/-/vitest-5.1.0.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest",
+        "dependencies": {
+          "@types/node": {
+            "from": "@types/node",
+            "version": "24.10.0",
+            "resolved": "https://registry.npmjs.org/@types/node/-/node-24.10.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+            "deduped": true,
+            "dedupedDependenciesCount": 1
+          },
+          "chai": {
+            "from": "chai",
+            "version": "6.3.0",
+            "resolved": "https://registry.npmjs.org/chai/-/chai-6.3.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/chai@6.3.0/node_modules/chai"
+          },
+          "es-module-lexer": {
+            "from": "es-module-lexer",
+            "version": "2.3.2",
+            "resolved": "https://registry.npmjs.org/es-module-lexer/-/es-module-lexer-2.3.2.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/es-module-lexer@2.3.2/node_modules/es-module-lexer"
+          },
+          "expect-type": {
+            "from": "expect-type",
+            "version": "1.4.0",
+            "resolved": "https://registry.npmjs.org/expect-type/-/expect-type-1.4.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/expect-type@1.4.0/node_modules/expect-type"
+          },
+          "magic-string": {
+            "from": "magic-string",
+            "version": "1.4.5",
+            "resolved": "https://registry.npmjs.org/magic-string/-/magic-string-1.4.5.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/magic-string@1.4.5/node_modules/magic-string",
+            "deduped": true,
+            "dedupedDependenciesCount": 1
+          },
+          "obug": {
+            "from": "obug",
+            "version": "3.0.0",
+            "resolved": "https://registry.npmjs.org/obug/-/obug-3.0.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/obug@3.0.0/node_modules/obug"
+          },
+          "picomatch": {
+            "from": "picomatch",
+            "version": "4.0.7",
+            "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.7.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/picomatch@4.0.7/node_modules/picomatch"
+          },
+          "std-env": {
+            "from": "std-env",
+            "version": "4.3.0",
+            "resolved": "https://registry.npmjs.org/std-env/-/std-env-4.3.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/std-env@4.3.0/node_modules/std-env"
+          },
+          "tinybench": {
+            "from": "tinybench",
+            "version": "6.2.3",
+            "resolved": "https://registry.npmjs.org/tinybench/-/tinybench-6.2.3.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/tinybench@6.2.3/node_modules/tinybench"
+          },
+          "tinyexec": {
+            "from": "tinyexec",
+            "version": "1.3.1",
+            "resolved": "https://registry.npmjs.org/tinyexec/-/tinyexec-1.3.1.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/tinyexec@1.3.1/node_modules/tinyexec"
+          },
+          "tinyglobby": {
+            "from": "tinyglobby",
+            "version": "0.2.17",
+            "resolved": "https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.17.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/tinyglobby@0.2.17/node_modules/tinyglobby",
+            "deduped": true,
+            "dedupedDependenciesCount": 3
+          },
+          "vite": {
+            "from": "vite",
+            "version": "8.3.5",
+            "resolved": "https://registry.npmjs.org/vite/-/vite-8.3.5.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2/node_modules/vite",
+            "deduped": true,
+            "dedupedDependenciesCount": 40
+          },
+          "why-is-node-running": {
+            "from": "why-is-node-running",
+            "version": "3.2.1",
+            "resolved": "https://registry.npmjs.org/why-is-node-running/-/why-is-node-running-3.2.1.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/why-is-node-running@3.2.1/node_modules/why-is-node-running"
+          },
+          "@types/chai": {
+            "from": "@types/chai",
+            "version": "5.2.3",
+            "resolved": "https://registry.npmjs.org/@types/chai/-/chai-5.2.3.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+chai@5.2.3/node_modules/@types/chai",
+            "dependencies": {
+              "@types/deep-eql": {
+                "from": "@types/deep-eql",
+                "version": "4.0.2",
+                "resolved": "https://registry.npmjs.org/@types/deep-eql/-/deep-eql-4.0.2.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+deep-eql@4.0.2/node_modules/@types/deep-eql"
+              },
+              "assertion-error": {
+                "from": "assertion-error",
+                "version": "2.0.1",
+                "resolved": "https://registry.npmjs.org/assertion-error/-/assertion-error-2.0.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/assertion-error@2.0.1/node_modules/assertion-error"
+              }
+            }
+          },
+          "@vitest/mocker": {
+            "from": "@vitest/mocker",
+            "version": "5.1.0",
+            "resolved": "https://registry.npmjs.org/@vitest/mocker/-/mocker-5.1.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vitest+mocker@5.1.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/@vitest/mocker",
+            "dependencies": {
+              "@vitest/spy": {
+                "from": "@vitest/spy",
+                "version": "5.1.0",
+                "resolved": "https://registry.npmjs.org/@vitest/spy/-/spy-5.1.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vitest+spy@5.1.0/node_modules/@vitest/spy"
+              },
+              "@jridgewell/trace-mapping": {
+                "from": "@jridgewell/trace-mapping",
+                "version": "0.3.31",
+                "resolved": "https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.31.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@jridgewell+trace-mapping@0.3.31/node_modules/@jridgewell/trace-mapping",
+                "dependencies": {
+                  "@jridgewell/resolve-uri": {
+                    "from": "@jridgewell/resolve-uri",
+                    "version": "3.1.2",
+                    "resolved": "https://registry.npmjs.org/@jridgewell/resolve-uri/-/resolve-uri-3.1.2.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@jridgewell+resolve-uri@3.1.2/node_modules/@jridgewell/resolve-uri"
+                  },
+                  "@jridgewell/sourcemap-codec": {
+                    "from": "@jridgewell/sourcemap-codec",
+                    "version": "1.6.0",
+                    "resolved": "https://registry.npmjs.org/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.6.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@jridgewell+sourcemap-codec@1.6.0/node_modules/@jridgewell/sourcemap-codec"
+                  }
+                }
+              },
+              "estree-walker": {
+                "from": "estree-walker",
+                "version": "3.0.3",
+                "resolved": "https://registry.npmjs.org/estree-walker/-/estree-walker-3.0.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/estree-walker@3.0.3/node_modules/estree-walker",
+                "dependencies": {
+                  "@types/estree": {
+                    "from": "@types/estree",
+                    "version": "1.0.10",
+                    "resolved": "https://registry.npmjs.org/@types/estree/-/estree-1.0.10.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+estree@1.0.10/node_modules/@types/estree"
+                  }
+                }
+              },
+              "magic-string": {
+                "from": "magic-string",
+                "version": "1.4.5",
+                "resolved": "https://registry.npmjs.org/magic-string/-/magic-string-1.4.5.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/magic-string@1.4.5/node_modules/magic-string",
+                "dependencies": {
+                  "@jridgewell/sourcemap-codec": {
+                    "from": "@jridgewell/sourcemap-codec",
+                    "version": "1.6.0",
+                    "resolved": "https://registry.npmjs.org/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.6.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@jridgewell+sourcemap-codec@1.6.0/node_modules/@jridgewell/sourcemap-codec"
+                  }
+                }
+              },
+              "vite": {
+                "from": "vite",
+                "version": "8.3.5",
+                "resolved": "https://registry.npmjs.org/vite/-/vite-8.3.5.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2/node_modules/vite",
+                "dependencies": {
+                  "@types/node": {
+                    "from": "@types/node",
+                    "version": "24.10.0",
+                    "resolved": "https://registry.npmjs.org/@types/node/-/node-24.10.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 1
+                  },
+                  "esbuild": {
+                    "from": "esbuild",
+                    "version": "0.28.2",
+                    "resolved": "https://registry.npmjs.org/esbuild/-/esbuild-0.28.2.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 26
+                  },
+                  "fsevents": {
+                    "from": "fsevents",
+                    "version": "2.3.3",
+                    "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/fsevents@2.3.3/node_modules/fsevents"
+                  },
+                  "picomatch": {
+                    "from": "picomatch",
+                    "version": "4.0.7",
+                    "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.7.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/picomatch@4.0.7/node_modules/picomatch"
+                  },
+                  "tinyglobby": {
+                    "from": "tinyglobby",
+                    "version": "0.2.17",
+                    "resolved": "https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.17.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/tinyglobby@0.2.17/node_modules/tinyglobby",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 3
+                  },
+                  "lightningcss": {
+                    "from": "lightningcss",
+                    "version": "1.33.0",
+                    "resolved": "https://registry.npmjs.org/lightningcss/-/lightningcss-1.33.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/lightningcss@1.33.0/node_modules/lightningcss",
+                    "dependencies": {
+                      "detect-libc": {
+                        "from": "detect-libc",
+                        "version": "2.1.2",
+                        "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.1.2.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/detect-libc@2.1.2/node_modules/detect-libc"
+                      },
+                      "lightningcss-android-arm64": {
+                        "from": "lightningcss-android-arm64",
+                        "version": "1.33.0",
+                        "resolved": "https://registry.npmjs.org/lightningcss-android-arm64/-/lightningcss-android-arm64-1.33.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/lightningcss-android-arm64@1.33.0/node_modules/lightningcss-android-arm64"
+                      },
+                      "lightningcss-darwin-arm64": {
+                        "from": "lightningcss-darwin-arm64",
+                        "version": "1.33.0",
+                        "resolved": "https://registry.npmjs.org/lightningcss-darwin-arm64/-/lightningcss-darwin-arm64-1.33.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/lightningcss-darwin-arm64@1.33.0/node_modules/lightningcss-darwin-arm64"
+                      },
+                      "lightningcss-darwin-x64": {
+                        "from": "lightningcss-darwin-x64",
+                        "version": "1.33.0",
+                        "resolved": "https://registry.npmjs.org/lightningcss-darwin-x64/-/lightningcss-darwin-x64-1.33.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/lightningcss-darwin-x64@1.33.0/node_modules/lightningcss-darwin-x64"
+                      },
+                      "lightningcss-freebsd-x64": {
+                        "from": "lightningcss-freebsd-x64",
+                        "version": "1.33.0",
+                        "resolved": "https://registry.npmjs.org/lightningcss-freebsd-x64/-/lightningcss-freebsd-x64-1.33.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/lightningcss-freebsd-x64@1.33.0/node_modules/lightningcss-freebsd-x64"
+                      },
+                      "lightningcss-linux-arm-gnueabihf": {
+                        "from": "lightningcss-linux-arm-gnueabihf",
+                        "version": "1.33.0",
+                        "resolved": "https://registry.npmjs.org/lightningcss-linux-arm-gnueabihf/-/lightningcss-linux-arm-gnueabihf-1.33.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/lightningcss-linux-arm-gnueabihf@1.33.0/node_modules/lightningcss-linux-arm-gnueabihf"
+                      },
+                      "lightningcss-linux-arm64-gnu": {
+                        "from": "lightningcss-linux-arm64-gnu",
+                        "version": "1.33.0",
+                        "resolved": "https://registry.npmjs.org/lightningcss-linux-arm64-gnu/-/lightningcss-linux-arm64-gnu-1.33.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/lightningcss-linux-arm64-gnu@1.33.0/node_modules/lightningcss-linux-arm64-gnu"
+                      },
+                      "lightningcss-linux-arm64-musl": {
+                        "from": "lightningcss-linux-arm64-musl",
+                        "version": "1.33.0",
+                        "resolved": "https://registry.npmjs.org/lightningcss-linux-arm64-musl/-/lightningcss-linux-arm64-musl-1.33.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/lightningcss-linux-arm64-musl@1.33.0/node_modules/lightningcss-linux-arm64-musl"
+                      },
+                      "lightningcss-linux-x64-gnu": {
+                        "from": "lightningcss-linux-x64-gnu",
+                        "version": "1.33.0",
+                        "resolved": "https://registry.npmjs.org/lightningcss-linux-x64-gnu/-/lightningcss-linux-x64-gnu-1.33.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/lightningcss-linux-x64-gnu@1.33.0/node_modules/lightningcss-linux-x64-gnu"
+                      },
+                      "lightningcss-linux-x64-musl": {
+                        "from": "lightningcss-linux-x64-musl",
+                        "version": "1.33.0",
+                        "resolved": "https://registry.npmjs.org/lightningcss-linux-x64-musl/-/lightningcss-linux-x64-musl-1.33.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/lightningcss-linux-x64-musl@1.33.0/node_modules/lightningcss-linux-x64-musl"
+                      },
+                      "lightningcss-win32-arm64-msvc": {
+                        "from": "lightningcss-win32-arm64-msvc",
+                        "version": "1.33.0",
+                        "resolved": "https://registry.npmjs.org/lightningcss-win32-arm64-msvc/-/lightningcss-win32-arm64-msvc-1.33.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/lightningcss-win32-arm64-msvc@1.33.0/node_modules/lightningcss-win32-arm64-msvc"
+                      },
+                      "lightningcss-win32-x64-msvc": {
+                        "from": "lightningcss-win32-x64-msvc",
+                        "version": "1.33.0",
+                        "resolved": "https://registry.npmjs.org/lightningcss-win32-x64-msvc/-/lightningcss-win32-x64-msvc-1.33.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/lightningcss-win32-x64-msvc@1.33.0/node_modules/lightningcss-win32-x64-msvc"
+                      }
+                    }
+                  },
+                  "postcss": {
+                    "from": "postcss",
+                    "version": "8.5.32",
+                    "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.5.32.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/postcss@8.5.32/node_modules/postcss",
+                    "dependencies": {
+                      "nanoid": {
+                        "from": "nanoid",
+                        "version": "3.3.20",
+                        "resolved": "https://registry.npmjs.org/nanoid/-/nanoid-3.3.20.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/nanoid@3.3.20/node_modules/nanoid"
+                      },
+                      "picocolors": {
+                        "from": "picocolors",
+                        "version": "1.1.1",
+                        "resolved": "https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/picocolors@1.1.1/node_modules/picocolors"
+                      },
+                      "source-map-js": {
+                        "from": "source-map-js",
+                        "version": "1.2.2",
+                        "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.2.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/source-map-js@1.2.2/node_modules/source-map-js"
+                      }
+                    }
+                  },
+                  "rolldown": {
+                    "from": "rolldown",
+                    "version": "1.2.16",
+                    "resolved": "https://registry.npmjs.org/rolldown/-/rolldown-1.2.16.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/rolldown@1.2.16/node_modules/rolldown",
+                    "dependencies": {
+                      "@oxc-project/types": {
+                        "from": "@oxc-project/types",
+                        "version": "0.156.0",
+                        "resolved": "https://registry.npmjs.org/@oxc-project/types/-/types-0.156.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@oxc-project+types@0.156.0/node_modules/@oxc-project/types"
+                      },
+                      "@rolldown/binding-android-arm-eabi": {
+                        "from": "@rolldown/binding-android-arm-eabi",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-android-arm-eabi/-/binding-android-arm-eabi-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-android-arm-eabi@1.2.16/node_modules/@rolldown/binding-android-arm-eabi"
+                      },
+                      "@rolldown/binding-android-arm64": {
+                        "from": "@rolldown/binding-android-arm64",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-android-arm64/-/binding-android-arm64-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-android-arm64@1.2.16/node_modules/@rolldown/binding-android-arm64"
+                      },
+                      "@rolldown/binding-darwin-arm64": {
+                        "from": "@rolldown/binding-darwin-arm64",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-darwin-arm64/-/binding-darwin-arm64-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-darwin-arm64@1.2.16/node_modules/@rolldown/binding-darwin-arm64"
+                      },
+                      "@rolldown/binding-darwin-x64": {
+                        "from": "@rolldown/binding-darwin-x64",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-darwin-x64/-/binding-darwin-x64-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-darwin-x64@1.2.16/node_modules/@rolldown/binding-darwin-x64"
+                      },
+                      "@rolldown/binding-freebsd-x64": {
+                        "from": "@rolldown/binding-freebsd-x64",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-freebsd-x64/-/binding-freebsd-x64-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-freebsd-x64@1.2.16/node_modules/@rolldown/binding-freebsd-x64"
+                      },
+                      "@rolldown/binding-linux-arm-gnueabihf": {
+                        "from": "@rolldown/binding-linux-arm-gnueabihf",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-arm-gnueabihf/-/binding-linux-arm-gnueabihf-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-linux-arm-gnueabihf@1.2.16/node_modules/@rolldown/binding-linux-arm-gnueabihf"
+                      },
+                      "@rolldown/binding-linux-arm64-gnu": {
+                        "from": "@rolldown/binding-linux-arm64-gnu",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-arm64-gnu/-/binding-linux-arm64-gnu-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-linux-arm64-gnu@1.2.16/node_modules/@rolldown/binding-linux-arm64-gnu"
+                      },
+                      "@rolldown/binding-linux-arm64-musl": {
+                        "from": "@rolldown/binding-linux-arm64-musl",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-arm64-musl/-/binding-linux-arm64-musl-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-linux-arm64-musl@1.2.16/node_modules/@rolldown/binding-linux-arm64-musl"
+                      },
+                      "@rolldown/binding-linux-ppc64-gnu": {
+                        "from": "@rolldown/binding-linux-ppc64-gnu",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-ppc64-gnu/-/binding-linux-ppc64-gnu-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-linux-ppc64-gnu@1.2.16/node_modules/@rolldown/binding-linux-ppc64-gnu"
+                      },
+                      "@rolldown/binding-linux-s390x-gnu": {
+                        "from": "@rolldown/binding-linux-s390x-gnu",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-s390x-gnu/-/binding-linux-s390x-gnu-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-linux-s390x-gnu@1.2.16/node_modules/@rolldown/binding-linux-s390x-gnu"
+                      },
+                      "@rolldown/binding-linux-x64-gnu": {
+                        "from": "@rolldown/binding-linux-x64-gnu",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-x64-gnu/-/binding-linux-x64-gnu-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-linux-x64-gnu@1.2.16/node_modules/@rolldown/binding-linux-x64-gnu"
+                      },
+                      "@rolldown/binding-linux-x64-musl": {
+                        "from": "@rolldown/binding-linux-x64-musl",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-x64-musl/-/binding-linux-x64-musl-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-linux-x64-musl@1.2.16/node_modules/@rolldown/binding-linux-x64-musl"
+                      },
+                      "@rolldown/binding-openharmony-arm64": {
+                        "from": "@rolldown/binding-openharmony-arm64",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-openharmony-arm64/-/binding-openharmony-arm64-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-openharmony-arm64@1.2.16/node_modules/@rolldown/binding-openharmony-arm64"
+                      },
+                      "@rolldown/binding-win32-arm64-msvc": {
+                        "from": "@rolldown/binding-win32-arm64-msvc",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-win32-arm64-msvc/-/binding-win32-arm64-msvc-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-win32-arm64-msvc@1.2.16/node_modules/@rolldown/binding-win32-arm64-msvc"
+                      },
+                      "@rolldown/binding-win32-x64-msvc": {
+                        "from": "@rolldown/binding-win32-x64-msvc",
+                        "version": "1.2.16",
+                        "resolved": "https://registry.npmjs.org/@rolldown/binding-win32-x64-msvc/-/binding-win32-x64-msvc-1.2.16.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+binding-win32-x64-msvc@1.2.16/node_modules/@rolldown/binding-win32-x64-msvc"
+                      },
+                      "@rolldown/pluginutils": {
+                        "from": "@rolldown/pluginutils",
+                        "version": "1.0.1",
+                        "resolved": "https://registry.npmjs.org/@rolldown/pluginutils/-/pluginutils-1.0.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+pluginutils@1.0.1/node_modules/@rolldown/pluginutils"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "eslint-plugin-vue": {
+        "from": "eslint-plugin-vue",
+        "version": "10.12.0",
+        "resolved": "https://registry.npmjs.org/eslint-plugin-vue/-/eslint-plugin-vue-10.12.0.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue",
+        "dependencies": {
+          "@eslint-community/eslint-utils": {
+            "from": "@eslint-community/eslint-utils",
+            "version": "4.10.1",
+            "resolved": "https://registry.npmjs.org/@eslint-community/eslint-utils/-/eslint-utils-4.10.1.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint-community+eslint-utils@4.10.1_eslint@10.14.0/node_modules/@eslint-community/eslint-utils",
+            "deduped": true,
+            "dedupedDependenciesCount": 2
+          },
+          "eslint": {
+            "from": "eslint",
+            "version": "10.14.0",
+            "resolved": "https://registry.npmjs.org/eslint/-/eslint-10.14.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+            "deduped": true,
+            "dedupedDependenciesCount": 103
+          },
+          "natural-compare": {
+            "from": "natural-compare",
+            "version": "1.4.0",
+            "resolved": "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/natural-compare@1.4.0/node_modules/natural-compare"
+          },
+          "semver": {
+            "from": "semver",
+            "version": "7.8.6",
+            "resolved": "https://registry.npmjs.org/semver/-/semver-7.8.6.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/semver@7.8.6/node_modules/semver"
+          },
+          "xml-name-validator": {
+            "from": "xml-name-validator",
+            "version": "5.0.0",
+            "resolved": "https://registry.npmjs.org/xml-name-validator/-/xml-name-validator-5.0.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/xml-name-validator@5.0.0/node_modules/xml-name-validator"
+          },
+          "nth-check": {
+            "from": "nth-check",
+            "version": "2.1.1",
+            "resolved": "https://registry.npmjs.org/nth-check/-/nth-check-2.1.1.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/nth-check@2.1.1/node_modules/nth-check",
+            "dependencies": {
+              "boolbase": {
+                "from": "boolbase",
+                "version": "1.0.0",
+                "resolved": "https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/boolbase@1.0.0/node_modules/boolbase"
+              }
+            }
+          },
+          "postcss-selector-parser": {
+            "from": "postcss-selector-parser",
+            "version": "7.1.7",
+            "resolved": "https://registry.npmjs.org/postcss-selector-parser/-/postcss-selector-parser-7.1.7.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/postcss-selector-parser@7.1.7/node_modules/postcss-selector-parser",
+            "dependencies": {
+              "cssesc": {
+                "from": "cssesc",
+                "version": "3.0.0",
+                "resolved": "https://registry.npmjs.org/cssesc/-/cssesc-3.0.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/cssesc@3.0.0/node_modules/cssesc"
+              },
+              "util-deprecate": {
+                "from": "util-deprecate",
+                "version": "1.0.2",
+                "resolved": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/util-deprecate@1.0.2/node_modules/util-deprecate"
+              }
+            }
+          },
+          "vue-eslint-parser": {
+            "from": "vue-eslint-parser",
+            "version": "10.4.1",
+            "resolved": "https://registry.npmjs.org/vue-eslint-parser/-/vue-eslint-parser-10.4.1.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vue-eslint-parser@10.4.1_eslint@10.14.0/node_modules/vue-eslint-parser",
+            "dependencies": {
+              "debug": {
+                "from": "debug",
+                "version": "4.4.3",
+                "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/debug@4.4.3/node_modules/debug",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              },
+              "eslint": {
+                "from": "eslint",
+                "version": "10.14.0",
+                "resolved": "https://registry.npmjs.org/eslint/-/eslint-10.14.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+                "deduped": true,
+                "dedupedDependenciesCount": 103
+              },
+              "eslint-scope": {
+                "from": "eslint-scope",
+                "version": "9.1.2",
+                "resolved": "https://registry.npmjs.org/eslint-scope/-/eslint-scope-9.1.2.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-scope@9.1.2/node_modules/eslint-scope",
+                "deduped": true,
+                "dedupedDependenciesCount": 5
+              },
+              "eslint-visitor-keys": {
+                "from": "eslint-visitor-keys",
+                "version": "5.0.1",
+                "resolved": "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-5.0.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-visitor-keys@5.0.1/node_modules/eslint-visitor-keys"
+              },
+              "espree": {
+                "from": "espree",
+                "version": "11.2.0",
+                "resolved": "https://registry.npmjs.org/espree/-/espree-11.2.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/espree@11.2.0/node_modules/espree",
+                "deduped": true,
+                "dedupedDependenciesCount": 4
+              },
+              "esquery": {
+                "from": "esquery",
+                "version": "1.7.0",
+                "resolved": "https://registry.npmjs.org/esquery/-/esquery-1.7.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esquery@1.7.0/node_modules/esquery",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              },
+              "semver": {
+                "from": "semver",
+                "version": "7.8.6",
+                "resolved": "https://registry.npmjs.org/semver/-/semver-7.8.6.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/semver@7.8.6/node_modules/semver"
+              }
+            }
+          },
+          "@typescript-eslint/parser": {
+            "from": "@typescript-eslint/parser",
+            "version": "8.72.1",
+            "resolved": "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-8.72.1.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/@typescript-eslint/parser",
+            "dependencies": {
+              "@typescript-eslint/types": {
+                "from": "@typescript-eslint/types",
+                "version": "8.72.1",
+                "resolved": "https://registry.npmjs.org/@typescript-eslint/types/-/types-8.72.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+types@8.72.1/node_modules/@typescript-eslint/types"
+              },
+              "@typescript-eslint/visitor-keys": {
+                "from": "@typescript-eslint/visitor-keys",
+                "version": "8.72.1",
+                "resolved": "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-8.72.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+visitor-keys@8.72.1/node_modules/@typescript-eslint/visitor-keys",
+                "deduped": true,
+                "dedupedDependenciesCount": 2
+              },
+              "debug": {
+                "from": "debug",
+                "version": "4.4.3",
+                "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/debug@4.4.3/node_modules/debug",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              },
+              "eslint": {
+                "from": "eslint",
+                "version": "10.14.0",
+                "resolved": "https://registry.npmjs.org/eslint/-/eslint-10.14.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+                "deduped": true,
+                "dedupedDependenciesCount": 103
+              },
+              "typescript": {
+                "from": "typescript",
+                "version": "5.9.3",
+                "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+              },
+              "@typescript-eslint/scope-manager": {
+                "from": "@typescript-eslint/scope-manager",
+                "version": "8.72.1",
+                "resolved": "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-8.72.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+scope-manager@8.72.1/node_modules/@typescript-eslint/scope-manager",
+                "dependencies": {
+                  "@typescript-eslint/types": {
+                    "from": "@typescript-eslint/types",
+                    "version": "8.72.1",
+                    "resolved": "https://registry.npmjs.org/@typescript-eslint/types/-/types-8.72.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+types@8.72.1/node_modules/@typescript-eslint/types"
+                  },
+                  "@typescript-eslint/visitor-keys": {
+                    "from": "@typescript-eslint/visitor-keys",
+                    "version": "8.72.1",
+                    "resolved": "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-8.72.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+visitor-keys@8.72.1/node_modules/@typescript-eslint/visitor-keys",
+                    "dependencies": {
+                      "@typescript-eslint/types": {
+                        "from": "@typescript-eslint/types",
+                        "version": "8.72.1",
+                        "resolved": "https://registry.npmjs.org/@typescript-eslint/types/-/types-8.72.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+types@8.72.1/node_modules/@typescript-eslint/types"
+                      },
+                      "eslint-visitor-keys": {
+                        "from": "eslint-visitor-keys",
+                        "version": "5.0.1",
+                        "resolved": "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-5.0.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-visitor-keys@5.0.1/node_modules/eslint-visitor-keys"
+                      }
+                    }
+                  }
+                }
+              },
+              "@typescript-eslint/typescript-estree": {
+                "from": "@typescript-eslint/typescript-estree",
+                "version": "8.72.1",
+                "resolved": "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-8.72.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+typescript-estree@8.72.1_typescript@5.9.3/node_modules/@typescript-eslint/typescript-estree",
+                "dependencies": {
+                  "@typescript-eslint/tsconfig-utils": {
+                    "from": "@typescript-eslint/tsconfig-utils",
+                    "version": "8.72.1",
+                    "resolved": "https://registry.npmjs.org/@typescript-eslint/tsconfig-utils/-/tsconfig-utils-8.72.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+tsconfig-utils@8.72.1_typescript@5.9.3/node_modules/@typescript-eslint/tsconfig-utils",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 1
+                  },
+                  "@typescript-eslint/types": {
+                    "from": "@typescript-eslint/types",
+                    "version": "8.72.1",
+                    "resolved": "https://registry.npmjs.org/@typescript-eslint/types/-/types-8.72.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+types@8.72.1/node_modules/@typescript-eslint/types"
+                  },
+                  "@typescript-eslint/visitor-keys": {
+                    "from": "@typescript-eslint/visitor-keys",
+                    "version": "8.72.1",
+                    "resolved": "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-8.72.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+visitor-keys@8.72.1/node_modules/@typescript-eslint/visitor-keys",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 2
+                  },
+                  "debug": {
+                    "from": "debug",
+                    "version": "4.4.3",
+                    "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/debug@4.4.3/node_modules/debug",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 1
+                  },
+                  "minimatch": {
+                    "from": "minimatch",
+                    "version": "10.2.6",
+                    "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-10.2.6.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/minimatch@10.2.6/node_modules/minimatch",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 2
+                  },
+                  "semver": {
+                    "from": "semver",
+                    "version": "7.8.6",
+                    "resolved": "https://registry.npmjs.org/semver/-/semver-7.8.6.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/semver@7.8.6/node_modules/semver"
+                  },
+                  "typescript": {
+                    "from": "typescript",
+                    "version": "5.9.3",
+                    "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+                  },
+                  "ts-api-utils": {
+                    "from": "ts-api-utils",
+                    "version": "2.5.0",
+                    "resolved": "https://registry.npmjs.org/ts-api-utils/-/ts-api-utils-2.5.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/ts-api-utils@2.5.0_typescript@5.9.3/node_modules/ts-api-utils",
+                    "dependencies": {
+                      "typescript": {
+                        "from": "typescript",
+                        "version": "5.9.3",
+                        "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+                      }
+                    }
+                  },
+                  "@typescript-eslint/project-service": {
+                    "from": "@typescript-eslint/project-service",
+                    "version": "8.72.1",
+                    "resolved": "https://registry.npmjs.org/@typescript-eslint/project-service/-/project-service-8.72.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+project-service@8.72.1_typescript@5.9.3/node_modules/@typescript-eslint/project-service",
+                    "dependencies": {
+                      "@typescript-eslint/types": {
+                        "from": "@typescript-eslint/types",
+                        "version": "8.72.1",
+                        "resolved": "https://registry.npmjs.org/@typescript-eslint/types/-/types-8.72.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+types@8.72.1/node_modules/@typescript-eslint/types"
+                      },
+                      "debug": {
+                        "from": "debug",
+                        "version": "4.4.3",
+                        "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/debug@4.4.3/node_modules/debug",
+                        "deduped": true,
+                        "dedupedDependenciesCount": 1
+                      },
+                      "typescript": {
+                        "from": "typescript",
+                        "version": "5.9.3",
+                        "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+                      },
+                      "@typescript-eslint/tsconfig-utils": {
+                        "from": "@typescript-eslint/tsconfig-utils",
+                        "version": "8.72.1",
+                        "resolved": "https://registry.npmjs.org/@typescript-eslint/tsconfig-utils/-/tsconfig-utils-8.72.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@typescript-eslint+tsconfig-utils@8.72.1_typescript@5.9.3/node_modules/@typescript-eslint/tsconfig-utils",
+                        "dependencies": {
+                          "typescript": {
+                            "from": "typescript",
+                            "version": "5.9.3",
+                            "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+                            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "tinyglobby": {
+                    "from": "tinyglobby",
+                    "version": "0.2.17",
+                    "resolved": "https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.17.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/tinyglobby@0.2.17/node_modules/tinyglobby",
+                    "dependencies": {
+                      "picomatch": {
+                        "from": "picomatch",
+                        "version": "4.0.7",
+                        "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.7.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/picomatch@4.0.7/node_modules/picomatch"
+                      },
+                      "fdir": {
+                        "from": "fdir",
+                        "version": "6.5.0",
+                        "resolved": "https://registry.npmjs.org/fdir/-/fdir-6.5.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/fdir@6.5.0_picomatch@4.0.7/node_modules/fdir",
+                        "dependencies": {
+                          "picomatch": {
+                            "from": "picomatch",
+                            "version": "4.0.7",
+                            "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.7.tgz",
+                            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/picomatch@4.0.7/node_modules/picomatch"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "@eslint/js": {
+        "from": "@eslint/js",
+        "version": "10.0.1",
+        "resolved": "https://registry.npmjs.org/@eslint/js/-/js-10.0.1.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js",
+        "dependencies": {
+          "eslint": {
+            "from": "eslint",
+            "version": "10.14.0",
+            "resolved": "https://registry.npmjs.org/eslint/-/eslint-10.14.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+            "dependencies": {
+              "@eslint-community/regexpp": {
+                "from": "@eslint-community/regexpp",
+                "version": "4.12.2",
+                "resolved": "https://registry.npmjs.org/@eslint-community/regexpp/-/regexpp-4.12.2.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint-community+regexpp@4.12.2/node_modules/@eslint-community/regexpp"
+              },
+              "@eslint/core": {
+                "from": "@eslint/core",
+                "version": "1.2.1",
+                "resolved": "https://registry.npmjs.org/@eslint/core/-/core-1.2.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+core@1.2.1/node_modules/@eslint/core",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              },
+              "@humanwhocodes/module-importer": {
+                "from": "@humanwhocodes/module-importer",
+                "version": "1.0.1",
+                "resolved": "https://registry.npmjs.org/@humanwhocodes/module-importer/-/module-importer-1.0.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@humanwhocodes+module-importer@1.0.1/node_modules/@humanwhocodes/module-importer"
+              },
+              "@humanwhocodes/retry": {
+                "from": "@humanwhocodes/retry",
+                "version": "0.4.3",
+                "resolved": "https://registry.npmjs.org/@humanwhocodes/retry/-/retry-0.4.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@humanwhocodes+retry@0.4.3/node_modules/@humanwhocodes/retry"
+              },
+              "@types/estree": {
+                "from": "@types/estree",
+                "version": "1.0.10",
+                "resolved": "https://registry.npmjs.org/@types/estree/-/estree-1.0.10.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+estree@1.0.10/node_modules/@types/estree"
+              },
+              "debug": {
+                "from": "debug",
+                "version": "4.4.3",
+                "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/debug@4.4.3/node_modules/debug",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              },
+              "escape-string-regexp": {
+                "from": "escape-string-regexp",
+                "version": "4.0.0",
+                "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/escape-string-regexp@4.0.0/node_modules/escape-string-regexp"
+              },
+              "eslint-visitor-keys": {
+                "from": "eslint-visitor-keys",
+                "version": "5.0.1",
+                "resolved": "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-5.0.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-visitor-keys@5.0.1/node_modules/eslint-visitor-keys"
+              },
+              "esutils": {
+                "from": "esutils",
+                "version": "2.0.3",
+                "resolved": "https://registry.npmjs.org/esutils/-/esutils-2.0.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esutils@2.0.3/node_modules/esutils"
+              },
+              "fast-deep-equal": {
+                "from": "fast-deep-equal",
+                "version": "3.1.3",
+                "resolved": "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/fast-deep-equal@3.1.3/node_modules/fast-deep-equal"
+              },
+              "ignore": {
+                "from": "ignore",
+                "version": "5.3.2",
+                "resolved": "https://registry.npmjs.org/ignore/-/ignore-5.3.2.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/ignore@5.3.2/node_modules/ignore"
+              },
+              "imurmurhash": {
+                "from": "imurmurhash",
+                "version": "0.1.4",
+                "resolved": "https://registry.npmjs.org/imurmurhash/-/imurmurhash-0.1.4.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/imurmurhash@0.1.4/node_modules/imurmurhash"
+              },
+              "is-glob": {
+                "from": "is-glob",
+                "version": "4.0.3",
+                "resolved": "https://registry.npmjs.org/is-glob/-/is-glob-4.0.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/is-glob@4.0.3/node_modules/is-glob",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              },
+              "json-stable-stringify-without-jsonify": {
+                "from": "json-stable-stringify-without-jsonify",
+                "version": "1.0.1",
+                "resolved": "https://registry.npmjs.org/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/json-stable-stringify-without-jsonify@1.0.1/node_modules/json-stable-stringify-without-jsonify"
+              },
+              "minimatch": {
+                "from": "minimatch",
+                "version": "10.2.6",
+                "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-10.2.6.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/minimatch@10.2.6/node_modules/minimatch",
+                "deduped": true,
+                "dedupedDependenciesCount": 2
+              },
+              "natural-compare": {
+                "from": "natural-compare",
+                "version": "1.4.0",
+                "resolved": "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/natural-compare@1.4.0/node_modules/natural-compare"
+              },
+              "@eslint-community/eslint-utils": {
+                "from": "@eslint-community/eslint-utils",
+                "version": "4.10.1",
+                "resolved": "https://registry.npmjs.org/@eslint-community/eslint-utils/-/eslint-utils-4.10.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint-community+eslint-utils@4.10.1_eslint@10.14.0/node_modules/@eslint-community/eslint-utils",
+                "dependencies": {
+                  "eslint": {
+                    "from": "eslint",
+                    "version": "10.14.0",
+                    "resolved": "https://registry.npmjs.org/eslint/-/eslint-10.14.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint"
+                  },
+                  "eslint-visitor-keys": {
+                    "from": "eslint-visitor-keys",
+                    "version": "3.4.3",
+                    "resolved": "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-3.4.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-visitor-keys@3.4.3/node_modules/eslint-visitor-keys"
+                  }
+                }
+              },
+              "esquery": {
+                "from": "esquery",
+                "version": "1.7.0",
+                "resolved": "https://registry.npmjs.org/esquery/-/esquery-1.7.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esquery@1.7.0/node_modules/esquery",
+                "dependencies": {
+                  "estraverse": {
+                    "from": "estraverse",
+                    "version": "5.3.0",
+                    "resolved": "https://registry.npmjs.org/estraverse/-/estraverse-5.3.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/estraverse@5.3.0/node_modules/estraverse"
+                  }
+                }
+              },
+              "optionator": {
+                "from": "optionator",
+                "version": "0.9.4",
+                "resolved": "https://registry.npmjs.org/optionator/-/optionator-0.9.4.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/optionator@0.9.4/node_modules/optionator",
+                "dependencies": {
+                  "deep-is": {
+                    "from": "deep-is",
+                    "version": "0.1.4",
+                    "resolved": "https://registry.npmjs.org/deep-is/-/deep-is-0.1.4.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/deep-is@0.1.4/node_modules/deep-is"
+                  },
+                  "fast-levenshtein": {
+                    "from": "fast-levenshtein",
+                    "version": "2.0.6",
+                    "resolved": "https://registry.npmjs.org/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/fast-levenshtein@2.0.6/node_modules/fast-levenshtein"
+                  },
+                  "levn": {
+                    "from": "levn",
+                    "version": "0.4.1",
+                    "resolved": "https://registry.npmjs.org/levn/-/levn-0.4.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/levn@0.4.1/node_modules/levn",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 3
+                  },
+                  "prelude-ls": {
+                    "from": "prelude-ls",
+                    "version": "1.2.1",
+                    "resolved": "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/prelude-ls@1.2.1/node_modules/prelude-ls"
+                  },
+                  "type-check": {
+                    "from": "type-check",
+                    "version": "0.4.0",
+                    "resolved": "https://registry.npmjs.org/type-check/-/type-check-0.4.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/type-check@0.4.0/node_modules/type-check",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 1
+                  },
+                  "word-wrap": {
+                    "from": "word-wrap",
+                    "version": "1.2.5",
+                    "resolved": "https://registry.npmjs.org/word-wrap/-/word-wrap-1.2.5.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/word-wrap@1.2.5/node_modules/word-wrap"
+                  }
+                }
+              },
+              "@eslint/config-helpers": {
+                "from": "@eslint/config-helpers",
+                "version": "0.7.0",
+                "resolved": "https://registry.npmjs.org/@eslint/config-helpers/-/config-helpers-0.7.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+config-helpers@0.7.0/node_modules/@eslint/config-helpers",
+                "dependencies": {
+                  "@eslint/core": {
+                    "from": "@eslint/core",
+                    "version": "1.2.1",
+                    "resolved": "https://registry.npmjs.org/@eslint/core/-/core-1.2.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+core@1.2.1/node_modules/@eslint/core",
+                    "dependencies": {
+                      "@types/json-schema": {
+                        "from": "@types/json-schema",
+                        "version": "7.0.15",
+                        "resolved": "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.15.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+json-schema@7.0.15/node_modules/@types/json-schema"
+                      }
+                    }
+                  }
+                }
+              },
+              "@humanfs/node": {
+                "from": "@humanfs/node",
+                "version": "0.16.8",
+                "resolved": "https://registry.npmjs.org/@humanfs/node/-/node-0.16.8.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@humanfs+node@0.16.8/node_modules/@humanfs/node",
+                "dependencies": {
+                  "@humanfs/types": {
+                    "from": "@humanfs/types",
+                    "version": "0.15.0",
+                    "resolved": "https://registry.npmjs.org/@humanfs/types/-/types-0.15.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@humanfs+types@0.15.0/node_modules/@humanfs/types"
+                  },
+                  "@humanwhocodes/retry": {
+                    "from": "@humanwhocodes/retry",
+                    "version": "0.4.3",
+                    "resolved": "https://registry.npmjs.org/@humanwhocodes/retry/-/retry-0.4.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@humanwhocodes+retry@0.4.3/node_modules/@humanwhocodes/retry"
+                  },
+                  "@humanfs/core": {
+                    "from": "@humanfs/core",
+                    "version": "0.19.2",
+                    "resolved": "https://registry.npmjs.org/@humanfs/core/-/core-0.19.2.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@humanfs+core@0.19.2/node_modules/@humanfs/core",
+                    "dependencies": {
+                      "@humanfs/types": {
+                        "from": "@humanfs/types",
+                        "version": "0.15.0",
+                        "resolved": "https://registry.npmjs.org/@humanfs/types/-/types-0.15.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@humanfs+types@0.15.0/node_modules/@humanfs/types"
+                      }
+                    }
+                  }
+                }
+              },
+              "ajv": {
+                "from": "ajv",
+                "version": "6.15.0",
+                "resolved": "https://registry.npmjs.org/ajv/-/ajv-6.15.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/ajv@6.15.0/node_modules/ajv",
+                "dependencies": {
+                  "fast-deep-equal": {
+                    "from": "fast-deep-equal",
+                    "version": "3.1.3",
+                    "resolved": "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/fast-deep-equal@3.1.3/node_modules/fast-deep-equal"
+                  },
+                  "fast-json-stable-stringify": {
+                    "from": "fast-json-stable-stringify",
+                    "version": "2.1.0",
+                    "resolved": "https://registry.npmjs.org/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/fast-json-stable-stringify@2.1.0/node_modules/fast-json-stable-stringify"
+                  },
+                  "json-schema-traverse": {
+                    "from": "json-schema-traverse",
+                    "version": "0.4.1",
+                    "resolved": "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/json-schema-traverse@0.4.1/node_modules/json-schema-traverse"
+                  },
+                  "uri-js": {
+                    "from": "uri-js",
+                    "version": "4.4.1",
+                    "resolved": "https://registry.npmjs.org/uri-js/-/uri-js-4.4.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/uri-js@4.4.1/node_modules/uri-js",
+                    "dependencies": {
+                      "punycode": {
+                        "from": "punycode",
+                        "version": "2.3.1",
+                        "resolved": "https://registry.npmjs.org/punycode/-/punycode-2.3.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/punycode@2.3.1/node_modules/punycode"
+                      }
+                    }
+                  }
+                }
+              },
+              "cross-spawn": {
+                "from": "cross-spawn",
+                "version": "7.0.6",
+                "resolved": "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.6.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/cross-spawn@7.0.6/node_modules/cross-spawn",
+                "dependencies": {
+                  "path-key": {
+                    "from": "path-key",
+                    "version": "3.1.1",
+                    "resolved": "https://registry.npmjs.org/path-key/-/path-key-3.1.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/path-key@3.1.1/node_modules/path-key"
+                  },
+                  "shebang-command": {
+                    "from": "shebang-command",
+                    "version": "2.0.0",
+                    "resolved": "https://registry.npmjs.org/shebang-command/-/shebang-command-2.0.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/shebang-command@2.0.0/node_modules/shebang-command",
+                    "dependencies": {
+                      "shebang-regex": {
+                        "from": "shebang-regex",
+                        "version": "3.0.0",
+                        "resolved": "https://registry.npmjs.org/shebang-regex/-/shebang-regex-3.0.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/shebang-regex@3.0.0/node_modules/shebang-regex"
+                      }
+                    }
+                  },
+                  "which": {
+                    "from": "which",
+                    "version": "2.0.2",
+                    "resolved": "https://registry.npmjs.org/which/-/which-2.0.2.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/which@2.0.2/node_modules/which",
+                    "dependencies": {
+                      "isexe": {
+                        "from": "isexe",
+                        "version": "2.0.0",
+                        "resolved": "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/isexe@2.0.0/node_modules/isexe"
+                      }
+                    }
+                  }
+                }
+              },
+              "eslint-scope": {
+                "from": "eslint-scope",
+                "version": "9.1.2",
+                "resolved": "https://registry.npmjs.org/eslint-scope/-/eslint-scope-9.1.2.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-scope@9.1.2/node_modules/eslint-scope",
+                "dependencies": {
+                  "@types/esrecurse": {
+                    "from": "@types/esrecurse",
+                    "version": "4.3.1",
+                    "resolved": "https://registry.npmjs.org/@types/esrecurse/-/esrecurse-4.3.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+esrecurse@4.3.1/node_modules/@types/esrecurse"
+                  },
+                  "@types/estree": {
+                    "from": "@types/estree",
+                    "version": "1.0.10",
+                    "resolved": "https://registry.npmjs.org/@types/estree/-/estree-1.0.10.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+estree@1.0.10/node_modules/@types/estree"
+                  },
+                  "estraverse": {
+                    "from": "estraverse",
+                    "version": "5.3.0",
+                    "resolved": "https://registry.npmjs.org/estraverse/-/estraverse-5.3.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/estraverse@5.3.0/node_modules/estraverse"
+                  },
+                  "esrecurse": {
+                    "from": "esrecurse",
+                    "version": "4.3.0",
+                    "resolved": "https://registry.npmjs.org/esrecurse/-/esrecurse-4.3.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esrecurse@4.3.0/node_modules/esrecurse",
+                    "dependencies": {
+                      "estraverse": {
+                        "from": "estraverse",
+                        "version": "5.3.0",
+                        "resolved": "https://registry.npmjs.org/estraverse/-/estraverse-5.3.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/estraverse@5.3.0/node_modules/estraverse"
+                      }
+                    }
+                  }
+                }
+              },
+              "espree": {
+                "from": "espree",
+                "version": "11.2.0",
+                "resolved": "https://registry.npmjs.org/espree/-/espree-11.2.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/espree@11.2.0/node_modules/espree",
+                "dependencies": {
+                  "acorn": {
+                    "from": "acorn",
+                    "version": "8.19.0",
+                    "resolved": "https://registry.npmjs.org/acorn/-/acorn-8.19.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/acorn@8.19.0/node_modules/acorn"
+                  },
+                  "eslint-visitor-keys": {
+                    "from": "eslint-visitor-keys",
+                    "version": "5.0.1",
+                    "resolved": "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-5.0.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-visitor-keys@5.0.1/node_modules/eslint-visitor-keys"
+                  },
+                  "acorn-jsx": {
+                    "from": "acorn-jsx",
+                    "version": "5.3.2",
+                    "resolved": "https://registry.npmjs.org/acorn-jsx/-/acorn-jsx-5.3.2.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/acorn-jsx@5.3.2_acorn@8.19.0/node_modules/acorn-jsx",
+                    "dependencies": {
+                      "acorn": {
+                        "from": "acorn",
+                        "version": "8.19.0",
+                        "resolved": "https://registry.npmjs.org/acorn/-/acorn-8.19.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/acorn@8.19.0/node_modules/acorn"
+                      }
+                    }
+                  }
+                }
+              },
+              "glob-parent": {
+                "from": "glob-parent",
+                "version": "6.0.2",
+                "resolved": "https://registry.npmjs.org/glob-parent/-/glob-parent-6.0.2.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/glob-parent@6.0.2/node_modules/glob-parent",
+                "dependencies": {
+                  "is-glob": {
+                    "from": "is-glob",
+                    "version": "4.0.3",
+                    "resolved": "https://registry.npmjs.org/is-glob/-/is-glob-4.0.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/is-glob@4.0.3/node_modules/is-glob",
+                    "dependencies": {
+                      "is-extglob": {
+                        "from": "is-extglob",
+                        "version": "2.1.1",
+                        "resolved": "https://registry.npmjs.org/is-extglob/-/is-extglob-2.1.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/is-extglob@2.1.1/node_modules/is-extglob"
+                      }
+                    }
+                  }
+                }
+              },
+              "@eslint/config-array": {
+                "from": "@eslint/config-array",
+                "version": "0.23.5",
+                "resolved": "https://registry.npmjs.org/@eslint/config-array/-/config-array-0.23.5.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+config-array@0.23.5/node_modules/@eslint/config-array",
+                "dependencies": {
+                  "@eslint/object-schema": {
+                    "from": "@eslint/object-schema",
+                    "version": "3.0.5",
+                    "resolved": "https://registry.npmjs.org/@eslint/object-schema/-/object-schema-3.0.5.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+object-schema@3.0.5/node_modules/@eslint/object-schema"
+                  },
+                  "debug": {
+                    "from": "debug",
+                    "version": "4.4.3",
+                    "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/debug@4.4.3/node_modules/debug",
+                    "dependencies": {
+                      "ms": {
+                        "from": "ms",
+                        "version": "2.1.3",
+                        "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/ms@2.1.3/node_modules/ms"
+                      }
+                    }
+                  },
+                  "minimatch": {
+                    "from": "minimatch",
+                    "version": "10.2.6",
+                    "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-10.2.6.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/minimatch@10.2.6/node_modules/minimatch",
+                    "dependencies": {
+                      "brace-expansion": {
+                        "from": "brace-expansion",
+                        "version": "5.0.12",
+                        "resolved": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-5.0.12.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/brace-expansion@5.0.12/node_modules/brace-expansion",
+                        "dependencies": {
+                          "balanced-match": {
+                            "from": "balanced-match",
+                            "version": "4.0.4",
+                            "resolved": "https://registry.npmjs.org/balanced-match/-/balanced-match-4.0.4.tgz",
+                            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/balanced-match@4.0.4/node_modules/balanced-match"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "@eslint/plugin-kit": {
+                "from": "@eslint/plugin-kit",
+                "version": "0.7.3",
+                "resolved": "https://registry.npmjs.org/@eslint/plugin-kit/-/plugin-kit-0.7.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+plugin-kit@0.7.3/node_modules/@eslint/plugin-kit",
+                "dependencies": {
+                  "@eslint/core": {
+                    "from": "@eslint/core",
+                    "version": "1.2.1",
+                    "resolved": "https://registry.npmjs.org/@eslint/core/-/core-1.2.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+core@1.2.1/node_modules/@eslint/core",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 1
+                  },
+                  "levn": {
+                    "from": "levn",
+                    "version": "0.4.1",
+                    "resolved": "https://registry.npmjs.org/levn/-/levn-0.4.1.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/levn@0.4.1/node_modules/levn",
+                    "dependencies": {
+                      "prelude-ls": {
+                        "from": "prelude-ls",
+                        "version": "1.2.1",
+                        "resolved": "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/prelude-ls@1.2.1/node_modules/prelude-ls"
+                      },
+                      "type-check": {
+                        "from": "type-check",
+                        "version": "0.4.0",
+                        "resolved": "https://registry.npmjs.org/type-check/-/type-check-0.4.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/type-check@0.4.0/node_modules/type-check",
+                        "dependencies": {
+                          "prelude-ls": {
+                            "from": "prelude-ls",
+                            "version": "1.2.1",
+                            "resolved": "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz",
+                            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/prelude-ls@1.2.1/node_modules/prelude-ls"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "find-up": {
+                "from": "find-up",
+                "version": "5.0.0",
+                "resolved": "https://registry.npmjs.org/find-up/-/find-up-5.0.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/find-up@5.0.0/node_modules/find-up",
+                "dependencies": {
+                  "path-exists": {
+                    "from": "path-exists",
+                    "version": "4.0.0",
+                    "resolved": "https://registry.npmjs.org/path-exists/-/path-exists-4.0.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/path-exists@4.0.0/node_modules/path-exists"
+                  },
+                  "locate-path": {
+                    "from": "locate-path",
+                    "version": "6.0.0",
+                    "resolved": "https://registry.npmjs.org/locate-path/-/locate-path-6.0.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/locate-path@6.0.0/node_modules/locate-path",
+                    "dependencies": {
+                      "p-locate": {
+                        "from": "p-locate",
+                        "version": "5.0.0",
+                        "resolved": "https://registry.npmjs.org/p-locate/-/p-locate-5.0.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/p-locate@5.0.0/node_modules/p-locate",
+                        "dependencies": {
+                          "p-limit": {
+                            "from": "p-limit",
+                            "version": "3.1.0",
+                            "resolved": "https://registry.npmjs.org/p-limit/-/p-limit-3.1.0.tgz",
+                            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/p-limit@3.1.0/node_modules/p-limit",
+                            "dependencies": {
+                              "yocto-queue": {
+                                "from": "yocto-queue",
+                                "version": "0.1.0",
+                                "resolved": "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz",
+                                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/yocto-queue@0.1.0/node_modules/yocto-queue"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "file-entry-cache": {
+                "from": "file-entry-cache",
+                "version": "11.1.5",
+                "resolved": "https://registry.npmjs.org/file-entry-cache/-/file-entry-cache-11.1.5.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/file-entry-cache@11.1.5/node_modules/file-entry-cache",
+                "dependencies": {
+                  "flat-cache": {
+                    "from": "flat-cache",
+                    "version": "6.1.23",
+                    "resolved": "https://registry.npmjs.org/flat-cache/-/flat-cache-6.1.23.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/flat-cache@6.1.23/node_modules/flat-cache",
+                    "dependencies": {
+                      "flatted": {
+                        "from": "flatted",
+                        "version": "3.4.4",
+                        "resolved": "https://registry.npmjs.org/flatted/-/flatted-3.4.4.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/flatted@3.4.4/node_modules/flatted"
+                      },
+                      "hookified": {
+                        "from": "hookified",
+                        "version": "1.15.1",
+                        "resolved": "https://registry.npmjs.org/hookified/-/hookified-1.15.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/hookified@1.15.1/node_modules/hookified"
+                      },
+                      "cacheable": {
+                        "from": "cacheable",
+                        "version": "2.5.0",
+                        "resolved": "https://registry.npmjs.org/cacheable/-/cacheable-2.5.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/cacheable@2.5.0/node_modules/cacheable",
+                        "dependencies": {
+                          "@cacheable/utils": {
+                            "from": "@cacheable/utils",
+                            "version": "2.5.0",
+                            "resolved": "https://registry.npmjs.org/@cacheable/utils/-/utils-2.5.0.tgz",
+                            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@cacheable+utils@2.5.0/node_modules/@cacheable/utils",
+                            "deduped": true,
+                            "dedupedDependenciesCount": 4
+                          },
+                          "hookified": {
+                            "from": "hookified",
+                            "version": "1.15.1",
+                            "resolved": "https://registry.npmjs.org/hookified/-/hookified-1.15.1.tgz",
+                            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/hookified@1.15.1/node_modules/hookified"
+                          },
+                          "keyv": {
+                            "from": "keyv",
+                            "version": "5.6.0",
+                            "resolved": "https://registry.npmjs.org/keyv/-/keyv-5.6.0.tgz",
+                            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/keyv@5.6.0/node_modules/keyv",
+                            "deduped": true,
+                            "dedupedDependenciesCount": 1
+                          },
+                          "qified": {
+                            "from": "qified",
+                            "version": "0.10.1",
+                            "resolved": "https://registry.npmjs.org/qified/-/qified-0.10.1.tgz",
+                            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/qified@0.10.1/node_modules/qified",
+                            "dependencies": {
+                              "hookified": {
+                                "from": "hookified",
+                                "version": "2.2.0",
+                                "resolved": "https://registry.npmjs.org/hookified/-/hookified-2.2.0.tgz",
+                                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/hookified@2.2.0/node_modules/hookified"
+                              }
+                            }
+                          },
+                          "@cacheable/memory": {
+                            "from": "@cacheable/memory",
+                            "version": "2.2.0",
+                            "resolved": "https://registry.npmjs.org/@cacheable/memory/-/memory-2.2.0.tgz",
+                            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@cacheable+memory@2.2.0/node_modules/@cacheable/memory",
+                            "dependencies": {
+                              "hookified": {
+                                "from": "hookified",
+                                "version": "1.15.1",
+                                "resolved": "https://registry.npmjs.org/hookified/-/hookified-1.15.1.tgz",
+                                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/hookified@1.15.1/node_modules/hookified"
+                              },
+                              "keyv": {
+                                "from": "keyv",
+                                "version": "5.6.0",
+                                "resolved": "https://registry.npmjs.org/keyv/-/keyv-5.6.0.tgz",
+                                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/keyv@5.6.0/node_modules/keyv",
+                                "deduped": true,
+                                "dedupedDependenciesCount": 1
+                              },
+                              "@keyv/bigmap": {
+                                "from": "@keyv/bigmap",
+                                "version": "1.3.1",
+                                "resolved": "https://registry.npmjs.org/@keyv/bigmap/-/bigmap-1.3.1.tgz",
+                                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@keyv+bigmap@1.3.1_keyv@5.6.0/node_modules/@keyv/bigmap",
+                                "dependencies": {
+                                  "hashery": {
+                                    "from": "hashery",
+                                    "version": "1.5.1",
+                                    "resolved": "https://registry.npmjs.org/hashery/-/hashery-1.5.1.tgz",
+                                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/hashery@1.5.1/node_modules/hashery",
+                                    "deduped": true,
+                                    "dedupedDependenciesCount": 1
+                                  },
+                                  "hookified": {
+                                    "from": "hookified",
+                                    "version": "1.15.1",
+                                    "resolved": "https://registry.npmjs.org/hookified/-/hookified-1.15.1.tgz",
+                                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/hookified@1.15.1/node_modules/hookified"
+                                  },
+                                  "keyv": {
+                                    "from": "keyv",
+                                    "version": "5.6.0",
+                                    "resolved": "https://registry.npmjs.org/keyv/-/keyv-5.6.0.tgz",
+                                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/keyv@5.6.0/node_modules/keyv",
+                                    "deduped": true,
+                                    "dedupedDependenciesCount": 1
+                                  }
+                                }
+                              },
+                              "@cacheable/utils": {
+                                "from": "@cacheable/utils",
+                                "version": "2.5.0",
+                                "resolved": "https://registry.npmjs.org/@cacheable/utils/-/utils-2.5.0.tgz",
+                                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@cacheable+utils@2.5.0/node_modules/@cacheable/utils",
+                                "dependencies": {
+                                  "hashery": {
+                                    "from": "hashery",
+                                    "version": "1.5.1",
+                                    "resolved": "https://registry.npmjs.org/hashery/-/hashery-1.5.1.tgz",
+                                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/hashery@1.5.1/node_modules/hashery",
+                                    "dependencies": {
+                                      "hookified": {
+                                        "from": "hookified",
+                                        "version": "1.15.1",
+                                        "resolved": "https://registry.npmjs.org/hookified/-/hookified-1.15.1.tgz",
+                                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/hookified@1.15.1/node_modules/hookified"
+                                      }
+                                    }
+                                  },
+                                  "keyv": {
+                                    "from": "keyv",
+                                    "version": "5.6.0",
+                                    "resolved": "https://registry.npmjs.org/keyv/-/keyv-5.6.0.tgz",
+                                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/keyv@5.6.0/node_modules/keyv",
+                                    "dependencies": {
+                                      "@keyv/serialize": {
+                                        "from": "@keyv/serialize",
+                                        "version": "1.1.1",
+                                        "resolved": "https://registry.npmjs.org/@keyv/serialize/-/serialize-1.1.1.tgz",
+                                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@keyv+serialize@1.1.1/node_modules/@keyv/serialize"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "@stackmanage/desktop",
+    "version": "0.1.0",
+    "path": "/tmp/opencode/stackmanage-legal/stackmanage/apps/desktop",
+    "private": true,
+    "dependencies": {
+      "vue": {
+        "from": "vue",
+        "version": "3.5.44",
+        "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.44.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vue@3.5.44_typescript@5.9.3/node_modules/vue",
+        "deduped": true,
+        "dedupedDependenciesCount": 38
+      },
+      "vue-i18n": {
+        "from": "vue-i18n",
+        "version": "11.4.18",
+        "resolved": "https://registry.npmjs.org/vue-i18n/-/vue-i18n-11.4.18.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vue-i18n@11.4.18_vue@3.5.44_typescript@5.9.3_/node_modules/vue-i18n",
+        "deduped": true,
+        "dedupedDependenciesCount": 12
+      },
+      "@stackmanage/core": {
+        "from": "@stackmanage/core",
+        "version": "link:../../packages/core",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/core",
+        "dependencies": {
+          "zod": {
+            "from": "zod",
+            "version": "4.6.7",
+            "resolved": "https://registry.npmjs.org/zod/-/zod-4.6.7.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/zod@4.6.7/node_modules/zod"
+          }
+        }
+      },
+      "@stackmanage/ui": {
+        "from": "@stackmanage/ui",
+        "version": "link:../../packages/ui",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/ui",
+        "dependencies": {
+          "vue": {
+            "from": "vue",
+            "version": "3.5.44",
+            "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.44.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vue@3.5.44_typescript@5.9.3/node_modules/vue",
+            "deduped": true,
+            "dedupedDependenciesCount": 38
+          }
+        }
+      },
+      "@stackmanage/worker": {
+        "from": "@stackmanage/worker",
+        "version": "link:../worker",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/apps/worker",
+        "dependencies": {
+          "@stackmanage/core": {
+            "from": "@stackmanage/core",
+            "version": "link:../../packages/core",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/core",
+            "deduped": true,
+            "dedupedDependenciesCount": 1
+          }
+        }
+      },
+      "@stackmanage/i18n": {
+        "from": "@stackmanage/i18n",
+        "version": "link:../../packages/i18n",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/i18n",
+        "dependencies": {
+          "vue-i18n": {
+            "from": "vue-i18n",
+            "version": "11.4.18",
+            "resolved": "https://registry.npmjs.org/vue-i18n/-/vue-i18n-11.4.18.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vue-i18n@11.4.18_vue@3.5.44_typescript@5.9.3_/node_modules/vue-i18n",
+            "dependencies": {
+              "@intlify/devtools-types": {
+                "from": "@intlify/devtools-types",
+                "version": "11.4.18",
+                "resolved": "https://registry.npmjs.org/@intlify/devtools-types/-/devtools-types-11.4.18.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@intlify+devtools-types@11.4.18/node_modules/@intlify/devtools-types",
+                "deduped": true,
+                "dedupedDependenciesCount": 2
+              },
+              "@intlify/shared": {
+                "from": "@intlify/shared",
+                "version": "11.4.18",
+                "resolved": "https://registry.npmjs.org/@intlify/shared/-/shared-11.4.18.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@intlify+shared@11.4.18/node_modules/@intlify/shared"
+              },
+              "@vue/devtools-api": {
+                "from": "@vue/devtools-api",
+                "version": "6.6.4",
+                "resolved": "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.6.4.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+devtools-api@6.6.4/node_modules/@vue/devtools-api"
+              },
+              "vue": {
+                "from": "vue",
+                "version": "3.5.44",
+                "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.44.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vue@3.5.44_typescript@5.9.3/node_modules/vue",
+                "deduped": true,
+                "dedupedDependenciesCount": 38
+              },
+              "@intlify/core-base": {
+                "from": "@intlify/core-base",
+                "version": "11.4.18",
+                "resolved": "https://registry.npmjs.org/@intlify/core-base/-/core-base-11.4.18.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@intlify+core-base@11.4.18/node_modules/@intlify/core-base",
+                "dependencies": {
+                  "@intlify/shared": {
+                    "from": "@intlify/shared",
+                    "version": "11.4.18",
+                    "resolved": "https://registry.npmjs.org/@intlify/shared/-/shared-11.4.18.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@intlify+shared@11.4.18/node_modules/@intlify/shared"
+                  },
+                  "@intlify/devtools-types": {
+                    "from": "@intlify/devtools-types",
+                    "version": "11.4.18",
+                    "resolved": "https://registry.npmjs.org/@intlify/devtools-types/-/devtools-types-11.4.18.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@intlify+devtools-types@11.4.18/node_modules/@intlify/devtools-types",
+                    "dependencies": {
+                      "@intlify/core-base": {
+                        "from": "@intlify/core-base",
+                        "version": "11.4.18",
+                        "resolved": "https://registry.npmjs.org/@intlify/core-base/-/core-base-11.4.18.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@intlify+core-base@11.4.18/node_modules/@intlify/core-base"
+                      },
+                      "@intlify/shared": {
+                        "from": "@intlify/shared",
+                        "version": "11.4.18",
+                        "resolved": "https://registry.npmjs.org/@intlify/shared/-/shared-11.4.18.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@intlify+shared@11.4.18/node_modules/@intlify/shared"
+                      }
+                    }
+                  },
+                  "@intlify/message-compiler": {
+                    "from": "@intlify/message-compiler",
+                    "version": "11.4.18",
+                    "resolved": "https://registry.npmjs.org/@intlify/message-compiler/-/message-compiler-11.4.18.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@intlify+message-compiler@11.4.18/node_modules/@intlify/message-compiler",
+                    "dependencies": {
+                      "@intlify/shared": {
+                        "from": "@intlify/shared",
+                        "version": "11.4.18",
+                        "resolved": "https://registry.npmjs.org/@intlify/shared/-/shared-11.4.18.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@intlify+shared@11.4.18/node_modules/@intlify/shared"
+                      },
+                      "source-map-js": {
+                        "from": "source-map-js",
+                        "version": "1.2.2",
+                        "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.2.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/source-map-js@1.2.2/node_modules/source-map-js"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "vue": {
+            "from": "vue",
+            "version": "3.5.44",
+            "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.44.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vue@3.5.44_typescript@5.9.3/node_modules/vue",
+            "dependencies": {
+              "@vue/shared": {
+                "from": "@vue/shared",
+                "version": "3.5.44",
+                "resolved": "https://registry.npmjs.org/@vue/shared/-/shared-3.5.44.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+shared@3.5.44/node_modules/@vue/shared"
+              },
+              "typescript": {
+                "from": "typescript",
+                "version": "5.9.3",
+                "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+              },
+              "@vue/server-renderer": {
+                "from": "@vue/server-renderer",
+                "version": "3.5.44",
+                "resolved": "https://registry.npmjs.org/@vue/server-renderer/-/server-renderer-3.5.44.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+server-renderer@3.5.44/node_modules/@vue/server-renderer",
+                "dependencies": {
+                  "@vue/compiler-ssr": {
+                    "from": "@vue/compiler-ssr",
+                    "version": "3.5.44",
+                    "resolved": "https://registry.npmjs.org/@vue/compiler-ssr/-/compiler-ssr-3.5.44.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+compiler-ssr@3.5.44/node_modules/@vue/compiler-ssr",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 2
+                  },
+                  "@vue/runtime-dom": {
+                    "from": "@vue/runtime-dom",
+                    "version": "3.5.44",
+                    "resolved": "https://registry.npmjs.org/@vue/runtime-dom/-/runtime-dom-3.5.44.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+runtime-dom@3.5.44/node_modules/@vue/runtime-dom",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 7
+                  },
+                  "@vue/shared": {
+                    "from": "@vue/shared",
+                    "version": "3.5.44",
+                    "resolved": "https://registry.npmjs.org/@vue/shared/-/shared-3.5.44.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+shared@3.5.44/node_modules/@vue/shared"
+                  }
+                }
+              },
+              "@vue/compiler-sfc": {
+                "from": "@vue/compiler-sfc",
+                "version": "3.5.44",
+                "resolved": "https://registry.npmjs.org/@vue/compiler-sfc/-/compiler-sfc-3.5.44.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+compiler-sfc@3.5.44/node_modules/@vue/compiler-sfc",
+                "dependencies": {
+                  "@babel/parser": {
+                    "from": "@babel/parser",
+                    "version": "7.29.12",
+                    "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.29.12.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@babel+parser@7.29.12/node_modules/@babel/parser",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 3
+                  },
+                  "@vue/compiler-core": {
+                    "from": "@vue/compiler-core",
+                    "version": "3.5.44",
+                    "resolved": "https://registry.npmjs.org/@vue/compiler-core/-/compiler-core-3.5.44.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+compiler-core@3.5.44/node_modules/@vue/compiler-core",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 8
+                  },
+                  "@vue/compiler-dom": {
+                    "from": "@vue/compiler-dom",
+                    "version": "3.5.44",
+                    "resolved": "https://registry.npmjs.org/@vue/compiler-dom/-/compiler-dom-3.5.44.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+compiler-dom@3.5.44/node_modules/@vue/compiler-dom",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 10
+                  },
+                  "@vue/shared": {
+                    "from": "@vue/shared",
+                    "version": "3.5.44",
+                    "resolved": "https://registry.npmjs.org/@vue/shared/-/shared-3.5.44.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+shared@3.5.44/node_modules/@vue/shared"
+                  },
+                  "estree-walker": {
+                    "from": "estree-walker",
+                    "version": "2.0.2",
+                    "resolved": "https://registry.npmjs.org/estree-walker/-/estree-walker-2.0.2.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/estree-walker@2.0.2/node_modules/estree-walker"
+                  },
+                  "postcss": {
+                    "from": "postcss",
+                    "version": "8.5.32",
+                    "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.5.32.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/postcss@8.5.32/node_modules/postcss",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 3
+                  },
+                  "source-map-js": {
+                    "from": "source-map-js",
+                    "version": "1.2.2",
+                    "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.2.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/source-map-js@1.2.2/node_modules/source-map-js"
+                  },
+                  "@vue/compiler-ssr": {
+                    "from": "@vue/compiler-ssr",
+                    "version": "3.5.44",
+                    "resolved": "https://registry.npmjs.org/@vue/compiler-ssr/-/compiler-ssr-3.5.44.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+compiler-ssr@3.5.44/node_modules/@vue/compiler-ssr",
+                    "dependencies": {
+                      "@vue/compiler-dom": {
+                        "from": "@vue/compiler-dom",
+                        "version": "3.5.44",
+                        "resolved": "https://registry.npmjs.org/@vue/compiler-dom/-/compiler-dom-3.5.44.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+compiler-dom@3.5.44/node_modules/@vue/compiler-dom",
+                        "deduped": true,
+                        "dedupedDependenciesCount": 10
+                      },
+                      "@vue/shared": {
+                        "from": "@vue/shared",
+                        "version": "3.5.44",
+                        "resolved": "https://registry.npmjs.org/@vue/shared/-/shared-3.5.44.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+shared@3.5.44/node_modules/@vue/shared"
+                      }
+                    }
+                  },
+                  "magic-string": {
+                    "from": "magic-string",
+                    "version": "0.30.21",
+                    "resolved": "https://registry.npmjs.org/magic-string/-/magic-string-0.30.21.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/magic-string@0.30.21/node_modules/magic-string",
+                    "dependencies": {
+                      "@jridgewell/sourcemap-codec": {
+                        "from": "@jridgewell/sourcemap-codec",
+                        "version": "1.6.0",
+                        "resolved": "https://registry.npmjs.org/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.6.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@jridgewell+sourcemap-codec@1.6.0/node_modules/@jridgewell/sourcemap-codec"
+                      }
+                    }
+                  }
+                }
+              },
+              "@vue/runtime-dom": {
+                "from": "@vue/runtime-dom",
+                "version": "3.5.44",
+                "resolved": "https://registry.npmjs.org/@vue/runtime-dom/-/runtime-dom-3.5.44.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+runtime-dom@3.5.44/node_modules/@vue/runtime-dom",
+                "dependencies": {
+                  "@vue/shared": {
+                    "from": "@vue/shared",
+                    "version": "3.5.44",
+                    "resolved": "https://registry.npmjs.org/@vue/shared/-/shared-3.5.44.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+shared@3.5.44/node_modules/@vue/shared"
+                  },
+                  "csstype": {
+                    "from": "csstype",
+                    "version": "3.2.3",
+                    "resolved": "https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/csstype@3.2.3/node_modules/csstype"
+                  },
+                  "@vue/reactivity": {
+                    "from": "@vue/reactivity",
+                    "version": "3.5.44",
+                    "resolved": "https://registry.npmjs.org/@vue/reactivity/-/reactivity-3.5.44.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+reactivity@3.5.44/node_modules/@vue/reactivity",
+                    "dependencies": {
+                      "@vue/shared": {
+                        "from": "@vue/shared",
+                        "version": "3.5.44",
+                        "resolved": "https://registry.npmjs.org/@vue/shared/-/shared-3.5.44.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+shared@3.5.44/node_modules/@vue/shared"
+                      }
+                    }
+                  },
+                  "@vue/runtime-core": {
+                    "from": "@vue/runtime-core",
+                    "version": "3.5.44",
+                    "resolved": "https://registry.npmjs.org/@vue/runtime-core/-/runtime-core-3.5.44.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+runtime-core@3.5.44/node_modules/@vue/runtime-core",
+                    "dependencies": {
+                      "@vue/reactivity": {
+                        "from": "@vue/reactivity",
+                        "version": "3.5.44",
+                        "resolved": "https://registry.npmjs.org/@vue/reactivity/-/reactivity-3.5.44.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+reactivity@3.5.44/node_modules/@vue/reactivity",
+                        "deduped": true,
+                        "dedupedDependenciesCount": 1
+                      },
+                      "@vue/shared": {
+                        "from": "@vue/shared",
+                        "version": "3.5.44",
+                        "resolved": "https://registry.npmjs.org/@vue/shared/-/shared-3.5.44.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+shared@3.5.44/node_modules/@vue/shared"
+                      }
+                    }
+                  }
+                }
+              },
+              "@vue/compiler-dom": {
+                "from": "@vue/compiler-dom",
+                "version": "3.5.44",
+                "resolved": "https://registry.npmjs.org/@vue/compiler-dom/-/compiler-dom-3.5.44.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+compiler-dom@3.5.44/node_modules/@vue/compiler-dom",
+                "dependencies": {
+                  "@vue/shared": {
+                    "from": "@vue/shared",
+                    "version": "3.5.44",
+                    "resolved": "https://registry.npmjs.org/@vue/shared/-/shared-3.5.44.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+shared@3.5.44/node_modules/@vue/shared"
+                  },
+                  "@vue/compiler-core": {
+                    "from": "@vue/compiler-core",
+                    "version": "3.5.44",
+                    "resolved": "https://registry.npmjs.org/@vue/compiler-core/-/compiler-core-3.5.44.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+compiler-core@3.5.44/node_modules/@vue/compiler-core",
+                    "dependencies": {
+                      "@vue/shared": {
+                        "from": "@vue/shared",
+                        "version": "3.5.44",
+                        "resolved": "https://registry.npmjs.org/@vue/shared/-/shared-3.5.44.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+shared@3.5.44/node_modules/@vue/shared"
+                      },
+                      "entities": {
+                        "from": "entities",
+                        "version": "7.0.1",
+                        "resolved": "https://registry.npmjs.org/entities/-/entities-7.0.1.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/entities@7.0.1/node_modules/entities"
+                      },
+                      "estree-walker": {
+                        "from": "estree-walker",
+                        "version": "2.0.2",
+                        "resolved": "https://registry.npmjs.org/estree-walker/-/estree-walker-2.0.2.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/estree-walker@2.0.2/node_modules/estree-walker"
+                      },
+                      "source-map-js": {
+                        "from": "source-map-js",
+                        "version": "1.2.2",
+                        "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.2.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/source-map-js@1.2.2/node_modules/source-map-js"
+                      },
+                      "@babel/parser": {
+                        "from": "@babel/parser",
+                        "version": "7.29.12",
+                        "resolved": "https://registry.npmjs.org/@babel/parser/-/parser-7.29.12.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@babel+parser@7.29.12/node_modules/@babel/parser",
+                        "dependencies": {
+                          "@babel/types": {
+                            "from": "@babel/types",
+                            "version": "7.29.11",
+                            "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.29.11.tgz",
+                            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@babel+types@7.29.11/node_modules/@babel/types",
+                            "dependencies": {
+                              "@babel/helper-string-parser": {
+                                "from": "@babel/helper-string-parser",
+                                "version": "7.29.11",
+                                "resolved": "https://registry.npmjs.org/@babel/helper-string-parser/-/helper-string-parser-7.29.11.tgz",
+                                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@babel+helper-string-parser@7.29.11/node_modules/@babel/helper-string-parser"
+                              },
+                              "@babel/helper-validator-identifier": {
+                                "from": "@babel/helper-validator-identifier",
+                                "version": "7.29.7",
+                                "resolved": "https://registry.npmjs.org/@babel/helper-validator-identifier/-/helper-validator-identifier-7.29.7.tgz",
+                                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@babel+helper-validator-identifier@7.29.7/node_modules/@babel/helper-validator-identifier"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "devDependencies": {
+      "vite": {
+        "from": "vite",
+        "version": "8.3.5",
+        "resolved": "https://registry.npmjs.org/vite/-/vite-8.3.5.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2/node_modules/vite",
+        "deduped": true,
+        "dedupedDependenciesCount": 40
+      },
+      "@vitejs/plugin-vue": {
+        "from": "@vitejs/plugin-vue",
+        "version": "6.0.10",
+        "resolved": "https://registry.npmjs.org/@vitejs/plugin-vue/-/plugin-vue-6.0.10.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vitejs+plugin-vue@6.0.10_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2__vue@3.5.44_typescript@5.9.3_/node_modules/@vitejs/plugin-vue",
+        "dependencies": {
+          "@rolldown/pluginutils": {
+            "from": "@rolldown/pluginutils",
+            "version": "1.0.1",
+            "resolved": "https://registry.npmjs.org/@rolldown/pluginutils/-/pluginutils-1.0.1.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@rolldown+pluginutils@1.0.1/node_modules/@rolldown/pluginutils"
+          },
+          "vite": {
+            "from": "vite",
+            "version": "8.3.5",
+            "resolved": "https://registry.npmjs.org/vite/-/vite-8.3.5.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2/node_modules/vite",
+            "deduped": true,
+            "dedupedDependenciesCount": 40
+          },
+          "vue": {
+            "from": "vue",
+            "version": "3.5.44",
+            "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.44.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vue@3.5.44_typescript@5.9.3/node_modules/vue",
+            "deduped": true,
+            "dedupedDependenciesCount": 38
+          }
+        }
+      },
+      "electron": {
+        "from": "electron",
+        "version": "45.2.2",
+        "resolved": "https://registry.npmjs.org/electron/-/electron-45.2.2.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/electron@45.2.2/node_modules/electron",
+        "dependencies": {
+          "@electron-internal/extract-zip": {
+            "from": "@electron-internal/extract-zip",
+            "version": "1.0.8",
+            "resolved": "https://registry.npmjs.org/@electron-internal/extract-zip/-/extract-zip-1.0.8.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@electron-internal+extract-zip@1.0.8/node_modules/@electron-internal/extract-zip"
+          },
+          "@types/node": {
+            "from": "@types/node",
+            "version": "24.10.0",
+            "resolved": "https://registry.npmjs.org/@types/node/-/node-24.10.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+            "deduped": true,
+            "dedupedDependenciesCount": 1
+          },
+          "@electron/get": {
+            "from": "@electron/get",
+            "version": "5.1.0",
+            "resolved": "https://registry.npmjs.org/@electron/get/-/get-5.1.0.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@electron+get@5.1.0/node_modules/@electron/get",
+            "dependencies": {
+              "debug": {
+                "from": "debug",
+                "version": "4.4.3",
+                "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/debug@4.4.3/node_modules/debug",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              },
+              "env-paths": {
+                "from": "env-paths",
+                "version": "3.0.0",
+                "resolved": "https://registry.npmjs.org/env-paths/-/env-paths-3.0.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/env-paths@3.0.0/node_modules/env-paths"
+              },
+              "graceful-fs": {
+                "from": "graceful-fs",
+                "version": "4.2.11",
+                "resolved": "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/graceful-fs@4.2.11/node_modules/graceful-fs"
+              },
+              "progress": {
+                "from": "progress",
+                "version": "2.0.3",
+                "resolved": "https://registry.npmjs.org/progress/-/progress-2.0.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/progress@2.0.3/node_modules/progress"
+              },
+              "semver": {
+                "from": "semver",
+                "version": "7.8.6",
+                "resolved": "https://registry.npmjs.org/semver/-/semver-7.8.6.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/semver@7.8.6/node_modules/semver"
+              },
+              "undici": {
+                "from": "undici",
+                "version": "7.30.1",
+                "resolved": "https://registry.npmjs.org/undici/-/undici-7.30.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/undici@7.30.1/node_modules/undici"
+              },
+              "sumchecker": {
+                "from": "sumchecker",
+                "version": "3.0.1",
+                "resolved": "https://registry.npmjs.org/sumchecker/-/sumchecker-3.0.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/sumchecker@3.0.1/node_modules/sumchecker",
+                "dependencies": {
+                  "debug": {
+                    "from": "debug",
+                    "version": "4.4.3",
+                    "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/debug@4.4.3/node_modules/debug",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "vue-tsc": {
+        "from": "vue-tsc",
+        "version": "3.3.14",
+        "resolved": "https://registry.npmjs.org/vue-tsc/-/vue-tsc-3.3.14.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vue-tsc@3.3.14_typescript@5.9.3/node_modules/vue-tsc",
+        "dependencies": {
+          "typescript": {
+            "from": "typescript",
+            "version": "5.9.3",
+            "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+          },
+          "@vue/language-core": {
+            "from": "@vue/language-core",
+            "version": "3.3.14",
+            "resolved": "https://registry.npmjs.org/@vue/language-core/-/language-core-3.3.14.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+language-core@3.3.14/node_modules/@vue/language-core",
+            "dependencies": {
+              "@volar/language-core": {
+                "from": "@volar/language-core",
+                "version": "2.4.30",
+                "resolved": "https://registry.npmjs.org/@volar/language-core/-/language-core-2.4.30.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@volar+language-core@2.4.30/node_modules/@volar/language-core",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              },
+              "@vue/compiler-dom": {
+                "from": "@vue/compiler-dom",
+                "version": "3.5.44",
+                "resolved": "https://registry.npmjs.org/@vue/compiler-dom/-/compiler-dom-3.5.44.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+compiler-dom@3.5.44/node_modules/@vue/compiler-dom",
+                "deduped": true,
+                "dedupedDependenciesCount": 10
+              },
+              "@vue/shared": {
+                "from": "@vue/shared",
+                "version": "3.5.44",
+                "resolved": "https://registry.npmjs.org/@vue/shared/-/shared-3.5.44.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@vue+shared@3.5.44/node_modules/@vue/shared"
+              },
+              "alien-signals": {
+                "from": "alien-signals",
+                "version": "3.2.1",
+                "resolved": "https://registry.npmjs.org/alien-signals/-/alien-signals-3.2.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/alien-signals@3.2.1/node_modules/alien-signals"
+              },
+              "muggle-string": {
+                "from": "muggle-string",
+                "version": "0.4.1",
+                "resolved": "https://registry.npmjs.org/muggle-string/-/muggle-string-0.4.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/muggle-string@0.4.1/node_modules/muggle-string"
+              },
+              "path-browserify": {
+                "from": "path-browserify",
+                "version": "1.0.1",
+                "resolved": "https://registry.npmjs.org/path-browserify/-/path-browserify-1.0.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/path-browserify@1.0.1/node_modules/path-browserify"
+              },
+              "picomatch": {
+                "from": "picomatch",
+                "version": "4.0.7",
+                "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.7.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/picomatch@4.0.7/node_modules/picomatch"
+              }
+            }
+          },
+          "@volar/typescript": {
+            "from": "@volar/typescript",
+            "version": "2.4.30",
+            "resolved": "https://registry.npmjs.org/@volar/typescript/-/typescript-2.4.30.tgz",
+            "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@volar+typescript@2.4.30_typescript@5.9.3/node_modules/@volar/typescript",
+            "dependencies": {
+              "path-browserify": {
+                "from": "path-browserify",
+                "version": "1.0.1",
+                "resolved": "https://registry.npmjs.org/path-browserify/-/path-browserify-1.0.1.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/path-browserify@1.0.1/node_modules/path-browserify"
+              },
+              "typescript": {
+                "from": "typescript",
+                "version": "5.9.3",
+                "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+              },
+              "vscode-uri": {
+                "from": "vscode-uri",
+                "version": "3.2.0",
+                "resolved": "https://registry.npmjs.org/vscode-uri/-/vscode-uri-3.2.0.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vscode-uri@3.2.0/node_modules/vscode-uri"
+              },
+              "@volar/language-core": {
+                "from": "@volar/language-core",
+                "version": "2.4.30",
+                "resolved": "https://registry.npmjs.org/@volar/language-core/-/language-core-2.4.30.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@volar+language-core@2.4.30/node_modules/@volar/language-core",
+                "dependencies": {
+                  "@volar/source-map": {
+                    "from": "@volar/source-map",
+                    "version": "2.4.30",
+                    "resolved": "https://registry.npmjs.org/@volar/source-map/-/source-map-2.4.30.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@volar+source-map@2.4.30/node_modules/@volar/source-map"
+                  }
+                }
+              },
+              "@volar/language-service": {
+                "from": "@volar/language-service",
+                "version": "2.4.30",
+                "resolved": "https://registry.npmjs.org/@volar/language-service/-/language-service-2.4.30.tgz",
+                "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@volar+language-service@2.4.30_typescript@5.9.3/node_modules/@volar/language-service",
+                "dependencies": {
+                  "@volar/language-core": {
+                    "from": "@volar/language-core",
+                    "version": "2.4.30",
+                    "resolved": "https://registry.npmjs.org/@volar/language-core/-/language-core-2.4.30.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@volar+language-core@2.4.30/node_modules/@volar/language-core",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 1
+                  },
+                  "typescript": {
+                    "from": "typescript",
+                    "version": "5.9.3",
+                    "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+                  },
+                  "vscode-languageserver-textdocument": {
+                    "from": "vscode-languageserver-textdocument",
+                    "version": "1.0.16",
+                    "resolved": "https://registry.npmjs.org/vscode-languageserver-textdocument/-/vscode-languageserver-textdocument-1.0.16.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vscode-languageserver-textdocument@1.0.16/node_modules/vscode-languageserver-textdocument"
+                  },
+                  "vscode-uri": {
+                    "from": "vscode-uri",
+                    "version": "3.2.0",
+                    "resolved": "https://registry.npmjs.org/vscode-uri/-/vscode-uri-3.2.0.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vscode-uri@3.2.0/node_modules/vscode-uri"
+                  },
+                  "vscode-languageserver-protocol": {
+                    "from": "vscode-languageserver-protocol",
+                    "version": "3.18.5",
+                    "resolved": "https://registry.npmjs.org/vscode-languageserver-protocol/-/vscode-languageserver-protocol-3.18.5.tgz",
+                    "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vscode-languageserver-protocol@3.18.5/node_modules/vscode-languageserver-protocol",
+                    "dependencies": {
+                      "vscode-jsonrpc": {
+                        "from": "vscode-jsonrpc",
+                        "version": "10.0.0",
+                        "resolved": "https://registry.npmjs.org/vscode-jsonrpc/-/vscode-jsonrpc-10.0.0.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vscode-jsonrpc@10.0.0/node_modules/vscode-jsonrpc"
+                      },
+                      "vscode-languageserver-types": {
+                        "from": "vscode-languageserver-types",
+                        "version": "3.18.5",
+                        "resolved": "https://registry.npmjs.org/vscode-languageserver-types/-/vscode-languageserver-types-3.18.5.tgz",
+                        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vscode-languageserver-types@3.18.5/node_modules/vscode-languageserver-types"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "unsavedDependencies": {
+      "eslint": {
+        "from": "eslint",
+        "version": "link:../../node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint"
+      },
+      "eslint-plugin-vue": {
+        "from": "eslint-plugin-vue",
+        "version": "link:../../node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue"
+      },
+      "esbuild": {
+        "from": "esbuild",
+        "version": "link:../../node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+      },
+      "turbo": {
+        "from": "turbo",
+        "version": "link:../../node_modules/.pnpm/turbo@2.11.10/node_modules/turbo",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/turbo@2.11.10/node_modules/turbo"
+      },
+      "typescript": {
+        "from": "typescript",
+        "version": "link:../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+      },
+      "typescript-eslint": {
+        "from": "typescript-eslint",
+        "version": "link:../../node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint"
+      },
+      "@eslint/js": {
+        "from": "@eslint/js",
+        "version": "link:../../node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js"
+      },
+      "vitest": {
+        "from": "vitest",
+        "version": "link:../../node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest"
+      },
+      "@types/node": {
+        "from": "@types/node",
+        "version": "link:../../node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node"
+      }
+    }
+  },
+  {
+    "name": "@stackmanage/worker",
+    "version": "0.1.0",
+    "path": "/tmp/opencode/stackmanage-legal/stackmanage/apps/worker",
+    "private": true,
+    "dependencies": {
+      "@stackmanage/core": {
+        "from": "@stackmanage/core",
+        "version": "link:../../packages/core",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/core",
+        "deduped": true,
+        "dedupedDependenciesCount": 1
+      }
+    },
+    "unsavedDependencies": {
+      "esbuild": {
+        "from": "esbuild",
+        "version": "link:../../node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+      },
+      "eslint": {
+        "from": "eslint",
+        "version": "link:../../node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint"
+      },
+      "eslint-plugin-vue": {
+        "from": "eslint-plugin-vue",
+        "version": "link:../../node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue"
+      },
+      "turbo": {
+        "from": "turbo",
+        "version": "link:../../node_modules/.pnpm/turbo@2.11.10/node_modules/turbo",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/turbo@2.11.10/node_modules/turbo"
+      },
+      "typescript": {
+        "from": "typescript",
+        "version": "link:../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+      },
+      "typescript-eslint": {
+        "from": "typescript-eslint",
+        "version": "link:../../node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint"
+      },
+      "vitest": {
+        "from": "vitest",
+        "version": "link:../../node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest"
+      },
+      "@eslint/js": {
+        "from": "@eslint/js",
+        "version": "link:../../node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js"
+      },
+      "@types/node": {
+        "from": "@types/node",
+        "version": "link:../../node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node"
+      }
+    }
+  },
+  {
+    "name": "@stackmanage/core",
+    "version": "1.0.0",
+    "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/core",
+    "private": true,
+    "dependencies": {
+      "zod": {
+        "from": "zod",
+        "version": "4.6.7",
+        "resolved": "https://registry.npmjs.org/zod/-/zod-4.6.7.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/zod@4.6.7/node_modules/zod"
+      }
+    },
+    "unsavedDependencies": {
+      "esbuild": {
+        "from": "esbuild",
+        "version": "link:../../node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+      },
+      "eslint": {
+        "from": "eslint",
+        "version": "link:../../node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint"
+      },
+      "eslint-plugin-vue": {
+        "from": "eslint-plugin-vue",
+        "version": "link:../../node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue"
+      },
+      "turbo": {
+        "from": "turbo",
+        "version": "link:../../node_modules/.pnpm/turbo@2.11.10/node_modules/turbo",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/turbo@2.11.10/node_modules/turbo"
+      },
+      "typescript": {
+        "from": "typescript",
+        "version": "link:../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+      },
+      "typescript-eslint": {
+        "from": "typescript-eslint",
+        "version": "link:../../node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint"
+      },
+      "vitest": {
+        "from": "vitest",
+        "version": "link:../../node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest"
+      },
+      "@eslint/js": {
+        "from": "@eslint/js",
+        "version": "link:../../node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js"
+      },
+      "@types/node": {
+        "from": "@types/node",
+        "version": "link:../../node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node"
+      }
+    }
+  },
+  {
+    "name": "@stackmanage/i18n",
+    "version": "0.1.0",
+    "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/i18n",
+    "private": true,
+    "dependencies": {
+      "vue": {
+        "from": "vue",
+        "version": "3.5.44",
+        "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.44.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vue@3.5.44_typescript@5.9.3/node_modules/vue",
+        "deduped": true,
+        "dedupedDependenciesCount": 38
+      },
+      "vue-i18n": {
+        "from": "vue-i18n",
+        "version": "11.4.18",
+        "resolved": "https://registry.npmjs.org/vue-i18n/-/vue-i18n-11.4.18.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vue-i18n@11.4.18_vue@3.5.44_typescript@5.9.3_/node_modules/vue-i18n",
+        "deduped": true,
+        "dedupedDependenciesCount": 12
+      }
+    },
+    "unsavedDependencies": {
+      "esbuild": {
+        "from": "esbuild",
+        "version": "link:../../node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+      },
+      "eslint": {
+        "from": "eslint",
+        "version": "link:../../node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint"
+      },
+      "turbo": {
+        "from": "turbo",
+        "version": "link:../../node_modules/.pnpm/turbo@2.11.10/node_modules/turbo",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/turbo@2.11.10/node_modules/turbo"
+      },
+      "eslint-plugin-vue": {
+        "from": "eslint-plugin-vue",
+        "version": "link:../../node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue"
+      },
+      "typescript": {
+        "from": "typescript",
+        "version": "link:../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+      },
+      "typescript-eslint": {
+        "from": "typescript-eslint",
+        "version": "link:../../node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint"
+      },
+      "vitest": {
+        "from": "vitest",
+        "version": "link:../../node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest"
+      },
+      "@eslint/js": {
+        "from": "@eslint/js",
+        "version": "link:../../node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js"
+      },
+      "@types/node": {
+        "from": "@types/node",
+        "version": "link:../../node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node"
+      }
+    }
+  },
+  {
+    "name": "@stackmanage/mcp-server",
+    "version": "0.1.0",
+    "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/mcp-server",
+    "private": true,
+    "dependencies": {
+      "@stackmanage/core": {
+        "from": "@stackmanage/core",
+        "version": "link:../core",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/core",
+        "deduped": true,
+        "dedupedDependenciesCount": 1
+      }
+    },
+    "unsavedDependencies": {
+      "esbuild": {
+        "from": "esbuild",
+        "version": "link:../../node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+      },
+      "eslint": {
+        "from": "eslint",
+        "version": "link:../../node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint"
+      },
+      "eslint-plugin-vue": {
+        "from": "eslint-plugin-vue",
+        "version": "link:../../node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue"
+      },
+      "turbo": {
+        "from": "turbo",
+        "version": "link:../../node_modules/.pnpm/turbo@2.11.10/node_modules/turbo",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/turbo@2.11.10/node_modules/turbo"
+      },
+      "typescript": {
+        "from": "typescript",
+        "version": "link:../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+      },
+      "typescript-eslint": {
+        "from": "typescript-eslint",
+        "version": "link:../../node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint"
+      },
+      "vitest": {
+        "from": "vitest",
+        "version": "link:../../node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest"
+      },
+      "@eslint/js": {
+        "from": "@eslint/js",
+        "version": "link:../../node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js"
+      },
+      "@types/node": {
+        "from": "@types/node",
+        "version": "link:../../node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node"
+      }
+    }
+  },
+  {
+    "name": "@stackmanage/modules",
+    "version": "0.1.0",
+    "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/modules",
+    "private": true,
+    "dependencies": {
+      "@stackmanage/core": {
+        "from": "@stackmanage/core",
+        "version": "link:../core",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/core",
+        "deduped": true,
+        "dedupedDependenciesCount": 1
+      }
+    },
+    "unsavedDependencies": {
+      "esbuild": {
+        "from": "esbuild",
+        "version": "link:../../node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+      },
+      "eslint": {
+        "from": "eslint",
+        "version": "link:../../node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint"
+      },
+      "eslint-plugin-vue": {
+        "from": "eslint-plugin-vue",
+        "version": "link:../../node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue"
+      },
+      "turbo": {
+        "from": "turbo",
+        "version": "link:../../node_modules/.pnpm/turbo@2.11.10/node_modules/turbo",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/turbo@2.11.10/node_modules/turbo"
+      },
+      "typescript": {
+        "from": "typescript",
+        "version": "link:../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+      },
+      "typescript-eslint": {
+        "from": "typescript-eslint",
+        "version": "link:../../node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint"
+      },
+      "vitest": {
+        "from": "vitest",
+        "version": "link:../../node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest"
+      },
+      "@eslint/js": {
+        "from": "@eslint/js",
+        "version": "link:../../node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js"
+      },
+      "@types/node": {
+        "from": "@types/node",
+        "version": "link:../../node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node"
+      }
+    }
+  },
+  {
+    "name": "@stackmanage/platform",
+    "version": "0.1.0",
+    "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/platform",
+    "private": true,
+    "dependencies": {
+      "@stackmanage/core": {
+        "from": "@stackmanage/core",
+        "version": "link:../core",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/core",
+        "deduped": true,
+        "dedupedDependenciesCount": 1
+      }
+    },
+    "unsavedDependencies": {
+      "esbuild": {
+        "from": "esbuild",
+        "version": "link:../../node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+      },
+      "eslint": {
+        "from": "eslint",
+        "version": "link:../../node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint"
+      },
+      "eslint-plugin-vue": {
+        "from": "eslint-plugin-vue",
+        "version": "link:../../node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue"
+      },
+      "turbo": {
+        "from": "turbo",
+        "version": "link:../../node_modules/.pnpm/turbo@2.11.10/node_modules/turbo",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/turbo@2.11.10/node_modules/turbo"
+      },
+      "typescript": {
+        "from": "typescript",
+        "version": "link:../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+      },
+      "typescript-eslint": {
+        "from": "typescript-eslint",
+        "version": "link:../../node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint"
+      },
+      "vitest": {
+        "from": "vitest",
+        "version": "link:../../node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest"
+      },
+      "@types/node": {
+        "from": "@types/node",
+        "version": "link:../../node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node"
+      },
+      "@eslint/js": {
+        "from": "@eslint/js",
+        "version": "link:../../node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js"
+      }
+    }
+  },
+  {
+    "name": "@stackmanage/plugin-sdk",
+    "version": "1.0.0",
+    "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/plugin-sdk",
+    "private": true,
+    "dependencies": {
+      "@stackmanage/core": {
+        "from": "@stackmanage/core",
+        "version": "link:../core",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/core",
+        "deduped": true,
+        "dedupedDependenciesCount": 1
+      }
+    },
+    "unsavedDependencies": {
+      "esbuild": {
+        "from": "esbuild",
+        "version": "link:../../node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+      },
+      "eslint": {
+        "from": "eslint",
+        "version": "link:../../node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint"
+      },
+      "eslint-plugin-vue": {
+        "from": "eslint-plugin-vue",
+        "version": "link:../../node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue"
+      },
+      "turbo": {
+        "from": "turbo",
+        "version": "link:../../node_modules/.pnpm/turbo@2.11.10/node_modules/turbo",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/turbo@2.11.10/node_modules/turbo"
+      },
+      "typescript": {
+        "from": "typescript",
+        "version": "link:../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+      },
+      "typescript-eslint": {
+        "from": "typescript-eslint",
+        "version": "link:../../node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint"
+      },
+      "vitest": {
+        "from": "vitest",
+        "version": "link:../../node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest"
+      },
+      "@eslint/js": {
+        "from": "@eslint/js",
+        "version": "link:../../node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js"
+      },
+      "@types/node": {
+        "from": "@types/node",
+        "version": "link:../../node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node"
+      }
+    }
+  },
+  {
+    "name": "@stackmanage/ui",
+    "version": "0.1.0",
+    "path": "/tmp/opencode/stackmanage-legal/stackmanage/packages/ui",
+    "private": true,
+    "dependencies": {
+      "vue": {
+        "from": "vue",
+        "version": "3.5.44",
+        "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.44.tgz",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vue@3.5.44_typescript@5.9.3/node_modules/vue",
+        "deduped": true,
+        "dedupedDependenciesCount": 38
+      }
+    },
+    "unsavedDependencies": {
+      "esbuild": {
+        "from": "esbuild",
+        "version": "link:../../node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/esbuild@0.28.2/node_modules/esbuild"
+      },
+      "eslint": {
+        "from": "eslint",
+        "version": "link:../../node_modules/.pnpm/eslint@10.14.0/node_modules/eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint@10.14.0/node_modules/eslint"
+      },
+      "eslint-plugin-vue": {
+        "from": "eslint-plugin-vue",
+        "version": "link:../../node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/eslint-plugin-vue@10.12.0_@typescript-eslint+parser@8.72.1_eslint@10.14.0_typescript@5._509a97e3672e3767e244e183243e47b1/node_modules/eslint-plugin-vue"
+      },
+      "turbo": {
+        "from": "turbo",
+        "version": "link:../../node_modules/.pnpm/turbo@2.11.10/node_modules/turbo",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/turbo@2.11.10/node_modules/turbo"
+      },
+      "typescript": {
+        "from": "typescript",
+        "version": "link:../../node_modules/.pnpm/typescript@5.9.3/node_modules/typescript",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript"
+      },
+      "typescript-eslint": {
+        "from": "typescript-eslint",
+        "version": "link:../../node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/typescript-eslint@8.72.1_eslint@10.14.0_typescript@5.9.3/node_modules/typescript-eslint"
+      },
+      "vitest": {
+        "from": "vitest",
+        "version": "link:../../node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/vitest@5.1.0_@types+node@24.10.0_vite@8.3.5_@types+node@24.10.0_esbuild@0.28.2_/node_modules/vitest"
+      },
+      "@eslint/js": {
+        "from": "@eslint/js",
+        "version": "link:../../node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.14.0/node_modules/@eslint/js"
+      },
+      "@types/node": {
+        "from": "@types/node",
+        "version": "link:../../node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node",
+        "path": "/tmp/opencode/stackmanage-legal/stackmanage/node_modules/.pnpm/@types+node@24.10.0/node_modules/@types/node"
+      }
+    }
+  }
+]

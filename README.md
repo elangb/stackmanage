@@ -20,6 +20,7 @@ pnpm lint
 pnpm test
 pnpm build
 pnpm test:desktop
+pnpm legal:verify
 ```
 
 `build` produces executable Electron bundles in `apps/desktop/dist` and the standalone fork bundle in `apps/worker/dist`. To run the built app: `pnpm --filter @stackmanage/desktop exec electron .`. This is not an installer/packager. On headless Linux use an already-provisioned display such as `xvfb-run -a pnpm test:desktop`. Windows and Linux acceptance requires genuine runs, not cross-build claims.
@@ -48,4 +49,4 @@ Runtime installation, services, sites, automation, plugins, privileges and packa
 | `packages/i18n`, `packages/ui` | Local messages, reactive binding and original CSS |
 | `docs`, `ci` | ADRs, scope/evidence, workflow template and checks |
 
-Start with [architecture decisions](docs/adr/0001-foundation.md), [operation plan](docs/operation-plan.md), [v1 contract guide](docs/contracts-v1.md), [feature matrix](docs/feature-matrix.md), and [Phase 0 evidence](docs/reports/phase0.md).
+Start with [architecture decisions](docs/adr/0001-foundation.md), [operation plan](docs/operation-plan.md), [v1 contract guide](docs/contracts-v1.md), [feature matrix](docs/feature-matrix.md), [legal analysis](docs/legal/license-analysis.md), [third-party notices](THIRD_PARTY_NOTICES.md), and the Phase 0 [architecture](docs/reports/phase0.md) / [legal](docs/reports/phase0-legal.md) evidence reports.
