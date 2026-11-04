@@ -59,7 +59,17 @@ describe('Phase 1 bridge contract', () => {
       runtimeInstall: { operationId: 'op-7', moduleId: 'node', version: '24.22.2', platform: 'linux', architecture: 'x64' },
       runtimeStatus: { moduleId: 'node' },
       runtimeList: { moduleId: 'node' },
-      runtimeUninstall: { operationId: 'op-8', installationId: 'node-24.22.2-linux-x64' }
+      runtimeUninstall: { operationId: 'op-8', installationId: 'node-24.22.2-linux-x64' },
+      nginxVersions: { moduleId: 'nginx' },
+      nginxInstall: { operationId: 'op-9', moduleId: 'nginx', version: '1.30.6', platform: 'linux', architecture: 'x64' },
+      nginxStatus: { moduleId: 'nginx' },
+      nginxList: { moduleId: 'nginx' },
+      nginxUninstall: { operationId: 'op-10', installationId: 'nginx-1.30.6-linux-x64' },
+      nginxStart: { operationId: 'op-11' },
+      nginxStop: { operationId: 'op-12' },
+      nginxReload: { operationId: 'op-13' },
+      nginxLogs: { maxBytes: 4096 },
+      nginxConfig: {}
     };
     expect(Object.keys(samples).sort()).toEqual(Object.keys(DESKTOP_METHODS).sort());
     for (const [method, sample] of Object.entries(samples)) {
@@ -81,6 +91,13 @@ describe('Phase 1 bridge contract', () => {
       expect(BRIDGE_REQUEST_SCHEMAS.runtimeInstall.safeParse({ operationId: 'op', moduleId: 'node', version: '24.22.2', platform: 'linux', architecture: 'x64', ...injected }).success).toBe(false);
     }
     expect(() => parseBoundedBridgeRequest('runtimeUninstall', { operationId: 'op', installationId: '../../etc' })).toThrow();
+    for (const injected of [{ url: 'https://evil.test/nginx.tar.gz' }, { sha256: 'a'.repeat(64) }, { configure: '--prefix=/usr' }, { path: '/etc/passwd' }, { command: 'sh' }]) {
+      expect(BRIDGE_REQUEST_SCHEMAS.nginxInstall.safeParse({ operationId: 'op', moduleId: 'nginx', version: '1.30.6', platform: 'linux', architecture: 'x64', ...injected }).success).toBe(false);
+    }
+    expect(() => parseBoundedBridgeRequest('nginxUninstall', { operationId: 'op', installationId: '../../etc' })).toThrow();
+    expect(() => parseBoundedBridgeRequest('nginxStart', { operationId: 'op', command: 'sh' })).toThrow();
+    expect(() => parseBoundedBridgeRequest('nginxVersions', { moduleId: 'caddy' })).toThrow();
+    expect(() => parseBoundedBridgeRequest('nginxLogs', { maxBytes: 0 })).toThrow();
     expect(SitesApplyRequestSchema.safeParse({ operationId: 'op', sites: [] }).success).toBe(false);
     expect(() => parseBoundedBridgeRequest('sitesRemove', { operationId: 'op', siteId: '../../etc' })).toThrow();
     expect(() => parseBoundedBridgeRequest('start', { operationId: 'op', ref: REF, command: 'sh' })).toThrow();
@@ -91,7 +108,7 @@ describe('Phase 1 bridge contract', () => {
     expect(Object.values(OPERATION_TIMEOUTS).every(value => Number.isFinite(value) && value > 0)).toBe(true);
     // Every method names a bounded operation class; nothing waits forever.
     for (const method of Object.keys(DESKTOP_METHODS)) {
-      const cls = method === 'install' ? 'install' : method === 'runtimeInstall' ? 'runtimeInstall' : method.startsWith('list') || method === 'status' || method === 'logsTail' || method === 'runtimeStatus' || method === 'runtimeList' || method === 'runtimeVersions' ? 'read' : method.startsWith('sites') ? 'sites' : 'service';
+      const cls = method === 'install' || method === 'nginxInstall' ? 'install' : method === 'runtimeInstall' ? 'runtimeInstall' : method.startsWith('list') || method === 'status' || method === 'logsTail' || method === 'runtimeStatus' || method === 'runtimeList' || method === 'runtimeVersions' || method === 'nginxStatus' || method === 'nginxList' || method === 'nginxVersions' || method === 'nginxLogs' || method === 'nginxConfig' ? 'read' : method.startsWith('sites') ? 'sites' : 'service';
       expect(OPERATION_TIMEOUTS[cls as keyof typeof OPERATION_TIMEOUTS], method).toBeGreaterThan(0);
     }
   });

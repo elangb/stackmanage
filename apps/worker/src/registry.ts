@@ -4,6 +4,7 @@ import type { ModuleStorage } from '@stackmanage/core';
 import { CaddyModule } from './modules/caddy';
 import { FsModuleStorage } from './modules/caddy/paths';
 import { NodeModule } from './modules/node';
+import { NginxModule } from './modules/nginx';
 
 export interface BuildOptions {
   home?: string;
@@ -30,6 +31,7 @@ export function workerDataHome(env: NodeJS.ProcessEnv = process.env): string {
 /** Single lazily built Caddy instance; nothing here is selectable by an IPC caller. */
 let instance: { module: CaddyModule; storage: ModuleStorage } | undefined;
 let runtimeInstance: { module: NodeModule; storage: ModuleStorage } | undefined;
+let nginxInstance: { module: NginxModule; storage: ModuleStorage } | undefined;
 
 export function buildCaddyModule(options: BuildOptions = {}): { module: CaddyModule; storage: ModuleStorage } {
   const storage = options.storage ?? new FsModuleStorage(join(workerDataHome(), 'state'));
@@ -75,3 +77,29 @@ export function nodeModule(options: BuildOptions = {}): { module: NodeModule; st
 }
 
 export { NodeModule };
+
+/** Nginx data is isolated from Caddy and the Node runtime. */
+export function nginxDataHome(env: NodeJS.ProcessEnv = process.env): string {
+  const explicit = env['STACKMANAGE_NGINX_HOME'];
+  if (explicit !== undefined && explicit.trim() !== '') return resolve(explicit);
+  return join(workerDataHome(env), 'nginx');
+}
+
+export function buildNginxModule(options: BuildOptions = {}): { module: NginxModule; storage: ModuleStorage } {
+  const storage = options.storage ?? new FsModuleStorage(join(workerDataHome(), 'state'));
+  const module = new NginxModule({
+    storage,
+    home: options.runtimeHome ?? nginxDataHome(),
+    ...(options.platform !== undefined ? { platform: options.platform } : {}),
+    ...(options.architecture !== undefined ? { architecture: options.architecture } : {}),
+    ...(options.fetchImpl !== undefined ? { fetchImpl: options.fetchImpl } : {})
+  });
+  return { module, storage };
+}
+
+export function nginxModule(options: BuildOptions = {}): { module: NginxModule; storage: ModuleStorage } {
+  nginxInstance ??= buildNginxModule(options);
+  return nginxInstance;
+}
+
+export { NginxModule };

@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { locales, type Locale } from '@stackmanage/i18n';
 import { bootstrapController } from './bootstrap/controller';
 import { caddyController } from './caddy/controller';
+import { nginxController } from './nginx/controller';
 import AppSidebar from './components/AppSidebar.vue';
 import HomeView from './views/HomeView.vue';
 import CaddyView from './views/CaddyView.vue';
@@ -39,9 +40,13 @@ function toggleTheme(): void {
 
 onMounted(() => {
   caddyController.attach();
+  nginxController.attach();
   void bootstrapController.refresh();
 });
-onBeforeUnmount(() => caddyController.detach());
+onBeforeUnmount(() => {
+  caddyController.detach();
+  nginxController.detach();
+});
 </script>
 
 <template>

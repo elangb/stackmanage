@@ -6,7 +6,7 @@ import {
   parseBounded
 } from '@stackmanage/core';
 import type { ErrorCode, OperationEvent, WorkerManagementResponse, WorkerMethodResult, WorkerResponse } from '@stackmanage/core';
-import { caddyModule, nodeModule } from './registry';
+import { caddyModule, nginxModule, nodeModule } from './registry';
 
 /**
  * Forked worker entry.
@@ -26,6 +26,7 @@ import { caddyModule, nodeModule } from './registry';
 
 const { module } = caddyModule();
 const { module: runtime } = nodeModule();
+const { module: nginx } = nginxModule();
 
 const logger = {
   info(event: string, fields: Record<string, unknown> = {}): void {
@@ -46,14 +47,13 @@ function redact(fields: Record<string, unknown>): Record<string, unknown> {
 
 let reconcile: Promise<void> = Promise.resolve();
 try {
-  reconcile = module.reconcileOnStartup().then(
-    report => {
-      logger.info('startup.reconciled', { action: report.action, instanceId: report.instanceId });
-    },
-    error => {
-      logger.info('startup.reconcileFailed', { reason: error instanceof Error ? error.message : 'unknown' });
+  // Modules reconcile independently: one failed orphan check must not block the other.
+  reconcile = Promise.allSettled([module.reconcileOnStartup(), nginx.reconcileOnStartup()]).then(results => {
+    for (const result of results) {
+      if (result.status === 'fulfilled') logger.info('startup.reconciled', { action: result.value.action, instanceId: result.value.instanceId });
+      else logger.info('startup.reconcileFailed', { reason: result.reason instanceof Error ? result.reason.message : 'unknown' });
     }
-  );
+  });
 } catch (error) {
   logger.info('startup.reconcileFailed', { reason: error instanceof Error ? error.message : 'unknown' });
 }
@@ -145,7 +145,11 @@ async function dispatch(id: string, input: unknown): Promise<void> {
 
   const job = (async (): Promise<WorkerMethodResult> => {
     await reconcile;
-    return request.method.startsWith('runtime.') ? runtime.handle(request, emit) : module.handle(request, emit);
+    return request.method.startsWith('runtime.')
+      ? runtime.handle(request, emit)
+      : request.method.startsWith('nginx.')
+        ? nginx.handle(request, emit)
+        : module.handle(request, emit);
   })();
   inflight.set(key, job);
   try {
@@ -178,8 +182,12 @@ process.on('message', (input: unknown) => {
 });
 
 process.on('disconnect', () => {
-  void module
-    .shutdown()
+  void Promise.allSettled([module.shutdown(), nginx.shutdown()])
+    .then(results => {
+      for (const result of results) {
+        if (result.status === 'rejected') logger.info('shutdown.failed', { reason: result.reason instanceof Error ? result.reason.message : 'unknown' });
+      }
+    })
     .catch(() => undefined)
     .finally(() => process.exit(0));
 });

@@ -78,3 +78,26 @@ No tools are exposed in Phase 0. Tool-specific argument/result schemas, redactio
 The Node module is additive: Caddy channel names, pins and lifecycle semantics are
 unchanged. Windows x64/arm64 and Linux arm64 artifacts are pinned by official SHA-256
 values but remain `unverified`; only Linux x64 has execution evidence.
+
+## Phase 4 additions (Nginx)
+
+| Surface | Contract |
+|---|---|
+| Nginx reads | `nginx.versions`, `nginx.status`, `nginx.list` take `{moduleId:'nginx'}` and return strict typed views. `nginx.logs` takes a bounded `maxBytes`; `nginx.config` takes no caller fields |
+| Nginx install | `nginx.install` reuses the module-agnostic `InstallRequest` shape but has its own fixed channel. The worker accepts only module `nginx`, version `1.30.6`, and its own Linux platform/architecture; callers cannot name a URL, digest, configure flag or prefix |
+| Nginx uninstall | `nginx.uninstall` takes `{operationId, installationId}`. The worker resolves the ID through its persisted record, refuses a running service, and refuses any path outside the managed installations root |
+| Nginx lifecycle | `nginx.start`, `nginx.stop`, `nginx.reload` take `{operationId, timeoutMs?}` for the single managed instance. Reload validates the candidate config with `nginx -t` before sending SIGHUP |
+| Nginx views | `NginxVersionsView` exposes source/Windows pins, archive kind, supported and tested flags. `NginxStatusView` exposes install facts plus a bounded service view. `NginxLogsView` exposes the managed log path and a bounded tail. `nginx.config` returns the read-only `ConfigReadView` |
+| Bridge names | `nginxVersions`, `nginxInstall`, `nginxStatus`, `nginxList`, `nginxUninstall`, `nginxStart`, `nginxStop`, `nginxReload`, `nginxLogs`, `nginxConfig` with fixed channels. No generic invoke/exec/shell channel is added |
+| Progress | Nginx install/lifecycle stream the same bounded progress frames; exactly one terminal `OperationResult` settles each accepted operation |
+
+The Nginx module is additive: Caddy and Node channel names, pins and lifecycle
+semantics are unchanged. Linux x64 is the only Nginx target with execution
+evidence. Linux arm64 builds from the same pinned source but remains unverified;
+the official Windows zip is pinned but Windows execution is explicitly
+`unsupported` in this build.
+
+Nginx process identity uses the recorded executable and OS start token on Linux.
+The optional environment token used by Caddy cannot be relied on for Nginx
+because the vendor master rewrites its process environment; a recycled PID is
+still rejected by executable and start-token mismatch.

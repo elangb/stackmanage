@@ -19,6 +19,12 @@ import type {
   RuntimeInstallRequest,
   RuntimeModuleRequest,
   RuntimeUninstallRequest,
+  NginxConfigRequest,
+  NginxInstallRequest,
+  NginxLifecycleRequest,
+  NginxLogsRequest,
+  NginxModuleRequest,
+  NginxUninstallRequest,
   ServiceRequest,
   SiteRemoveRequest,
   SitesApplyRequest,
@@ -73,6 +79,13 @@ export function timeoutFor(method: WorkerManagementMethod): number {
       return OPERATION_TIMEOUTS.install + OPERATION_TIMEOUTS.read;
     case 'runtime.install':
       return OPERATION_TIMEOUTS.runtimeInstall + OPERATION_TIMEOUTS.read;
+    case 'nginx.install':
+      return OPERATION_TIMEOUTS.install + OPERATION_TIMEOUTS.read;
+    case 'nginx.start':
+    case 'nginx.stop':
+    case 'nginx.reload':
+    case 'nginx.uninstall':
+      return OPERATION_TIMEOUTS.service + OPERATION_TIMEOUTS.read;
     case 'service.start':
     case 'service.stop':
     case 'service.restart':
@@ -272,6 +285,46 @@ export class WorkerClient {
 
   runtimeUninstall(request: RuntimeUninstallRequest, onProgress?: ProgressSink): Promise<Terminal> {
     return this.call('runtime.uninstall', request, onProgress);
+  }
+
+  nginxVersions(request: NginxModuleRequest): Promise<Terminal> {
+    return this.call('nginx.versions', request);
+  }
+
+  nginxInstall(request: NginxInstallRequest, onProgress?: ProgressSink): Promise<Terminal> {
+    return this.call('nginx.install', request, onProgress);
+  }
+
+  nginxStatus(request: NginxModuleRequest): Promise<Terminal> {
+    return this.call('nginx.status', request);
+  }
+
+  nginxList(request: NginxModuleRequest): Promise<Terminal> {
+    return this.call('nginx.list', request);
+  }
+
+  nginxUninstall(request: NginxUninstallRequest, onProgress?: ProgressSink): Promise<Terminal> {
+    return this.call('nginx.uninstall', request, onProgress);
+  }
+
+  nginxStart(request: NginxLifecycleRequest, onProgress?: ProgressSink): Promise<Terminal> {
+    return this.call('nginx.start', request, onProgress);
+  }
+
+  nginxStop(request: NginxLifecycleRequest, onProgress?: ProgressSink): Promise<Terminal> {
+    return this.call('nginx.stop', request, onProgress);
+  }
+
+  nginxReload(request: NginxLifecycleRequest, onProgress?: ProgressSink): Promise<Terminal> {
+    return this.call('nginx.reload', request, onProgress);
+  }
+
+  nginxLogs(request: NginxLogsRequest): Promise<Terminal> {
+    return this.call('nginx.logs', request);
+  }
+
+  nginxConfig(request: NginxConfigRequest): Promise<Terminal> {
+    return this.call('nginx.config', request);
   }
 
   /* ------------------------------- lifecycle ------------------------------- */
