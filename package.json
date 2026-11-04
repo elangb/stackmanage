@@ -12,7 +12,8 @@
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "test:desktop": "pnpm --filter @stackmanage/desktop smoke",
-    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build"
+    "legal:verify": "node scripts/verify-legal.mjs",
+    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm legal:verify && pnpm build"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
