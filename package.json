@@ -12,6 +12,7 @@
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "test:desktop": "pnpm --filter @stackmanage/desktop smoke",
+    "test:browser:linux": "STACKMANAGE_BROWSER_E2E=1 vitest run apps/worker/test/caddy-browser.integration.test.ts",
     "legal:verify": "node scripts/verify-legal.mjs",
     "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm legal:verify && pnpm build"
   },

@@ -39,11 +39,12 @@ WEB-SITES-HTTPS, branch `integration/phase1`. Baseline mencakup Caddy Linux x64 
 | `STACKMANAGE_INTEGRATION=1 vitest run apps/worker/test/caddy-tls.integration.test.ts` | Lulus: custom `.test` + alias, hosts berisi entri, HTTPS 200 dengan CA, trust NSS `trusted`, hosts dibersihkan saat situs dihapus |
 | `pnpm exec vitest run apps/worker/test/certificates.test.ts` | 3 lulus: untrusted → trusted, platform lain unsupported, CA hilang gagal jujur |
 | Electron UI nyata | Tambah situs TLS `localhost:18443`; Caddy HTTPS melayani 200 dengan CA; UI menampilkan status CA; tidak ada console error |
+| `STACKMANAGE_BROWSER_E2E=1 pnpm exec vitest run apps/worker/test/caddy-browser.integration.test.ts` | **Chrome 157 nyata** membuka `https://shop.test` dengan CA internal, profil/NSS/HOME terisolasi, tanpa `--ignore-certificate-errors`; DOM berisi `browser-tls-ok` |
 
 ## RISIKO/BUG
 
 - **Tinggi:** trust system store tidak diubah; `curl` tanpa CA masih menolak. Hanya NSS pengguna yang ditangani.
-- **Tinggi:** Chrome/Firefox/Edge belum dijalankan untuk acceptance sertifikat. NSS trust sudah diuji, bukan browser UI.
+- **Sedang:** Chrome sudah lulus acceptance nyata. Firefox dan Edge belum dijalankan; Edge target final tetap Windows.
 - **Tinggi:** Windows trust/hosts hanya rencana; belum dieksekusi.
 - **Sedang:** hosts pada `/etc/hosts` memerlukan pkexec; tanpa prompt, domain tetap tidak resolve (hasil partial).
 - **Sedang:** Firefox profile yang dibuat setelah trust belum otomatis mendapat CA.
