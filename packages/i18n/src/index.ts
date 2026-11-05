@@ -827,4 +827,4 @@ export const messages: Record<'en' | 'id' | 'zh' | 'es' | 'vi', Messages> = {
 };
 export type Locale = keyof typeof messages;
 export const locales = Object.keys(messages) as Locale[];
-export function createStackManageI18n() { return createI18n({ legacy: false, locale: 'id', fallbackLocale: 'en', messages }); }
+export function createStackManageI18n() { return createI18n({ legacy: false, locale: 'en', fallbackLocale: 'en', messages }); }

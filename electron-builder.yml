@@ -1,6 +1,7 @@
 appId: com.stackmanage.app
 electronVersion: 45.2.2
 productName: StackManage
+executableName: stackmanage
 copyright: Copyright © 2026 StackManage contributors
 directories:
   app: apps/desktop
