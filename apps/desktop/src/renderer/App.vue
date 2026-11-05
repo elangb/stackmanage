@@ -21,6 +21,8 @@ const theme = ref<'dark' | 'light'>((localStorage.getItem('stackmanage.theme') a
 const snapshot = computed(() => bootstrapController.state.snapshot);
 const localeModel = computed<Locale>({ get: () => locale.value as Locale, set: value => { locale.value = value; } });
 const workerStatus = computed(() => bootstrapController.state.status);
+const savedLocale = localStorage.getItem('stackmanage.locale');
+if (savedLocale !== null && (locales as readonly string[]).includes(savedLocale)) locale.value = savedLocale as Locale;
 
 watchEffect(() => {
   document.documentElement.dataset['theme'] = theme.value;
@@ -30,8 +32,6 @@ watchEffect(() => {
   localStorage.setItem('stackmanage.page', page.value);
   localStorage.setItem('stackmanage.locale', locale.value);
 });
-const savedLocale = localStorage.getItem('stackmanage.locale');
-if (savedLocale !== null && (locales as readonly string[]).includes(savedLocale)) locale.value = savedLocale as Locale;
 
 function navigate(next: PageKey): void {
   page.value = next;
