@@ -30,6 +30,9 @@ let shutdownStarted = false;
 const devUrl = !app.isPackaged ? process.env['STACKMANAGE_DEV_URL'] : undefined;
 if (devUrl !== undefined && devUrl !== 'http://127.0.0.1:5179/') throw new Error('Unexpected development origin');
 const documentUrl = devUrl ?? pathToFileURL(join(__dirname, 'renderer/index.html')).href;
+const windowIcon = app.isPackaged
+  ? join(process.resourcesPath, 'icon.png')
+  : join(__dirname, '../../../build/icon.png');
 
 /** Bridge method → worker management method. Explicit mapping; no caller-supplied method names. */
 const METHOD_MAP = Object.freeze({
@@ -197,6 +200,7 @@ function removeHandlers(): void {
 function createWindow(): void {
   window = new BrowserWindow({
     title: 'StackManage',
+    icon: windowIcon,
     width: 1100,
     height: 780,
     minWidth: 480,

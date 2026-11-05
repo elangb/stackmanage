@@ -16,6 +16,8 @@ extraResources:
     to: THIRD_PARTY_NOTICES.md
   - from: LICENSE
     to: LICENSE
+  - from: build/icon.png
+    to: icon.png
 artifactName: StackManage-${version}-${arch}.${ext}
 linux:
   target:

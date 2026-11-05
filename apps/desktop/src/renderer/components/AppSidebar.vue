@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import brandIcon from '../assets/stackmanage-icon.png';
 import { NAV_GROUPS, type PageKey } from '../pages';
 
 defineProps<{ page: PageKey; version: string }>();
@@ -10,7 +11,7 @@ const { t } = useI18n();
 <template>
   <aside class="sidebar" aria-label="StackManage">
     <div class="brand">
-      <span class="brand-mark" aria-hidden="true">S</span>
+      <img class="brand-mark" :src="brandIcon" alt="" aria-hidden="true">
       <span>
         <span class="brand-name">{{ t('brand') }}</span>
         <span class="brand-tagline">{{ t('tagline') }}</span>

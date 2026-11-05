@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="StackManage stacked layers mark">
+  <defs>
+    <linearGradient id="bg" x1="64" y1="32" x2="448" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#12241f"/>
+      <stop offset="0.52" stop-color="#0b1714"/>
+      <stop offset="1" stop-color="#07100e"/>
+    </linearGradient>
+    <linearGradient id="top" x1="148" y1="140" x2="376" y2="286" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8cf7c9"/>
+      <stop offset="0.55" stop-color="#57d9a3"/>
+      <stop offset="1" stop-color="#1fae7b"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="256" y1="130" x2="256" y2="294" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a6ffdb"/>
+      <stop offset="1" stop-color="#35c592"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="160%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="118" fill="url(#bg)"/>
+  <rect x="9" y="9" width="494" height="494" rx="110" fill="none" stroke="#1d3b32" stroke-width="2.5"/>
+
+  <!-- soft glow beneath the stack -->
+  <ellipse cx="256" cy="402" rx="142" ry="38" fill="#2ec98a" opacity="0.16" filter="url(#soft)"/>
+
+  <!-- bottom layer -->
+  <path d="M256 318 418 402 256 486 94 402Z" fill="#0b1b16" stroke="#1b8e68" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M256 340 388 409 256 470 124 409Z" fill="none" stroke="#154b3b" stroke-width="4" opacity="0.9"/>
+
+  <!-- middle layer -->
+  <path d="M256 222 418 306 256 390 94 306Z" fill="#0f241e" stroke="#2ec98a" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M256 244 388 313 256 374 124 313Z" fill="none" stroke="#1b5a46" stroke-width="4" opacity="0.9"/>
+
+  <!-- top layer -->
+  <path d="M256 126 418 210 256 294 94 210Z" fill="url(#top)" stroke="url(#edge)" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M256 150 392 220 256 280 120 220Z" fill="none" stroke="#0a3a2a" stroke-width="5" opacity="0.42"/>
+
+  <!-- node dot on the top layer -->
+  <circle cx="256" cy="218" r="17" fill="#07110e" opacity="0.82"/>
+  <circle cx="256" cy="218" r="7" fill="#8cf7c9"/>
+</svg>
