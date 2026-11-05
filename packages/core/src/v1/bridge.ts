@@ -11,6 +11,11 @@ import {
   NginxLogsRequestSchema,
   NginxModuleRequestSchema,
   NginxUninstallRequestSchema,
+  PhpInstallRequestSchema,
+  PhpLifecycleRequestSchema,
+  PhpLogsRequestSchema,
+  PhpModuleRequestSchema,
+  PhpUninstallRequestSchema,
   RedisInstallRequestSchema,
   RedisLifecycleRequestSchema,
   RedisLogsRequestSchema,
@@ -70,7 +75,15 @@ export const DESKTOP_METHODS = Object.freeze({
   redisUninstall: 'stackmanage:v1:redis-uninstall',
   redisStart: 'stackmanage:v1:redis-start',
   redisStop: 'stackmanage:v1:redis-stop',
-  redisLogs: 'stackmanage:v1:redis-logs'
+  redisLogs: 'stackmanage:v1:redis-logs',
+  phpVersions: 'stackmanage:v1:php-versions',
+  phpInstall: 'stackmanage:v1:php-install',
+  phpStatus: 'stackmanage:v1:php-status',
+  phpList: 'stackmanage:v1:php-list',
+  phpUninstall: 'stackmanage:v1:php-uninstall',
+  phpStart: 'stackmanage:v1:php-start',
+  phpStop: 'stackmanage:v1:php-stop',
+  phpLogs: 'stackmanage:v1:php-logs'
 } as const);
 
 export type DesktopMethodName = keyof typeof DESKTOP_METHODS;
@@ -78,7 +91,8 @@ export const DesktopMethodNameSchema = z.enum([
   'install', 'start', 'stop', 'restart', 'status', 'listServices', 'listInstallations', 'logsTail', 'sitesApply', 'sitesList', 'sitesRemove', 'certificateStatus', 'trustCertificate',
   'runtimeVersions', 'runtimeInstall', 'runtimeStatus', 'runtimeList', 'runtimeUninstall',
   'nginxVersions', 'nginxInstall', 'nginxStatus', 'nginxList', 'nginxUninstall', 'nginxStart', 'nginxStop', 'nginxReload', 'nginxLogs', 'nginxConfig',
-  'redisVersions', 'redisInstall', 'redisStatus', 'redisList', 'redisUninstall', 'redisStart', 'redisStop', 'redisLogs'
+  'redisVersions', 'redisInstall', 'redisStatus', 'redisList', 'redisUninstall', 'redisStart', 'redisStop', 'redisLogs',
+  'phpVersions', 'phpInstall', 'phpStatus', 'phpList', 'phpUninstall', 'phpStart', 'phpStop', 'phpLogs'
 ]);
 
 export const BridgeOkResponseSchema = z.object({ ok: z.literal(true), data: WorkerResultResponseSchema.shape.result }).strict();
@@ -126,7 +140,15 @@ export const BRIDGE_REQUEST_SCHEMAS = Object.freeze({
   redisUninstall: RedisUninstallRequestSchema,
   redisStart: RedisLifecycleRequestSchema,
   redisStop: RedisLifecycleRequestSchema,
-  redisLogs: RedisLogsRequestSchema
+  redisLogs: RedisLogsRequestSchema,
+  phpVersions: PhpModuleRequestSchema,
+  phpInstall: PhpInstallRequestSchema,
+  phpStatus: PhpModuleRequestSchema,
+  phpList: PhpModuleRequestSchema,
+  phpUninstall: PhpUninstallRequestSchema,
+  phpStart: PhpLifecycleRequestSchema,
+  phpStop: PhpLifecycleRequestSchema,
+  phpLogs: PhpLogsRequestSchema
 });
 export type BridgeRequestFor<M extends DesktopMethodName> = z.infer<(typeof BRIDGE_REQUEST_SCHEMAS)[M]>;
 export type BridgeResultData = z.infer<typeof WorkerResultResponseSchema>['result'];
@@ -197,6 +219,14 @@ export interface DesktopBridgeV1 {
   redisStart(request: BridgeRequestFor<'redisStart'>): Promise<BridgeResponse>;
   redisStop(request: BridgeRequestFor<'redisStop'>): Promise<BridgeResponse>;
   redisLogs(request: BridgeRequestFor<'redisLogs'>): Promise<BridgeResponse>;
+  phpVersions(request: BridgeRequestFor<'phpVersions'>): Promise<BridgeResponse>;
+  phpInstall(request: BridgeRequestFor<'phpInstall'>): Promise<BridgeResponse>;
+  phpStatus(request: BridgeRequestFor<'phpStatus'>): Promise<BridgeResponse>;
+  phpList(request: BridgeRequestFor<'phpList'>): Promise<BridgeResponse>;
+  phpUninstall(request: BridgeRequestFor<'phpUninstall'>): Promise<BridgeResponse>;
+  phpStart(request: BridgeRequestFor<'phpStart'>): Promise<BridgeResponse>;
+  phpStop(request: BridgeRequestFor<'phpStop'>): Promise<BridgeResponse>;
+  phpLogs(request: BridgeRequestFor<'phpLogs'>): Promise<BridgeResponse>;
   /** Progress for one operation; the caller filters stale sequences and mismatched operation IDs. */
   onOperationEvent(listener: (payload: BridgeEventPayload) => void): EventSubscriptionHandle;
 }

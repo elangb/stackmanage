@@ -77,7 +77,15 @@ describe('Phase 1 bridge contract', () => {
       redisUninstall: { operationId: 'op-15', installationId: 'redis-7.2.7-linux-x64' },
       redisStart: { operationId: 'op-16' },
       redisStop: { operationId: 'op-17' },
-      redisLogs: { maxBytes: 4096 }
+      redisLogs: { maxBytes: 4096 },
+      phpVersions: { moduleId: 'php' },
+      phpInstall: { operationId: 'op-18', moduleId: 'php', version: '8.5.12', platform: 'linux', architecture: 'x64' },
+      phpStatus: { moduleId: 'php' },
+      phpList: { moduleId: 'php' },
+      phpUninstall: { operationId: 'op-19', installationId: 'php-8.5.12' },
+      phpStart: { operationId: 'op-20' },
+      phpStop: { operationId: 'op-21' },
+      phpLogs: { maxBytes: 4096 }
     };
     expect(Object.keys(samples).sort()).toEqual(Object.keys(DESKTOP_METHODS).sort());
     for (const [method, sample] of Object.entries(samples)) {

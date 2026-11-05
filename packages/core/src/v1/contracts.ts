@@ -72,7 +72,9 @@ export const HostnameSchema = z.string().min(1).max(253).regex(/^(?:[a-z0-9](?:[
 export const SiteSchema = z.object({
   id: IdSchema, hostname: HostnameSchema, aliases: z.array(HostnameSchema).max(100),
   server: ServiceRefSchema, root: z.string().min(1).max(4096), port: z.number().int().min(1).max(65535),
-  tls: z.boolean(), proxyTarget: z.url().refine(v => ['http:', 'https:'].includes(new URL(v).protocol)).optional()
+  tls: z.boolean(), proxyTarget: z.url().refine(v => ['http:', 'https:'].includes(new URL(v).protocol)).optional(),
+  /** Additive v1 field: execute PHP through the module-managed FastCGI endpoint. */
+  php: z.boolean().optional()
 }).strict();
 export type Site = z.infer<typeof SiteSchema>;
 export interface SiteManager { list(): Promise<Site[]>; apply(site: Site, context: OperationContext): Promise<OperationResult>; remove(id: string, context: OperationContext): Promise<OperationResult> }

@@ -359,6 +359,118 @@ export const RedisLogsViewSchema = z
   .strict();
 export type RedisLogsView = z.infer<typeof RedisLogsViewSchema>;
 
+/**
+ * Additive PHP surface (Phase 10). The runtime is validated from a per-user,
+ * previously built artifact directory; the module owns the FastCGI process and
+ * exposes only the pinned 8.5.12 lifecycle. Callers cannot name a URL, command,
+ * binary path, port or shell argument.
+ */
+export const PhpModuleRequestSchema = z.object({ moduleId: z.literal('php') }).strict();
+export type PhpModuleRequest = z.infer<typeof PhpModuleRequestSchema>;
+
+export const PhpInstallRequestSchema = InstallRequestSchema;
+export type PhpInstallRequest = z.infer<typeof PhpInstallRequestSchema>;
+
+export const PhpUninstallRequestSchema = z
+  .object({ operationId: OperationRequestIdSchema, installationId: IdSchema })
+  .strict();
+export type PhpUninstallRequest = z.infer<typeof PhpUninstallRequestSchema>;
+
+export const PhpLifecycleRequestSchema = z
+  .object({
+    operationId: OperationRequestIdSchema,
+    timeoutMs: z.number().int().min(1000).max(120_000).optional()
+  })
+  .strict();
+export type PhpLifecycleRequest = z.infer<typeof PhpLifecycleRequestSchema>;
+
+export const PhpLogsRequestSchema = z.object({ maxBytes: z.number().int().min(256).max(1_048_576) }).strict();
+export type PhpLogsRequest = z.infer<typeof PhpLogsRequestSchema>;
+
+export const PhpVersionViewSchema = z
+  .object({
+    moduleId: z.literal('php'),
+    version: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    kind: z.literal('build-runner'),
+    tested: z.boolean(),
+    supported: z.boolean()
+  })
+  .strict();
+export type PhpVersionView = z.infer<typeof PhpVersionViewSchema>;
+
+export const PhpVersionsViewSchema = z
+  .object({
+    moduleId: z.literal('php'),
+    pinnedVersion: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    supported: z.boolean(),
+    tested: z.boolean(),
+    versions: z.array(PhpVersionViewSchema).max(4)
+  })
+  .strict();
+export type PhpVersionsView = z.infer<typeof PhpVersionsViewSchema>;
+
+export const PhpInstallationViewSchema = z
+  .object({
+    id: IdSchema,
+    moduleId: z.literal('php'),
+    version: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    directory: z.string().min(1).max(4096),
+    fpmPath: z.string().min(1).max(4096),
+    cliPath: z.string().min(1).max(4096),
+    versionOutput: z.string().min(1).max(200),
+    installedAt: z.iso.datetime()
+  })
+  .strict();
+export type PhpInstallationView = z.infer<typeof PhpInstallationViewSchema>;
+
+export const PhpServiceViewSchema = z
+  .object({
+    state: z.enum(['stopped', 'starting', 'running', 'stopping', 'failed', 'unknown']),
+    pid: z.number().int().positive().optional(),
+    port: z.number().int().min(1).max(65535),
+    bind: z.literal('127.0.0.1'),
+    configPath: z.string().min(1).max(4096),
+    logPath: z.string().min(1).max(4096),
+    observedAt: z.iso.datetime()
+  })
+  .strict();
+export type PhpServiceView = z.infer<typeof PhpServiceViewSchema>;
+
+export const PhpStatusViewSchema = z
+  .object({
+    moduleId: z.literal('php'),
+    pinnedVersion: z.string().min(1).max(100),
+    platform: z.enum(['win32', 'linux', 'darwin']),
+    architecture: z.enum(['x64', 'arm64']),
+    supported: z.boolean(),
+    tested: z.boolean(),
+    installed: z.boolean(),
+    installation: PhpInstallationViewSchema.optional(),
+    service: PhpServiceViewSchema
+  })
+  .strict();
+export type PhpStatusView = z.infer<typeof PhpStatusViewSchema>;
+
+export const PhpListViewSchema = z.object({ moduleId: z.literal('php'), installations: z.array(PhpInstallationViewSchema).max(4) }).strict();
+export type PhpListView = z.infer<typeof PhpListViewSchema>;
+
+export const PhpLogsViewSchema = z
+  .object({
+    path: z.string().min(1).max(4096),
+    bytes: z.number().int().nonnegative(),
+    truncated: z.boolean(),
+    text: z.string().max(1_048_576)
+  })
+  .strict();
+export type PhpLogsView = z.infer<typeof PhpLogsViewSchema>;
+
+
 export const ServiceRequestSchema = z.object({
   operationId: OperationRequestIdSchema,
   ref: ServiceRefSchema,
@@ -504,7 +616,15 @@ export const WorkerMethodResultSchema = z.union([
   z.object({ method: z.literal('redis.uninstall'), data: OperationResultSchema }).strict(),
   z.object({ method: z.literal('redis.start'), data: OperationResultSchema }).strict(),
   z.object({ method: z.literal('redis.stop'), data: OperationResultSchema }).strict(),
-  z.object({ method: z.literal('redis.logs'), data: RedisLogsViewSchema }).strict()
+  z.object({ method: z.literal('redis.logs'), data: RedisLogsViewSchema }).strict(),
+  z.object({ method: z.literal('php.versions'), data: PhpVersionsViewSchema }).strict(),
+  z.object({ method: z.literal('php.install'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('php.status'), data: PhpStatusViewSchema }).strict(),
+  z.object({ method: z.literal('php.list'), data: PhpListViewSchema }).strict(),
+  z.object({ method: z.literal('php.uninstall'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('php.start'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('php.stop'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('php.logs'), data: PhpLogsViewSchema }).strict()
 ]);
 export type WorkerMethodResult = z.infer<typeof WorkerMethodResultSchema>;
 export type ErrorCode = z.infer<typeof ErrorSchema.shape.code>;
@@ -550,7 +670,15 @@ export const WORKER_METHODS = [
   'redis.uninstall',
   'redis.start',
   'redis.stop',
-  'redis.logs'
+  'redis.logs',
+  'php.versions',
+  'php.install',
+  'php.status',
+  'php.list',
+  'php.uninstall',
+  'php.start',
+  'php.stop',
+  'php.logs'
 ] as const;
 export type WorkerMethod = (typeof WORKER_METHODS)[number];
 
@@ -594,6 +722,15 @@ export const WorkerRedisLifecycleRequestSchema = z
   .object({ ...EnvelopeBase, method: z.enum(['redis.start', 'redis.stop']), params: RedisLifecycleRequestSchema })
   .strict();
 export const WorkerRedisLogsRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('redis.logs'), params: RedisLogsRequestSchema }).strict();
+export const WorkerPhpVersionsRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('php.versions'), params: PhpModuleRequestSchema }).strict();
+export const WorkerPhpInstallRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('php.install'), params: PhpInstallRequestSchema }).strict();
+export const WorkerPhpStatusRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('php.status'), params: PhpModuleRequestSchema }).strict();
+export const WorkerPhpListRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('php.list'), params: PhpModuleRequestSchema }).strict();
+export const WorkerPhpUninstallRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('php.uninstall'), params: PhpUninstallRequestSchema }).strict();
+export const WorkerPhpLifecycleRequestSchema = z
+  .object({ ...EnvelopeBase, method: z.enum(['php.start', 'php.stop']), params: PhpLifecycleRequestSchema })
+  .strict();
+export const WorkerPhpLogsRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('php.logs'), params: PhpLogsRequestSchema }).strict();
 
 /** Discriminated by `method`: unknown methods and unknown fields are rejected before dispatch. */
 export const WorkerManagementRequestSchema = z.discriminatedUnion('method', [
@@ -629,7 +766,14 @@ export const WorkerManagementRequestSchema = z.discriminatedUnion('method', [
   WorkerRedisListRequestSchema,
   WorkerRedisUninstallRequestSchema,
   WorkerRedisLifecycleRequestSchema,
-  WorkerRedisLogsRequestSchema
+  WorkerRedisLogsRequestSchema,
+  WorkerPhpVersionsRequestSchema,
+  WorkerPhpInstallRequestSchema,
+  WorkerPhpStatusRequestSchema,
+  WorkerPhpListRequestSchema,
+  WorkerPhpUninstallRequestSchema,
+  WorkerPhpLifecycleRequestSchema,
+  WorkerPhpLogsRequestSchema
 ]);
 export type WorkerManagementRequest = z.infer<typeof WorkerManagementRequestSchema>;
 

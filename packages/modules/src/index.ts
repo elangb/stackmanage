@@ -64,7 +64,6 @@ export const nginxModuleDefinition: ModuleDefinition = {
   ]
 };
 
-/** Registered adapters. */
 export const redisModuleDefinition: ModuleDefinition = {
   apiVersion: 1,
   id: 'redis',
@@ -84,4 +83,24 @@ export const redisModuleDefinition: ModuleDefinition = {
   ]
 };
 
-export const implementedModules: readonly ModuleDefinition[] = Object.freeze([caddyModuleDefinition, nodeModuleDefinition, nginxModuleDefinition, redisModuleDefinition]);
+/** Registered adapters. */
+export const phpModuleDefinition: ModuleDefinition = {
+  apiVersion: 1,
+  id: 'php',
+  nameKey: 'modules.php',
+  category: 'runtime',
+  capabilities: ['versions', 'install', 'service', 'logs'],
+  dependencies: [],
+  availability: [
+    {
+      platform: 'linux',
+      architecture: 'x64',
+      status: 'unverified',
+      reason: 'The runtime is produced by the repository build runner and validated locally; no container build was executed in the authoring environment.'
+    },
+    { platform: 'linux', architecture: 'arm64', status: 'unsupported', reason: 'The build runner currently targets linux-x64 only.' },
+    { platform: 'win32', architecture: 'x64', status: 'unsupported', reason: 'No native Windows runtime artifact is produced by the build runner.' }
+  ]
+};
+
+export const implementedModules: readonly ModuleDefinition[] = Object.freeze([caddyModuleDefinition, nodeModuleDefinition, nginxModuleDefinition, redisModuleDefinition, phpModuleDefinition]);

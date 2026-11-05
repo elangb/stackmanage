@@ -5,6 +5,7 @@ import { CaddyModule } from './modules/caddy';
 import { FsModuleStorage } from './modules/caddy/paths';
 import { NodeModule } from './modules/node';
 import { NginxModule } from './modules/nginx';
+import { PhpModule } from './modules/php';
 import { RedisModule } from './modules/redis';
 
 export interface BuildOptions {
@@ -34,6 +35,7 @@ let instance: { module: CaddyModule; storage: ModuleStorage } | undefined;
 let runtimeInstance: { module: NodeModule; storage: ModuleStorage } | undefined;
 let nginxInstance: { module: NginxModule; storage: ModuleStorage } | undefined;
 let redisInstance: { module: RedisModule; storage: ModuleStorage } | undefined;
+let phpInstance: { module: PhpModule; storage: ModuleStorage } | undefined;
 
 export function buildCaddyModule(options: BuildOptions = {}): { module: CaddyModule; storage: ModuleStorage } {
   const storage = options.storage ?? new FsModuleStorage(join(workerDataHome(), 'state'));
@@ -131,3 +133,33 @@ export function redisModule(options: BuildOptions = {}): { module: RedisModule; 
 }
 
 export { RedisModule };
+
+/** PHP data is isolated from Caddy, the Node runtime, Nginx and Redis. */
+export function phpDataHome(env: NodeJS.ProcessEnv = process.env): string {
+  const explicit = env['STACKMANAGE_PHP_HOME'];
+  if (explicit !== undefined && explicit.trim() !== '') return resolve(explicit);
+  return join(workerDataHome(env), 'runtimes', 'php');
+}
+
+export interface PhpBuildOptions extends BuildOptions {
+  runtimeOverride?: string;
+}
+
+export function buildPhpModule(options: PhpBuildOptions = {}): { module: PhpModule; storage: ModuleStorage } {
+  const storage = options.storage ?? new FsModuleStorage(join(workerDataHome(), 'state'));
+  const override = options.runtimeOverride ?? process.env['STACKMANAGE_PHP_RUNTIME'];
+  const module = new PhpModule({
+    storage,
+    home: options.runtimeHome ?? phpDataHome(),
+    ...(override !== undefined && override.trim() !== '' ? { runtimeOverride: override } : {}),
+    ...(options.fetchImpl !== undefined ? { fetchImpl: options.fetchImpl } : {})
+  });
+  return { module, storage };
+}
+
+export function phpModule(options: PhpBuildOptions = {}): { module: PhpModule; storage: ModuleStorage } {
+  phpInstance ??= buildPhpModule(options);
+  return phpInstance;
+}
+
+export { PhpModule };

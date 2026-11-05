@@ -333,6 +333,19 @@ describe('caddyfile', () => {
     expect(rendered.content).toContain('tls internal');
     expect(rendered.content).not.toContain('auto_https off');
   });
+
+  it('routes PHP sites to the module-managed loopback FastCGI endpoint', () => {
+    const sitesRoot = join(root, 'cf-php-sites');
+    const rendered = renderCaddyfile([site(18084, { id: 'app', hostname: 'app.test', root: join(sitesRoot, 'app'), php: true })], sitesRoot);
+    expect(rendered.content).toContain(`root * "${join(sitesRoot, 'app')}"`);
+    expect(rendered.content).toContain('php_fastcgi 127.0.0.1:19000');
+    expect(rendered.content).not.toContain('\tfile_server');
+  });
+
+  it('rejects a site that enables PHP and a proxy target at once', () => {
+    const sitesRoot = join(root, 'cf-php-proxy-sites');
+    expect(() => renderCaddyfile([site(18085, { root: join(sitesRoot, 'app'), php: true, proxyTarget: 'http://127.0.0.1:3000' })], sitesRoot)).toThrow();
+  });
 });
 
 describe('service lifecycle', () => {

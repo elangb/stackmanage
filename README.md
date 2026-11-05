@@ -59,6 +59,8 @@
 | **Plugin host** | 1.0.0 SDK | Install, verify, enable, disable and remove signed local plugin packages with an isolated child process | Linux x64 tested |
 | **PHP build runner** | 8.5.12 | Reproducibly build and verify a Linux x64 PHP runtime tarball on a Docker/Podman-capable host | Build tooling only |
 
+| **PHP** | 8.5.12 | Register a runtime produced by the build runner, verify `php-fpm`/`php` report 8.5.12, start/stop PHP-FPM on `127.0.0.1:19000`, tail bounded logs, and enable PHP per Caddy site (`php_fastcgi`) | Linux x64 partial |
+
 The desktop app currently includes **Overview**, **Languages & Runtime**,
 **Web Servers & Sites**, **Databases** and **Settings**. Cache/messaging,
 infrastructure, workflow automation, AI clients and the plugin marketplace are
@@ -347,9 +349,10 @@ requiring host root. It needs Docker or Podman:
 ./scripts/php/build-php-runtime.sh --verify-only --output-dir release/php
 ```
 
-The desktop PHP module, PHP-FPM site integration and a PHP runtime installer are
-not included in this release. Build details are in
-[docs/php-build-runner.md](docs/php-build-runner.md).
+The desktop PHP module registers a runtime produced by this runner and manages
+PHP-FPM on `127.0.0.1:19000`; Caddy sites can opt into PHP with the site form.
+An automated artifact build and a real FPM execution run are not yet evidenced.
+Build details are in [docs/php-build-runner.md](docs/php-build-runner.md).
 
 ## Build from source
 

@@ -22,7 +22,7 @@ const logTruncated = ref(false);
 const loading = ref(true);
 const loadErrorKey = ref<string | undefined>();
 const copied = ref(false);
-const siteForm = reactive({ hostname: 'app.localhost', port: 18081, tls: false });
+const siteForm = reactive({ hostname: 'app.localhost', port: 18081, tls: false, php: false });
 const certificate = ref<CertificateStatusView | undefined>();
 
 const supported = computed(() => {
@@ -150,7 +150,8 @@ async function addSite(): Promise<void> {
     server: REF,
     root: newSiteRoot.value,
     port: siteForm.port,
-    tls: siteForm.tls
+    tls: siteForm.tls,
+    php: siteForm.php
   };
   await run(() => caddyController.sitesApply({ operationId: operationId(), sites: [...sites.value, site] }));
 }
@@ -294,7 +295,7 @@ onBeforeUnmount(() => {
           <ul v-else class="site-list">
             <li v-for="site in sites" :key="site.id" class="site-item">
               <div>
-                <div class="site-host mono">{{ site.hostname }}<span class="faint">:{{ site.port }}</span></div>
+                <div class="site-host mono">{{ site.hostname }}<span class="faint">:{{ site.port }}</span><span v-if="site.php === true" class="badge badge-info" style="margin-left: 8px">PHP</span></div>
                 <div class="site-meta mono">{{ site.root }}</div>
               </div>
               <div class="row">
@@ -317,6 +318,10 @@ onBeforeUnmount(() => {
             <label class="row" style="gap: 8px; align-items: center; font-size: 0.82rem">
               <input v-model="siteForm.tls" type="checkbox" />
               <span>{{ t('sitesTls') }}</span>
+            </label>
+            <label class="row" style="gap: 8px; align-items: center; font-size: 0.82rem">
+              <input v-model="siteForm.php" type="checkbox" />
+              <span>{{ t('sitesPhp') }}</span>
             </label>
             <div class="field" style="margin: 0">
               <label class="sr-only" for="add-site">&nbsp;</label>

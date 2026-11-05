@@ -6,7 +6,7 @@ import {
   parseBounded
 } from '@stackmanage/core';
 import type { ErrorCode, OperationEvent, WorkerManagementResponse, WorkerMethodResult, WorkerResponse } from '@stackmanage/core';
-import { caddyModule, nginxModule, nodeModule, redisModule } from './registry';
+import { caddyModule, nginxModule, nodeModule, phpModule, redisModule } from './registry';
 
 /**
  * Forked worker entry.
@@ -28,6 +28,7 @@ const { module } = caddyModule();
 const { module: runtime } = nodeModule();
 const { module: nginx } = nginxModule();
 const { module: redis } = redisModule();
+const { module: php } = phpModule();
 
 const logger = {
   info(event: string, fields: Record<string, unknown> = {}): void {
@@ -49,7 +50,7 @@ function redact(fields: Record<string, unknown>): Record<string, unknown> {
 let reconcile: Promise<void> = Promise.resolve();
 try {
   // Modules reconcile independently: one failed orphan check must not block the other.
-  reconcile = Promise.allSettled([module.reconcileOnStartup(), nginx.reconcileOnStartup(), redis.reconcileOnStartup()]).then(results => {
+  reconcile = Promise.allSettled([module.reconcileOnStartup(), nginx.reconcileOnStartup(), redis.reconcileOnStartup(), php.reconcileOnStartup()]).then(results => {
     for (const result of results) {
       if (result.status === 'fulfilled') logger.info('startup.reconciled', { action: result.value.action, instanceId: result.value.instanceId });
       else logger.info('startup.reconcileFailed', { reason: result.reason instanceof Error ? result.reason.message : 'unknown' });
@@ -152,7 +153,9 @@ async function dispatch(id: string, input: unknown): Promise<void> {
         ? nginx.handle(request, emit)
         : request.method.startsWith('redis.')
           ? redis.handle(request, emit)
-          : module.handle(request, emit);
+          : request.method.startsWith('php.')
+            ? php.handle(request, emit)
+            : module.handle(request, emit);
   })();
   inflight.set(key, job);
   try {
@@ -185,7 +188,7 @@ process.on('message', (input: unknown) => {
 });
 
 process.on('disconnect', () => {
-  void Promise.allSettled([module.shutdown(), nginx.shutdown(), redis.shutdown()])
+  void Promise.allSettled([module.shutdown(), nginx.shutdown(), redis.shutdown(), php.shutdown()])
     .then(results => {
       for (const result of results) {
         if (result.status === 'rejected') logger.info('shutdown.failed', { reason: result.reason instanceof Error ? result.reason.message : 'unknown' });

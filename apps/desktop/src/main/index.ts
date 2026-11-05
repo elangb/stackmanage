@@ -71,7 +71,15 @@ const METHOD_MAP = Object.freeze({
   redisUninstall: 'redis.uninstall',
   redisStart: 'redis.start',
   redisStop: 'redis.stop',
-  redisLogs: 'redis.logs'
+  redisLogs: 'redis.logs',
+  phpVersions: 'php.versions',
+  phpInstall: 'php.install',
+  phpStatus: 'php.status',
+  phpList: 'php.list',
+  phpUninstall: 'php.uninstall',
+  phpStart: 'php.start',
+  phpStop: 'php.stop',
+  phpLogs: 'php.logs'
 } as const satisfies Record<DesktopMethodName, string>);
 
 class IpcFailure extends Error {
@@ -148,8 +156,7 @@ async function handleCall(method: DesktopMethodName, event: Electron.IpcMainInvo
   if (!worker) return bridgeError('UNAVAILABLE', 'worker.unavailable', true);
   const operationId = params !== null && typeof params === 'object' && typeof (params as { operationId?: unknown }).operationId === 'string' ? (params as { operationId: string }).operationId : undefined;
   const noParams =
-    method === 'listServices' || method === 'listInstallations' || method === 'sitesList' || method === 'certificateStatus' || method === 'nginxConfig';
-  try {
+    method === 'listServices' || method === 'listInstallations' || method === 'sitesList' || method === 'certificateStatus' || method === 'nginxConfig';  try {
     const terminal = await worker.call(METHOD_MAP[method], noParams ? undefined : params, operationId !== undefined ? forwardProgress(operationId) : undefined);
     if (!terminal.ok) return BridgeResponseSchema.parse({ ok: false, error: terminal.error });
     return BridgeResponseSchema.parse({ ok: true, data: terminal.result });
@@ -243,7 +250,8 @@ app
         STACKMANAGE_DATA_HOME: join(app.getPath('userData'), 'caddy'),
         STACKMANAGE_NODE_HOME: join(app.getPath('userData'), 'node', 'runtime'),
         STACKMANAGE_NGINX_HOME: join(app.getPath('userData'), 'nginx'),
-        STACKMANAGE_REDIS_HOME: join(app.getPath('userData'), 'redis')
+        STACKMANAGE_REDIS_HOME: join(app.getPath('userData'), 'redis'),
+        STACKMANAGE_PHP_HOME: join(app.getPath('userData'), 'php')
       }
     });
     registerHandlers();
@@ -267,7 +275,7 @@ async function runSmoke(): Promise<void> {
     const parsed = SnapshotResponseSchema.parse(result);
     if (!parsed.ok) throw new Error('Bridge health failed');
     const isolated: unknown = await window.webContents.executeJavaScript(
-      `typeof require === 'undefined' && typeof process === 'undefined' && Object.keys(window.stackmanage).sort().join(',') === 'certificateStatus,install,listInstallations,listServices,logsTail,nginxConfig,nginxInstall,nginxList,nginxLogs,nginxReload,nginxStart,nginxStatus,nginxStop,nginxUninstall,nginxVersions,onOperationEvent,redisInstall,redisList,redisLogs,redisStart,redisStatus,redisStop,redisUninstall,redisVersions,restart,runtimeInstall,runtimeList,runtimeStatus,runtimeUninstall,runtimeVersions,sitesApply,sitesList,sitesRemove,snapshot,start,status,stop,trustCertificate'`
+      `typeof require === 'undefined' && typeof process === 'undefined' && Object.keys(window.stackmanage).sort().join(',') === 'certificateStatus,install,listInstallations,listServices,logsTail,nginxConfig,nginxInstall,nginxList,nginxLogs,nginxReload,nginxStart,nginxStatus,nginxStop,nginxUninstall,nginxVersions,onOperationEvent,phpInstall,phpList,phpLogs,phpStart,phpStatus,phpStop,phpUninstall,phpVersions,redisInstall,redisList,redisLogs,redisStart,redisStatus,redisStop,redisUninstall,redisVersions,restart,runtimeInstall,runtimeList,runtimeStatus,runtimeUninstall,runtimeVersions,sitesApply,sitesList,sitesRemove,snapshot,start,status,stop,trustCertificate'`
     );
     if (isolated !== true) throw new Error('Renderer isolation/bridge surface failed');
     const status = await window.webContents.executeJavaScript(`window.stackmanage.status({instanceId:'caddy-18080'})`);

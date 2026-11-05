@@ -10,7 +10,7 @@
  */
 import { isAbsolute, resolve, sep } from 'node:path';
 import type { Site } from '@stackmanage/core';
-import { LOOPBACK_ADDRESS } from './manifest';
+import { LOOPBACK_ADDRESS, PHP_FASTCGI_ADDRESS } from './manifest';
 
 export interface RenderedCaddyfile {
   content: string;
@@ -29,6 +29,7 @@ export function assertRenderableSite(site: Site, siteRootsBase: string): void {
     if (!/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*$/.test(hostname)) throw new Error('invalid hostname');
   }
   if (site.proxyTarget !== undefined) {
+    if (site.php === true) throw new Error('php cannot be combined with a proxy target');
     const target = new URL(site.proxyTarget);
     if (!['http:', 'https:'].includes(target.protocol)) throw new Error('invalid proxy protocol');
     if (!SAFE_PATH.test(target.href)) throw new Error('unsafe proxy target');
@@ -58,7 +59,9 @@ export function renderCaddyfile(sites: Site[], siteRootsBase: string): RenderedC
       blocks.push(`\treverse_proxy ${site.proxyTarget}`);
     } else {
       blocks.push(`\troot * "${site.root}"`);
-      blocks.push('\tfile_server');
+      // `php_fastcgi` expands to the FastCGI reverse proxy plus static file
+      // serving, so an explicit `file_server` afterwards would duplicate routes.
+      blocks.push(site.php === true ? `\tphp_fastcgi ${PHP_FASTCGI_ADDRESS}` : '\tfile_server');
     }
     blocks.push('\tlog {', '\t\toutput stdout', '\t\tformat console', '\t}', '}');
     blocks.push('');

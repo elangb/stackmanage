@@ -20,6 +20,8 @@ export const DEFAULT_INSTANCE_ID = 'default';
 export const LOOPBACK_ADDRESS = '127.0.0.1';
 export const DEFAULT_SITE_PORT = 18080;
 export const DEFAULT_HOSTNAME = 'localhost';
+/** Loopback FastCGI endpoint owned by the StackManage PHP runtime module. */
+export const PHP_FASTCGI_ADDRESS = `${LOOPBACK_ADDRESS}:19000`;
 
 export const CaddyTargetSchema = z.enum(['linux-amd64', 'linux-arm64', 'windows-amd64']);
 export type CaddyTarget = z.infer<typeof CaddyTargetSchema>;
