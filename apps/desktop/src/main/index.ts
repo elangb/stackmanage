@@ -28,7 +28,7 @@ let window: BrowserWindow | undefined;
 let shutdownComplete = false;
 let shutdownStarted = false;
 let updateDownloaded = false;
-autoUpdater.setFeedURL({ provider: 'github', owner: 'elangb', repo: 'stackmanage' });
+autoUpdater.setFeedURL({ provider: 'generic', url: 'https://github.com/elangb/stackmanage/releases/download/v0.1.1/' });
 
 autoUpdater.on('update-downloaded', () => {
   updateDownloaded = true;
