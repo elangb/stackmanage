@@ -19,7 +19,8 @@
     "@stackmanage/ui": "workspace:*",
     "vue": "3.5.44",
     "vue-i18n": "11.4.18",
-    "zod": "4.6.7"
+    "zod": "4.6.7",
+    "electron-updater": "6.8.3"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "6.0.10",

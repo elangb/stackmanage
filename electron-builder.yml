@@ -21,7 +21,7 @@ extraResources:
 artifactName: StackManage-${version}-${arch}.${ext}
 linux:
   target:
-    - deb
+    - AppImage
   category: Development
   icon: ../../build/icon.png
   maintainer: StackManage contributors <maintainers@stackmanage.invalid>
@@ -49,3 +49,7 @@ nsis:
   perMachine: false
 portable:
   artifactName: StackManage-${version}-portable.${ext}
+publish:
+  provider: github
+  owner: elangb
+  repo: stackmanage

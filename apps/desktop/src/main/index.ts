@@ -1,4 +1,5 @@
-import { app, BrowserWindow, ipcMain, session } from 'electron';
+import { app, BrowserWindow, ipcMain, session, shell } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import {
@@ -26,6 +27,12 @@ let worker: WorkerClient | undefined;
 let window: BrowserWindow | undefined;
 let shutdownComplete = false;
 let shutdownStarted = false;
+let updateDownloaded = false;
+
+autoUpdater.on('update-downloaded', () => {
+  updateDownloaded = true;
+  if (window && !window.isDestroyed()) window.webContents.send('updates:ready');
+});
 
 const devUrl = !app.isPackaged ? process.env['STACKMANAGE_DEV_URL'] : undefined;
 if (devUrl !== undefined && devUrl !== 'http://127.0.0.1:5179/') throw new Error('Unexpected development origin');
@@ -194,6 +201,31 @@ function registerHandlers(): void {
     }
   });
 
+  ipcMain.handle('updates:check', async event => {
+    if (!authorize(event) || !app.isPackaged) return { status: 'unavailable' };
+    if (updateDownloaded) return { status: 'downloaded' };
+    try {
+      const result = await autoUpdater.checkForUpdates();
+      if (!result || !result.isUpdateAvailable) return { status: 'current' };
+      await autoUpdater.downloadUpdate();
+      return { status: 'downloaded' };
+    } catch (error) {
+      console.error('Update check failed', error);
+      return { status: 'failed' };
+    }
+  });
+  ipcMain.handle('updates:install', async event => {
+    if (!authorize(event) || !app.isPackaged) return false;
+    if (!updateDownloaded) return false;
+    autoUpdater.quitAndInstall();
+    return true;
+  });
+  ipcMain.handle('updates:open-releases', async event => {
+    if (!authorize(event)) return false;
+    await shell.openExternal('https://github.com/elangb/stackmanage/releases');
+    return true;
+  });
+
   for (const method of Object.keys(METHOD_MAP) as DesktopMethodName[]) {
     ipcMain.handle(DESKTOP_METHODS[method], async (event, input: unknown) => handleCall(method, event, input));
   }
@@ -256,6 +288,10 @@ app
     });
     registerHandlers();
     createWindow();
+    if (app.isPackaged && process.env['STACKMANAGE_SMOKE'] !== '1') {
+      autoUpdater.autoDownload = false;
+      autoUpdater.checkForUpdates().catch(error => console.error('Update check failed', error));
+    }
     if (process.env['STACKMANAGE_SMOKE'] === '1') await runSmoke();
   })
   .catch(error => {

@@ -27,6 +27,20 @@ const bridge: DesktopBridgeV1 = Object.freeze({
     const request = SnapshotRequestSchema.parse({ apiVersion: 1 });
     return parseBounded(SnapshotResponseSchema, await ipcRenderer.invoke(IPC_CHANNEL, request));
   },
+  async checkForUpdates() {
+    return ipcRenderer.invoke('updates:check') as Promise<{ status: 'unavailable' | 'current' | 'downloaded' | 'failed' }>;
+  },
+  async installUpdate() {
+    return ipcRenderer.invoke('updates:install') as Promise<boolean>;
+  },
+  async openReleases() {
+    return ipcRenderer.invoke('updates:open-releases') as Promise<boolean>;
+  },
+  onUpdateReady(listener: () => void) {
+    const handler = (): void => listener();
+    ipcRenderer.on('updates:ready', handler);
+    return Object.freeze({ unsubscribe: () => ipcRenderer.removeListener('updates:ready', handler) });
+  },
   ...(Object.fromEntries(
     METHODS.map(method => [
       method,

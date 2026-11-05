@@ -1,13 +1,26 @@
 <script setup lang="ts">
+import { onBeforeUnmount, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { Snapshot } from '@stackmanage/core';
 import { locales } from '@stackmanage/i18n';
 import type { Locale } from '@stackmanage/i18n';
 
+const updater = window.stackmanage;
+
 defineProps<{ snapshot: Snapshot | undefined; workerStatus: string }>();
 const theme = defineModel<'dark' | 'light'>('theme', { required: true });
 const locale = defineModel<Locale>('locale', { required: true });
 const { t } = useI18n();
+const updateState = ref('idle');
+const checking = ref(false);
+async function checkUpdates(): Promise<void> {
+  checking.value = true;
+  const result = await window.stackmanage.checkForUpdates();
+  updateState.value = result.status;
+  checking.value = false;
+}
+const updateSubscription = window.stackmanage.onUpdateReady(() => { updateState.value = 'downloaded'; });
+onBeforeUnmount(() => updateSubscription.unsubscribe());
 </script>
 
 <template>
@@ -18,6 +31,17 @@ const { t } = useI18n();
   </section>
 
   <div class="grid grid-2">
+    <section class="panel">
+      <div class="panel-head"><h2 class="panel-title">{{ t('updateTitle') }}</h2></div>
+      <div class="panel-body stack">
+        <p class="help" role="status" aria-live="polite">{{ t(`update${updateState[0]?.toUpperCase()}${updateState.slice(1)}`) }}</p>
+        <div class="actions">
+          <button class="btn btn-primary" :disabled="checking" @click="checkUpdates">{{ t('updateCheck') }}</button>
+          <button v-if="updateState === 'downloaded'" class="btn btn-primary" @click="updater.installUpdate()">{{ t('updateInstall') }}</button>
+          <button v-if="updateState === 'unavailable'" class="btn btn-ghost" @click="updater.openReleases()">{{ t('updateReleases') }}</button>
+        </div>
+      </div>
+    </section>
     <section class="panel">
       <div class="panel-head">
         <div>
