@@ -22,8 +22,8 @@ Artifacts are written to `release/` (ignored by git). The x64 package was extrac
 
 - `asar` is disabled because the worker is forked from a path inside the app; enabling it requires an `asarUnpack`/fork-path proof.
 - `electron-builder` resolves Electron from the legacy workspace root unless `electronVersion` is pinned. The config pins 45.2.2 explicitly.
-- `THIRD_PARTY_NOTICES.md` is included under `resources/`; full Electron/Chromium notices still need to be bundled at release.
-- The project license and a real homepage are not decided yet, so package metadata currently uses placeholders.
+- `THIRD_PARTY_NOTICES.md` and `LICENSE` are included under `resources/`; full Electron/Chromium notices still need to be bundled at release.
+- Package metadata still uses placeholder maintainer/homepage values; replace them before a public release.
 - Linux icon is original (`build/icon.png`); Windows `.ico` and macOS assets are not prepared.
 
 ## CI release matrix

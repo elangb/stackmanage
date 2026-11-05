@@ -13,6 +13,8 @@ files:
 extraResources:
   - from: THIRD_PARTY_NOTICES.md
     to: THIRD_PARTY_NOTICES.md
+  - from: LICENSE
+    to: LICENSE
 artifactName: StackManage-${version}-${arch}.${ext}
 linux:
   target:
