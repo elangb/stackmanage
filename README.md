@@ -12,13 +12,14 @@
   </p>
 
   <p>
-    <img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-0f766e" />
+    <a href="https://github.com/elangb/stackmanage/releases/tag/v0.1.0"><img alt="Version 0.1.0" src="https://img.shields.io/badge/version-0.1.0-0f766e" /></a>
     <img alt="Verified on Linux x64" src="https://img.shields.io/badge/platform-Linux%20x64-0f766e" />
     <img alt="Telemetry off" src="https://img.shields.io/badge/telemetry-off-0f766e" />
     <img alt="BSD 3-Clause License" src="https://img.shields.io/badge/license-BSD--3--Clause-blue" />
   </p>
 
   <p>
+    <a href="https://github.com/elangb/stackmanage/releases/tag/v0.1.0">Download</a> ·
     <a href="#install">Install</a> ·
     <a href="#interface-preview">Screenshots</a> ·
     <a href="#what-you-can-run">Features</a> ·
@@ -120,13 +121,16 @@ current user's data directory.
 
 ### Option A — Install the Linux x64 package (recommended)
 
-1. Open the [GitHub Releases](https://github.com/elangb/stackmanage/releases)
-   page and download `StackManage-0.1.0-amd64.deb`.
-2. Optional: verify the download against the release checksum.
+1. Download both release files from
+   [StackManage 0.1.0](https://github.com/elangb/stackmanage/releases/tag/v0.1.0):
+   [`StackManage-0.1.0-amd64.deb`](https://github.com/elangb/stackmanage/releases/download/v0.1.0/StackManage-0.1.0-amd64.deb)
+   and
+   [`SHA256SUMS.txt`](https://github.com/elangb/stackmanage/releases/download/v0.1.0/SHA256SUMS.txt).
+2. Verify the download against the published checksum.
 
    ```sh
    cd ~/Downloads
-   sha256sum StackManage-0.1.0-amd64.deb
+   sha256sum -c SHA256SUMS.txt
    ```
 
 3. Install the package. `apt` resolves the Electron libraries automatically.
