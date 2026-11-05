@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./build/icon.png" width="120" alt="StackManage icon" />
+  <img src="./docs/assets/stackmanage-icon.png" width="120" alt="StackManage stacked-layers icon" />
 
   <h1>StackManage</h1>
 
@@ -78,8 +78,8 @@ Screenshots from the Linux x64 build:
     <th width="50%">Web Servers &amp; Sites</th>
   </tr>
   <tr>
-    <td><img src="docs/assets/stackmanage-overview.png" alt="StackManage overview with worker status, installed modules, running services and local sites" width="100%"></td>
-    <td><img src="docs/assets/stackmanage-web-servers.png" alt="StackManage Caddy page with service status, local sites and certificate controls" width="100%"></td>
+    <td><img src="docs/assets/stackmanage-overview-v2.png" alt="StackManage overview with worker status, installed modules, running services and local sites" width="100%"></td>
+    <td><img src="docs/assets/stackmanage-web-servers-v2.png" alt="StackManage Caddy page with service status, local sites and certificate controls" width="100%"></td>
   </tr>
 </table>
 
