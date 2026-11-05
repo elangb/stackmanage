@@ -21,6 +21,7 @@ extraResources:
 artifactName: StackManage-${version}-${arch}.${ext}
 linux:
   target:
+    - deb
     - AppImage
   category: Development
   icon: ../../build/icon.png
