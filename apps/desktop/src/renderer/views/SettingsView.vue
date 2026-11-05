@@ -15,9 +15,14 @@ const updateState = ref('idle');
 const checking = ref(false);
 async function checkUpdates(): Promise<void> {
   checking.value = true;
-  const result = await window.stackmanage.checkForUpdates();
-  updateState.value = result.status;
-  checking.value = false;
+  try {
+    const result = await updater.checkForUpdates();
+    updateState.value = result.status;
+  } catch {
+    updateState.value = 'failed';
+  } finally {
+    checking.value = false;
+  }
 }
 const updateSubscription = window.stackmanage.onUpdateReady(() => { updateState.value = 'downloaded'; });
 onBeforeUnmount(() => updateSubscription.unsubscribe());

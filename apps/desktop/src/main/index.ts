@@ -28,6 +28,7 @@ let window: BrowserWindow | undefined;
 let shutdownComplete = false;
 let shutdownStarted = false;
 let updateDownloaded = false;
+autoUpdater.setFeedURL({ provider: 'github', owner: 'elangb', repo: 'stackmanage' });
 
 autoUpdater.on('update-downloaded', () => {
   updateDownloaded = true;
