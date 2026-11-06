@@ -15,7 +15,7 @@ import type {
   WorkerMethodResult
 } from '@stackmanage/core';
 import { DEFAULT_INSTANCE_ID } from './manifest';
-import { ManagedServicesViewSchema, StartupGroupListSchema } from '@stackmanage/core';
+import { StartupGroupListSchema } from '@stackmanage/core';
 import { CaddyInstaller } from './installer';
 import { CaddyServiceManager } from './service';
 import { CaddySiteManager } from './sites';
@@ -74,7 +74,7 @@ export class CaddyModule {
     const context = { operationId, signal: new AbortController().signal, emit: (event: OperationEvent) => { if (event.type === 'progress') emit(event); } };
     const request = { operationId, ref, timeoutMs: 30_000 };
     if (ref.moduleId === 'caddy') {
-      if (!this.service.validateServiceRef(ref)) return invalidRefResult(operationId, ref.instanceId);
+      if (!(await this.service.validateServiceRef(ref))) return invalidRefResult(operationId, ref.instanceId);
       return action === 'start' ? this.service.start(request, context) : this.service.stop(request, context);
     }
     if (!['nginx', 'redis', 'php'].includes(ref.moduleId) || ref.instanceId !== DEFAULT_INSTANCE_ID) return invalidRefResult(operationId, ref.instanceId);
