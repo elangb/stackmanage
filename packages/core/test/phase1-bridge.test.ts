@@ -14,10 +14,18 @@ import {
   parseBoundedBridgeRequest,
   safeSerialize
 } from '../src';
+import { StartupGroupSchema } from '../src';
 
 const REF = { moduleId: 'caddy', installationId: 'caddy-2.11.8', instanceId: 'default' };
 
 describe('Phase 1 bridge contract', () => {
+  it('validates startup group dependency order and rejects unknown or cyclic dependencies', () => {
+    const service = (instanceId: string) => ({ moduleId: 'caddy', installationId: 'caddy-2.11.8', instanceId });
+    expect(StartupGroupSchema.safeParse({ id: 'g', name: 'Group', entries: [{ service: service('a'), dependsOn: [], required: true }, { service: service('b'), dependsOn: ['a'], required: true }], execution: 'ordered', onFailure: 'skip-dependents' }).success).toBe(true);
+    expect(StartupGroupSchema.safeParse({ id: 'g', name: 'Group', entries: [{ service: service('a'), dependsOn: ['missing'], required: true }], execution: 'ordered', onFailure: 'skip-dependents' }).success).toBe(false);
+    expect(StartupGroupSchema.safeParse({ id: 'g', name: 'Group', entries: [{ service: service('a'), dependsOn: ['a'], required: true }], execution: 'ordered', onFailure: 'skip-dependents' }).success).toBe(false);
+  });
+
   it('exposes one fixed channel per method and none is a generic exec surface', () => {
     const channels = Object.values(DESKTOP_METHODS);
     expect(new Set(channels).size).toBe(channels.length);
@@ -85,7 +93,12 @@ describe('Phase 1 bridge contract', () => {
       phpUninstall: { operationId: 'op-19', installationId: 'php-8.5.12' },
       phpStart: { operationId: 'op-20' },
       phpStop: { operationId: 'op-21' },
-      phpLogs: { maxBytes: 4096 }
+      phpLogs: { maxBytes: 4096 },
+      workflowGroupsList: {},
+      workflowGroupSave: { id: 'g1', name: 'G', entries: [{ service: REF, dependsOn: [], required: true }], execution: 'ordered', onFailure: 'skip-dependents' },
+      workflowGroupRemove: { id: 'g1' },
+      workflowGroupRun: { operationId: 'op-22', id: 'g1', action: 'start' },
+      managedServicesList: {}
     };
     expect(Object.keys(samples).sort()).toEqual(Object.keys(DESKTOP_METHODS).sort());
     for (const [method, sample] of Object.entries(samples)) {

@@ -5,7 +5,7 @@ import { NAV_GROUPS, PAGE_TITLE_KEYS } from '../src/renderer/pages';
 describe('navigation contract', () => {
   it('marks only implemented views as available', () => {
     const implemented = NAV_GROUPS.flatMap(group => group.items).filter(item => item.implemented).map(item => item.key);
-    expect(implemented).toEqual(['home', 'runtimes', 'web', 'databases', 'settings']);
+    expect(implemented).toEqual(['home', 'runtimes', 'web', 'databases', 'workflow', 'settings']);
   });
 
   it('has a title key for every page and a translation for every nav label', () => {

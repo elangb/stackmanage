@@ -25,6 +25,9 @@ import {
   RuntimeModuleRequestSchema,
   RuntimeUninstallRequestSchema,
   ServiceRequestSchema,
+  WorkflowGroupSaveRequestSchema,
+  WorkflowGroupRemoveRequestSchema,
+  WorkflowGroupRunRequestSchema,
   SiteRemoveRequestSchema,
   SitesApplyRequestSchema,
   TrustRequestSchema,
@@ -83,7 +86,12 @@ export const DESKTOP_METHODS = Object.freeze({
   phpUninstall: 'stackmanage:v1:php-uninstall',
   phpStart: 'stackmanage:v1:php-start',
   phpStop: 'stackmanage:v1:php-stop',
-  phpLogs: 'stackmanage:v1:php-logs'
+  phpLogs: 'stackmanage:v1:php-logs',
+  workflowGroupsList: 'stackmanage:v1:workflow-groups-list',
+  workflowGroupSave: 'stackmanage:v1:workflow-group-save',
+  workflowGroupRemove: 'stackmanage:v1:workflow-group-remove',
+  workflowGroupRun: 'stackmanage:v1:workflow-group-run',
+  managedServicesList: 'stackmanage:v1:managed-services-list'
 } as const);
 
 export type DesktopMethodName = keyof typeof DESKTOP_METHODS;
@@ -92,7 +100,8 @@ export const DesktopMethodNameSchema = z.enum([
   'runtimeVersions', 'runtimeInstall', 'runtimeStatus', 'runtimeList', 'runtimeUninstall',
   'nginxVersions', 'nginxInstall', 'nginxStatus', 'nginxList', 'nginxUninstall', 'nginxStart', 'nginxStop', 'nginxReload', 'nginxLogs', 'nginxConfig',
   'redisVersions', 'redisInstall', 'redisStatus', 'redisList', 'redisUninstall', 'redisStart', 'redisStop', 'redisLogs',
-  'phpVersions', 'phpInstall', 'phpStatus', 'phpList', 'phpUninstall', 'phpStart', 'phpStop', 'phpLogs'
+  'phpVersions', 'phpInstall', 'phpStatus', 'phpList', 'phpUninstall', 'phpStart', 'phpStop', 'phpLogs',
+  'workflowGroupsList', 'workflowGroupSave', 'workflowGroupRemove', 'workflowGroupRun', 'managedServicesList'
 ]);
 
 export const BridgeOkResponseSchema = z.object({ ok: z.literal(true), data: WorkerResultResponseSchema.shape.result }).strict();
@@ -148,7 +157,12 @@ export const BRIDGE_REQUEST_SCHEMAS = Object.freeze({
   phpUninstall: PhpUninstallRequestSchema,
   phpStart: PhpLifecycleRequestSchema,
   phpStop: PhpLifecycleRequestSchema,
-  phpLogs: PhpLogsRequestSchema
+  phpLogs: PhpLogsRequestSchema,
+  workflowGroupsList: z.object({}).strict(),
+  workflowGroupSave: WorkflowGroupSaveRequestSchema,
+  workflowGroupRemove: WorkflowGroupRemoveRequestSchema,
+  workflowGroupRun: WorkflowGroupRunRequestSchema,
+  managedServicesList: z.object({}).strict()
 });
 export type BridgeRequestFor<M extends DesktopMethodName> = z.infer<(typeof BRIDGE_REQUEST_SCHEMAS)[M]>;
 export type BridgeResultData = z.infer<typeof WorkerResultResponseSchema>['result'];
@@ -227,6 +241,11 @@ export interface DesktopBridgeV1 {
   phpStart(request: BridgeRequestFor<'phpStart'>): Promise<BridgeResponse>;
   phpStop(request: BridgeRequestFor<'phpStop'>): Promise<BridgeResponse>;
   phpLogs(request: BridgeRequestFor<'phpLogs'>): Promise<BridgeResponse>;
+  workflowGroupsList(request: BridgeRequestFor<'workflowGroupsList'>): Promise<BridgeResponse>;
+  workflowGroupSave(request: BridgeRequestFor<'workflowGroupSave'>): Promise<BridgeResponse>;
+  workflowGroupRemove(request: BridgeRequestFor<'workflowGroupRemove'>): Promise<BridgeResponse>;
+  workflowGroupRun(request: BridgeRequestFor<'workflowGroupRun'>): Promise<BridgeResponse>;
+  managedServicesList(request: BridgeRequestFor<'managedServicesList'>): Promise<BridgeResponse>;
   /** Progress for one operation; the caller filters stale sequences and mismatched operation IDs. */
   onOperationEvent(listener: (payload: BridgeEventPayload) => void): EventSubscriptionHandle;
 }

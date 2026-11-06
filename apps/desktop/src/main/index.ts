@@ -87,7 +87,12 @@ const METHOD_MAP = Object.freeze({
   phpUninstall: 'php.uninstall',
   phpStart: 'php.start',
   phpStop: 'php.stop',
-  phpLogs: 'php.logs'
+  phpLogs: 'php.logs',
+  workflowGroupsList: 'workflow.groups.list',
+  workflowGroupSave: 'workflow.groups.save',
+  workflowGroupRemove: 'workflow.groups.remove',
+  workflowGroupRun: 'workflow.groups.run',
+  managedServicesList: 'services.managed-list',
 } as const satisfies Record<DesktopMethodName, string>);
 
 class IpcFailure extends Error {
@@ -164,7 +169,8 @@ async function handleCall(method: DesktopMethodName, event: Electron.IpcMainInvo
   if (!worker) return bridgeError('UNAVAILABLE', 'worker.unavailable', true);
   const operationId = params !== null && typeof params === 'object' && typeof (params as { operationId?: unknown }).operationId === 'string' ? (params as { operationId: string }).operationId : undefined;
   const noParams =
-    method === 'listServices' || method === 'listInstallations' || method === 'sitesList' || method === 'certificateStatus' || method === 'nginxConfig';  try {
+    method === 'listServices' || method === 'listInstallations' || method === 'sitesList' || method === 'certificateStatus' || method === 'nginxConfig' || method === 'workflowGroupsList' || method === 'managedServicesList';
+  try {
     const terminal = await worker.call(METHOD_MAP[method], noParams ? undefined : params, operationId !== undefined ? forwardProgress(operationId) : undefined);
     if (!terminal.ok) return BridgeResponseSchema.parse({ ok: false, error: terminal.error });
     return BridgeResponseSchema.parse({ ok: true, data: terminal.result });
@@ -190,7 +196,7 @@ function registerHandlers(): void {
           apiVersion: API_VERSION,
           appVersion: app.getVersion(),
           worker: 'ready',
-          implementedFeatures: ['bootstrap', 'services.install', 'services.lifecycle', 'sites', 'logs', 'runtimes', 'databases'],
+          implementedFeatures: ['bootstrap', 'services.install', 'services.lifecycle', 'sites', 'logs', 'runtimes', 'databases', 'workflow.startup-groups', 'infrastructure.managed-inventory'],
           limits: DEFAULT_LIMITS,
           platform: process.platform === 'win32' || process.platform === 'linux' || process.platform === 'darwin' ? process.platform : undefined,
           architecture: process.arch === 'x64' || process.arch === 'arm64' ? process.arch : undefined,

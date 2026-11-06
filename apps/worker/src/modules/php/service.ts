@@ -115,6 +115,16 @@ export class PhpServiceManager {
     });
   }
 
+  async serviceRef(moduleId: string): Promise<{ moduleId: string; installationId: string; instanceId: string }> {
+    if (moduleId !== PHP_MODULE_ID) throw new OperationFailure('NOT_IMPLEMENTED', 'php.moduleUnsupported', false);
+    const installation = await this.deps.runtime.installed();
+    return { moduleId: PHP_MODULE_ID, installationId: installation?.id ?? 'php-8.5.12', instanceId: DEFAULT_INSTANCE_ID };
+  }
+  async validateServiceRef(ref: { moduleId: string; installationId: string; instanceId: string }): Promise<boolean> {
+    const installation = await this.deps.runtime.installed();
+    return ref.moduleId === PHP_MODULE_ID && ref.installationId === installation?.id && ref.instanceId === DEFAULT_INSTANCE_ID;
+  }
+
   private async serviceView(installation: PhpInstallationRecord | undefined): Promise<PhpStatusView['service']> {
     const base = {
       port: this.port,

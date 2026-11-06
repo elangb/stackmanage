@@ -2,9 +2,13 @@
 import { useI18n } from 'vue-i18n';
 import type { Snapshot } from '@stackmanage/core';
 import RedisCard from '../components/RedisCard.vue';
+import { redisController } from '../redis/controller';
+import { onBeforeUnmount, onMounted } from 'vue';
 
 defineProps<{ snapshot: Snapshot | undefined }>();
 const { t } = useI18n();
+onMounted(() => redisController.attach());
+onBeforeUnmount(() => redisController.detach());
 </script>
 
 <template>
@@ -21,7 +25,9 @@ const { t } = useI18n();
 
   <div class="grid grid-2">
     <div class="stack">
-      <RedisCard />
+      <section class="panel">
+        <RedisCard />
+      </section>
     </div>
 
     <div class="stack">
@@ -31,12 +37,8 @@ const { t } = useI18n();
         </div>
         <div class="panel-body">
           <dl class="kv">
-            <dt>{{ t('databasesPinned') }}</dt>
-            <dd class="mono">Redis 7.2.7</dd>
             <dt>{{ t('databasesLicence') }}</dt>
             <dd>{{ t('databasesLicenceValue') }}</dd>
-            <dt>{{ t('databasesLoopback') }}</dt>
-            <dd class="mono">127.0.0.1:16379</dd>
             <dt>{{ t('databasesNotIncluded') }}</dt>
             <dd>{{ t('databasesNotIncludedValue') }}</dd>
           </dl>

@@ -126,6 +126,16 @@ export class CaddyServiceManager {
     return installation;
   }
 
+  async serviceRef(instanceId = DEFAULT_INSTANCE_ID): Promise<{ moduleId: string; installationId: string; instanceId: string }> {
+    const installation = await this.deps.installer.installed();
+    return { moduleId: CADDY_MODULE_ID, installationId: installation?.installation.id ?? INSTALLATION_ID, instanceId };
+  }
+
+  async validateServiceRef(ref: { moduleId: string; installationId: string; instanceId: string }): Promise<boolean> {
+    const installation = await this.deps.installer.installed();
+    return ref.moduleId === CADDY_MODULE_ID && ref.instanceId === DEFAULT_INSTANCE_ID && ref.installationId === (installation?.installation.id ?? INSTALLATION_ID);
+  }
+
   /** Read-only status; reconciling a vanished process is the only write it performs. */
   async status(request: InstanceRequest): Promise<ServiceState> {
     const instanceId = request.instanceId;

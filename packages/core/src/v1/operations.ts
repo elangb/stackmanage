@@ -9,6 +9,16 @@ import {
   ServiceStateSchema,
   SiteSchema
 } from './contracts';
+import { StartupGroupSchema, StartupGroupListSchema, type StartupGroup } from './contracts';
+
+export const WorkflowGroupsListRequestSchema = z.object({}).strict();
+export const WorkflowGroupSaveRequestSchema = StartupGroupSchema;
+export const WorkflowGroupRemoveRequestSchema = z.object({ id: IdSchema }).strict();
+export const WorkflowGroupRunRequestSchema = z.object({ operationId: IdSchema, id: IdSchema, action: z.enum(['start', 'stop']) }).strict();
+export const WorkflowGroupsViewSchema = z.object({ groups: StartupGroupListSchema }).strict();
+export type WorkflowGroup = StartupGroup;
+export const ManagedServicesViewSchema = z.object({ services: z.array(z.object({ ref: ServiceRefSchema, state: z.enum(['stopped', 'starting', 'running', 'stopping', 'failed', 'unknown']), pid: z.number().int().positive().optional(), ports: z.array(z.number().int().min(1).max(65535)), observedAt: z.iso.datetime() }).strict()).max(16) }).strict();
+export type ManagedServicesView = z.infer<typeof ManagedServicesViewSchema>;
 
 /**
  * Additive Phase 1 extension of the frozen v1 wire surface.
@@ -624,7 +634,12 @@ export const WorkerMethodResultSchema = z.union([
   z.object({ method: z.literal('php.uninstall'), data: OperationResultSchema }).strict(),
   z.object({ method: z.literal('php.start'), data: OperationResultSchema }).strict(),
   z.object({ method: z.literal('php.stop'), data: OperationResultSchema }).strict(),
-  z.object({ method: z.literal('php.logs'), data: PhpLogsViewSchema }).strict()
+  z.object({ method: z.literal('php.logs'), data: PhpLogsViewSchema }).strict(),
+  z.object({ method: z.literal('workflow.groups.list'), data: WorkflowGroupsViewSchema }).strict(),
+  z.object({ method: z.literal('workflow.groups.save'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('workflow.groups.remove'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('workflow.groups.run'), data: OperationResultSchema }).strict(),
+  z.object({ method: z.literal('services.managed-list'), data: ManagedServicesViewSchema }).strict()
 ]);
 export type WorkerMethodResult = z.infer<typeof WorkerMethodResultSchema>;
 export type ErrorCode = z.infer<typeof ErrorSchema.shape.code>;
@@ -678,7 +693,8 @@ export const WORKER_METHODS = [
   'php.uninstall',
   'php.start',
   'php.stop',
-  'php.logs'
+  'php.logs',
+  'workflow.groups.list','workflow.groups.save','workflow.groups.remove','workflow.groups.run', 'services.managed-list'
 ] as const;
 export type WorkerMethod = (typeof WORKER_METHODS)[number];
 
@@ -731,6 +747,11 @@ export const WorkerPhpLifecycleRequestSchema = z
   .object({ ...EnvelopeBase, method: z.enum(['php.start', 'php.stop']), params: PhpLifecycleRequestSchema })
   .strict();
 export const WorkerPhpLogsRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('php.logs'), params: PhpLogsRequestSchema }).strict();
+export const WorkerWorkflowGroupsListRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('workflow.groups.list') }).strict();
+export const WorkerWorkflowGroupSaveRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('workflow.groups.save'), params: WorkflowGroupSaveRequestSchema }).strict();
+export const WorkerWorkflowGroupRemoveRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('workflow.groups.remove'), params: WorkflowGroupRemoveRequestSchema }).strict();
+export const WorkerWorkflowGroupRunRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('workflow.groups.run'), params: WorkflowGroupRunRequestSchema }).strict();
+export const WorkerManagedServicesListRequestSchema = z.object({ ...EnvelopeBase, method: z.literal('services.managed-list') }).strict();
 
 /** Discriminated by `method`: unknown methods and unknown fields are rejected before dispatch. */
 export const WorkerManagementRequestSchema = z.discriminatedUnion('method', [
@@ -773,7 +794,12 @@ export const WorkerManagementRequestSchema = z.discriminatedUnion('method', [
   WorkerPhpListRequestSchema,
   WorkerPhpUninstallRequestSchema,
   WorkerPhpLifecycleRequestSchema,
-  WorkerPhpLogsRequestSchema
+  WorkerPhpLogsRequestSchema,
+  WorkerWorkflowGroupsListRequestSchema,
+  WorkerWorkflowGroupSaveRequestSchema,
+  WorkerWorkflowGroupRemoveRequestSchema,
+  WorkerWorkflowGroupRunRequestSchema,
+  WorkerManagedServicesListRequestSchema,
 ]);
 export type WorkerManagementRequest = z.infer<typeof WorkerManagementRequestSchema>;
 

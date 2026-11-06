@@ -5,13 +5,13 @@ import { locales, type Locale } from '@stackmanage/i18n';
 import { bootstrapController } from './bootstrap/controller';
 import { caddyController } from './caddy/controller';
 import { nginxController } from './nginx/controller';
-import { redisController } from './redis/controller';
 import AppSidebar from './components/AppSidebar.vue';
 import HomeView from './views/HomeView.vue';
 import CaddyView from './views/CaddyView.vue';
 import RuntimesView from './views/RuntimesView.vue';
 import DatabasesView from './views/DatabasesView.vue';
 import SettingsView from './views/SettingsView.vue';
+import WorkflowView from './views/WorkflowView.vue';
 import UnavailableView from './views/UnavailableView.vue';
 import { PAGE_TITLE_KEYS, type PageKey } from './pages';
 
@@ -33,53 +33,27 @@ watchEffect(() => {
   localStorage.setItem('stackmanage.locale', locale.value);
 });
 
-function navigate(next: PageKey): void {
-  page.value = next;
-}
-function toggleTheme(): void {
-  theme.value = theme.value === 'dark' ? 'light' : 'dark';
-}
-
-onMounted(() => {
-  caddyController.attach();
-  nginxController.attach();
-  redisController.attach();
-  void bootstrapController.refresh();
-});
-onBeforeUnmount(() => {
-  caddyController.detach();
-  nginxController.detach();
-  redisController.detach();
-});
+function navigate(next: PageKey): void { page.value = next; }
+function toggleTheme(): void { theme.value = theme.value === 'dark' ? 'light' : 'dark'; }
+onMounted(() => { caddyController.attach(); nginxController.attach(); void bootstrapController.refresh(); });
+onBeforeUnmount(() => { caddyController.detach(); nginxController.detach(); });
 </script>
 
 <template>
   <a class="skip-link" href="#main-content">{{ t('skipToContent') }}</a>
   <div class="app-shell">
     <AppSidebar :page="page" :version="snapshot?.appVersion ?? ''" @select="navigate" />
-
     <div class="main">
       <header class="topbar">
-        <div>
-          <div class="topbar-title">{{ t(PAGE_TITLE_KEYS[page]) }}</div>
-          <div class="faint" style="font-size: 0.72rem">{{ t('tagline') }}</div>
-        </div>
-        <div class="topbar-actions">
-          <span class="badge" :class="workerStatus === 'ready' ? 'badge-success' : workerStatus === 'pending' ? 'badge-warn' : workerStatus === 'failed' ? 'badge-danger' : ''" role="status" aria-live="polite">
-            <span class="badge-dot" aria-hidden="true" />
-            {{ t('statWorker') }}: {{ t(workerStatus) }}
-          </span>
-          <button type="button" class="btn btn-sm btn-ghost" :aria-label="t('theme')" @click="toggleTheme">
-            {{ theme === 'dark' ? '☾' : '☀' }} {{ theme === 'dark' ? t('themeDark') : t('themeLight') }}
-          </button>
-        </div>
+        <div><div class="topbar-title">{{ t(PAGE_TITLE_KEYS[page]) }}</div><div class="faint" style="font-size: 0.72rem">{{ t('tagline') }}</div></div>
+        <div class="topbar-actions"><span class="badge" :class="workerStatus === 'ready' ? 'badge-success' : workerStatus === 'pending' ? 'badge-warn' : workerStatus === 'failed' ? 'badge-danger' : ''" role="status" aria-live="polite"><span class="badge-dot" aria-hidden="true" />{{ t('statWorker') }}: {{ t(workerStatus) }}</span><button type="button" class="btn btn-sm btn-ghost" :aria-label="t('theme')" @click="toggleTheme">{{ theme === 'dark' ? '☾' : '☀' }} {{ theme === 'dark' ? t('themeDark') : t('themeLight') }}</button></div>
       </header>
-
       <main id="main-content" class="content" tabindex="-1">
         <HomeView v-if="page === 'home'" key="home" :snapshot="snapshot" :worker-status="workerStatus" @navigate="navigate" />
         <CaddyView v-else-if="page === 'web'" key="web" :snapshot="snapshot" />
         <RuntimesView v-else-if="page === 'runtimes'" key="runtimes" :snapshot="snapshot" />
         <DatabasesView v-else-if="page === 'databases'" key="databases" :snapshot="snapshot" />
+        <WorkflowView v-else-if="page === 'workflow'" key="workflow" />
         <SettingsView v-else-if="page === 'settings'" key="settings" v-model:theme="theme" v-model:locale="localeModel" :snapshot="snapshot" :worker-status="workerStatus" />
         <UnavailableView v-else :key="page" :page="page" />
         <footer class="faint" style="margin-top: 36px; font-size: 0.75rem">{{ t('footer') }}</footer>
