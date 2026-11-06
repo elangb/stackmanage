@@ -47,6 +47,9 @@ importers:
       '@stackmanage/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n
+      '@stackmanage/plugin-host':
+        specifier: workspace:*
+        version: link:../../packages/plugin-host
       '@stackmanage/ui':
         specifier: workspace:*
         version: link:../../packages/ui

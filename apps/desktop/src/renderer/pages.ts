@@ -30,7 +30,7 @@ export const NAV_GROUPS: ReadonlyArray<{ labelKey: string; items: ReadonlyArray<
       { key: 'databases', labelKey: 'navDatabases', icon: '▤', implemented: true },
       { key: 'cache', labelKey: 'navCache', icon: '⇄', implemented: false },
       { key: 'infra', labelKey: 'navInfra', icon: '⌁', implemented: false },
-      { key: 'workflow', labelKey: 'navWorkflow', icon: '⟳', implemented: false },
+      { key: 'workflow', labelKey: 'navWorkflow', icon: '⟳', implemented: true },
       { key: 'ai', labelKey: 'navAi', icon: '✦', implemented: false },
       { key: 'plugins', labelKey: 'navPlugins', icon: '⊞', implemented: false },
       { key: 'settings', labelKey: 'navSettings', icon: '⚙', implemented: true }

@@ -29,6 +29,7 @@ const { module: runtime } = nodeModule();
 const { module: nginx } = nginxModule();
 const { module: redis } = redisModule();
 const { module: php } = phpModule();
+module.managed = { nginx, redis, php };
 
 const logger = {
   info(event: string, fields: Record<string, unknown> = {}): void {
@@ -147,6 +148,7 @@ async function dispatch(id: string, input: unknown): Promise<void> {
 
   const job = (async (): Promise<WorkerMethodResult> => {
     await reconcile;
+    if (request.method.startsWith('workflow.groups.')) return module.handle(request, emit);
     return request.method.startsWith('runtime.')
       ? runtime.handle(request, emit)
       : request.method.startsWith('nginx.')

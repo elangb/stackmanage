@@ -36,6 +36,15 @@ const bridge: DesktopBridgeV1 = Object.freeze({
   async openReleases() {
     return ipcRenderer.invoke('updates:open-releases') as Promise<boolean>;
   },
+  ...(Object.fromEntries(
+    (['workflowGroupsList', 'workflowGroupSave', 'workflowGroupRemove', 'workflowGroupRun', 'managedServicesList'] as const).map(method => [
+      method,
+      async (request: unknown) => {
+        const payload = parseBoundedBridgeRequest(method, request);
+        return parseBounded(BridgeResponseSchema, await ipcRenderer.invoke(DESKTOP_METHODS[method], payload));
+      }
+    ])
+  ) as Pick<DesktopBridgeV1, 'workflowGroupsList' | 'workflowGroupSave' | 'workflowGroupRemove' | 'workflowGroupRun' | 'managedServicesList'>),
   onUpdateReady(listener: () => void) {
     const handler = (): void => listener();
     ipcRenderer.on('updates:ready', handler);

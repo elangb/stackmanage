@@ -52,6 +52,13 @@ async function publish(
 }
 
 describe('plugin host lifecycle', () => {
+  it('exposes only entries from the verified local registry', async () => {
+    const { keys, registryIndex, host } = await setup();
+    const created = await publish(registryIndex, keys, 'catalog-entry', '1.0.0');
+    await writeRegistry(registryIndex, [created.entry]);
+    await expect(host.listCatalog()).resolves.toMatchObject([{ id: 'catalog-entry', version: '1.0.0' }]);
+  });
+
   it('installs, enables, disables, re-enables and removes without restarting the host', async () => {
     const { dirs, keys, registryIndex, host } = await setup();
     const created = await publish(registryIndex, keys, 'demo', '1.0.0');

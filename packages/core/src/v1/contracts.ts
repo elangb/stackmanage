@@ -92,17 +92,19 @@ export const ProjectEnvSchema = z.object({
 export type ProjectEnv = z.infer<typeof ProjectEnvSchema>;
 export interface ProjectEnvManager { resolve(projectId: string): Promise<ProjectEnv>; save(env: ProjectEnv): Promise<void> }
 export const StartupGroupSchema = z.object({
-  id: IdSchema, name: z.string().min(1).max(200),
+    id: IdSchema, name: z.string().trim().min(1).max(200),
   entries: z.array(z.object({ service: ServiceRefSchema, dependsOn: z.array(IdSchema), required: z.boolean() }).strict()).max(256),
   execution: z.literal('ordered'), onFailure: z.literal('skip-dependents')
 }).strict().superRefine((group, ctx) => {
   const seen = new Set<string>();
+  const serviceIds = new Set(group.entries.map(entry => entry.service.instanceId));
   for (const entry of group.entries) {
-    if (seen.has(entry.service.instanceId) || entry.dependsOn.some(id => !seen.has(id))) ctx.addIssue({ code: 'custom', message: 'Entries must be unique and dependencies precede dependents' });
+    if (seen.has(entry.service.instanceId) || entry.dependsOn.includes(entry.service.instanceId) || new Set(entry.dependsOn).size !== entry.dependsOn.length || entry.dependsOn.some(id => !serviceIds.has(id) || !seen.has(id))) ctx.addIssue({ code: 'custom', message: 'Entries must be unique and dependencies precede dependents' });
     seen.add(entry.service.instanceId);
   }
 });
 export type StartupGroup = z.infer<typeof StartupGroupSchema>;
+export const StartupGroupListSchema = z.array(StartupGroupSchema).max(32);
 export interface StartupGroupManager { run(group: StartupGroup, action: 'start' | 'stop', context: OperationContext): Promise<OperationResult> }
 export const ScheduleSchema = z.object({
   id: IdSchema, cron: z.string().min(9).max(100).refine(v => v.trim().split(/\s+/).length === 5, 'Five fields required; scheduler must validate cron semantics'),

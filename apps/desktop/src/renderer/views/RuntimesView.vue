@@ -4,9 +4,12 @@ import { useI18n } from 'vue-i18n';
 import type { BridgeResponse, RuntimeInstallationView, RuntimeStatusView, RuntimeVersionsView, Snapshot } from '@stackmanage/core';
 import { runtimeController } from '../runtime/controller';
 import PhpRuntimeCard from '../components/PhpRuntimeCard.vue';
+import { phpController } from '../php/controller';
 
 defineProps<{ snapshot: Snapshot | undefined }>();
 const { t } = useI18n();
+onMounted(() => phpController.attach());
+onBeforeUnmount(() => phpController.detach());
 
 const versions = ref<RuntimeVersionsView | undefined>();
 const status = ref<RuntimeStatusView | undefined>();

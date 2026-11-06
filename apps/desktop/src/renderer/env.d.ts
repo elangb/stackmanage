@@ -7,6 +7,11 @@ declare global {
       installUpdate(): Promise<boolean>;
       openReleases(): Promise<boolean>;
       onUpdateReady(listener: () => void): { unsubscribe(): void };
+      workflowGroupsList(request: unknown): Promise<unknown>;
+      workflowGroupSave(request: unknown): Promise<unknown>;
+      workflowGroupRemove(request: unknown): Promise<unknown>;
+      workflowGroupRun(request: unknown): Promise<unknown>;
+      managedServicesList(request: unknown): Promise<unknown>;
     };
   }
 }

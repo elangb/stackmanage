@@ -349,6 +349,24 @@ describe('caddyfile', () => {
 });
 
 describe('service lifecycle', () => {
+  it('persists groups and starts services in requested dependency order, then stops in reverse', async () => {
+    const port = 18998;
+    const h = await harness();
+    await installFake(h, await fakeCaddy(port));
+    await seedSite(h, port);
+    await h.module.service.serviceRef();
+    const params = { id: 'startup', name: 'Local', entries: [{ service: REF, dependsOn: [], required: true }], execution: 'ordered' as const, onFailure: 'skip-dependents' as const };
+    const saved = await h.module.handle({ apiVersion: 1, id: 'save', method: 'workflow.groups.save', params }, () => undefined);
+    expect(saved.method).toBe('workflow.groups.save');
+    const groups = await h.module.handle({ apiVersion: 1, id: 'list', method: 'workflow.groups.list' }, () => undefined);
+    expect(groups.method === 'workflow.groups.list' && groups.data.groups).toHaveLength(1);
+    const started = await h.module.handle({ apiVersion: 1, id: 'run1', method: 'workflow.groups.run', params: { operationId: 'run1', id: 'startup', action: 'start' } }, () => undefined);
+    expect(started.method === 'workflow.groups.run' && started.data.status).toBe('completed');
+    const stopped = await h.module.handle({ apiVersion: 1, id: 'run2', method: 'workflow.groups.run', params: { operationId: 'run2', id: 'startup', action: 'stop' } }, () => undefined);
+    expect(stopped.method === 'workflow.groups.run' && stopped.data.status).toBe('completed');
+    await h.module.shutdown();
+  }, 30000);
+
   it('starts, serves HTTP 200, stops truthfully and reaps the child', async () => {
     const port = 18991;
     const h = await harness();

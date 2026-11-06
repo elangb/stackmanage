@@ -21,6 +21,7 @@ import type { PluginPackageLimits } from './package';
 import { isInside, pluginDataHome, pluginPaths, resolveWithin, type PluginPaths } from './paths';
 import { loadRegistry } from './registry';
 import { PluginRuntime, type PluginRuntimeLogger, type PluginRuntimeView } from './runtime';
+import type { RegistryEntry } from './registry';
 import {
   loadInstalledState,
   saveInstalledState,
@@ -98,9 +99,12 @@ export class PluginHost {
     this.runtimeOptions = options.runtime;
   }
 
+
   get root(): string {
     return this.paths.root;
   }
+  get registryIndexPath(): string { return this.paths.registryIndex; }
+  listTrustedKeyIds(): string[] { return this.options.trustedKeys.keyIds(); }
 
   private async state(): Promise<InstalledPluginsFile> {
     return loadInstalledState(this.paths.stateFile);
@@ -173,6 +177,14 @@ export class PluginHost {
     const state = await this.state();
     return state.plugins.map(record => this.statusView(record));
   }
+
+  async listCatalog(): Promise<RegistryEntry[]> {
+    return (await loadRegistry(this.paths.registryIndex, {
+      keyring: this.options.trustedKeys,
+      requireSigned: this.requireSignedRegistry
+    })).index.entries;
+  }
+
 
   async status(id: string): Promise<PluginStatusView> {
     return this.statusView(await this.findRecord(id));

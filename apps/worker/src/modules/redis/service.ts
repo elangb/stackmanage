@@ -155,6 +155,16 @@ export class RedisServiceManager {
     });
   }
 
+  async serviceRef(moduleId: string): Promise<{ moduleId: string; installationId: string; instanceId: string }> {
+    if (moduleId !== REDIS_MODULE_ID) throw new OperationFailure('NOT_IMPLEMENTED', 'redis.moduleUnsupported', false);
+    const installed = await this.deps.installer.installed();
+    return { moduleId: REDIS_MODULE_ID, installationId: installed?.id ?? `redis-${REDIS_VERSION}-linux-x64`, instanceId: DEFAULT_INSTANCE_ID };
+  }
+  async validateServiceRef(ref: { moduleId: string; installationId: string; instanceId: string }): Promise<boolean> {
+    const installed = await this.deps.installer.installed();
+    return ref.moduleId === REDIS_MODULE_ID && ref.installationId === installed?.id && ref.instanceId === DEFAULT_INSTANCE_ID;
+  }
+
   private normalizedPlatform(): 'win32' | 'linux' | 'darwin' {
     if (this.platform === 'win32' || this.platform === 'windows') return 'win32';
     if (this.platform === 'darwin') return 'darwin';
