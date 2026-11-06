@@ -25,22 +25,5 @@ const { t } = useI18n();
         <div class="panel-body"><p class="help">{{ t('databaseRoadmapBody') }}</p></div>
       </section>
     </div>
-
-    <div class="stack">
-      <section class="panel" aria-labelledby="databases-policy-title">
-        <div class="panel-head">
-          <h2 id="databases-policy-title" class="panel-title">{{ t('databasesPolicy') }}</h2>
-        </div>
-        <div class="panel-body">
-          <dl class="kv">
-            <dt>{{ t('databasesLicence') }}</dt>
-            <dd>{{ t('databasesLicenceValue') }}</dd>
-            <dt>{{ t('databasesNotIncluded') }}</dt>
-            <dd>{{ t('databasesNotIncludedValue') }}</dd>
-          </dl>
-          <p class="help" style="margin: 18px 0 0">{{ t('databasesEvidence') }}</p>
-        </div>
-      </section>
-    </div>
   </div>
 </template>
