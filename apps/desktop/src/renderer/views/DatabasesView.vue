@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import type { Snapshot } from '@stackmanage/core';
-import RedisCard from '../components/RedisCard.vue';
-import { redisController } from '../redis/controller';
-import { onBeforeUnmount, onMounted } from 'vue';
 
 defineProps<{ snapshot: Snapshot | undefined }>();
 const { t } = useI18n();
-onMounted(() => redisController.attach());
-onBeforeUnmount(() => redisController.detach());
 </script>
 
 <template>
@@ -26,7 +21,8 @@ onBeforeUnmount(() => redisController.detach());
   <div class="grid grid-2">
     <div class="stack">
       <section class="panel">
-        <RedisCard />
+        <div class="panel-head"><h2 class="panel-title">{{ t('databaseRoadmapTitle') }}</h2></div>
+        <div class="panel-body"><p class="help">{{ t('databaseRoadmapBody') }}</p></div>
       </section>
     </div>
 
